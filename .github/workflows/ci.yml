@@ -34,6 +34,54 @@ jobs:
         if: always() && steps.install.outcome == 'success'
         run: dart pub publish --dry-run
 
+  codegen:
+    name: Generated code is current
+    needs: analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
+        with:
+          sdk: stable
+      - run: dart pub get
+      # Regenerates into a temporary directory and diffs against the committed
+      # output, so a spec bump or generator change can never land half-applied.
+      - name: Check for drift
+        run: dart run tool/generate.dart --check
+
+  mock:
+    name: Mock server
+    needs: analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
+        with:
+          sdk: stable
+      - run: dart pub get
+      # WireMock is the stub server Brevo's own Python SDK is tested against,
+      # loaded here with Brevo's mappings vendored under tool/mock/. Every
+      # generated operation is called once against it without a Brevo account.
+      - name: Start WireMock
+        run: |
+          tool/mock/run_wiremock.sh > wiremock.log 2>&1 &
+          for _ in $(seq 1 90); do
+            if curl -sf http://127.0.0.1:8089/__admin/mappings > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo 'WireMock did not become healthy within 90 s'
+          cat wiremock.log
+          exit 1
+      - name: Run mock-server tests
+        env:
+          BREVO_MOCK_HOST: 127.0.0.1:8089
+        run: dart test --tags mock --run-skipped
+      - name: WireMock log
+        if: failure()
+        run: cat wiremock.log
+
   test:
     name: Test (Dart ${{ matrix.sdk }})
     needs: analyze

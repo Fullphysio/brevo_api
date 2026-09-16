@@ -1,5 +1,5 @@
 tags:
   mock:
-    skip: "Needs a local WireMock loaded with tool/mock/wiremock-mappings.json. Run with: tool/mock/run_wiremock.sh, then BREVO_MOCK_HOST=127.0.0.1:8080 dart test --tags mock --run-skipped"
+    skip: "Needs a local WireMock loaded with tool/mock/wiremock-mappings.json. Run with: tool/mock/run_wiremock.sh, then BREVO_MOCK_HOST=127.0.0.1:8089 dart test --tags mock --run-skipped"
   integration:
     skip: "Hits the live Brevo API. Run with: BREVO_TEST_API_KEY=… dart test --tags integration --run-skipped"

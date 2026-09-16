@@ -279,3 +279,19 @@ Map<String, Object?> brevoRequireJsonObject(
   }
   throw BrevoDecodeException.notAnObject(objectName: objectName, value: value);
 }
+
+/// Narrows a decoded JSON [value] to the list a collection response needs,
+/// throwing a [BrevoDecodeException] naming [objectName] otherwise.
+List<Object?> brevoRequireJsonList(
+  Object? value, {
+  required String objectName,
+}) {
+  if (value is List<Object?>) {
+    return value;
+  }
+  throw BrevoDecodeException.unexpectedType(
+    objectName: objectName,
+    key: '[]',
+    value: value,
+  );
+}

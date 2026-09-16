@@ -1,0 +1,5595 @@
+[
+  {
+    "operation": "GET /account",
+    "className": "GetAccountResponse",
+    "body": {
+      "organization_id": "5fa2b8c123456789abcdef01",
+      "user_id": 1234567,
+      "enterprise": false,
+      "companyName": "Acme Marketing Corp",
+      "email": "michael.davis@example.com",
+      "firstName": "Michael",
+      "lastName": "Davis",
+      "address": {
+        "city": "New York",
+        "country": "United States",
+        "street": "456 Business Ave",
+        "zipCode": "10001"
+      },
+      "marketingAutomation": {
+        "enabled": true,
+        "key": "ma8k2x9v4h7p3d6f1c5e8b2a"
+      },
+      "plan": [
+        {
+          "credits": 250,
+          "creditsType": "sendLimit",
+          "endDate": "1753826567",
+          "startDate": "1751234567",
+          "type": "free"
+        },
+        {
+          "credits": 15,
+          "creditsType": "sendLimit",
+          "endDate": "1753826567",
+          "startDate": "1751234567",
+          "type": "sms"
+        }
+      ],
+      "planVerticals": [
+        {
+          "planCategory": "Marketing",
+          "planType": "free",
+          "name": "Free",
+          "status": "active",
+          "startDate": "1751234567",
+          "endDate": "1753826567",
+          "users": {
+            "purchasedSeats": "1",
+            "usedSeats": "1"
+          },
+          "credits": "250"
+        },
+        {
+          "planCategory": "Chat",
+          "planType": "free",
+          "name": "Free",
+          "status": "active",
+          "startDate": "1735678901",
+          "endDate": "1767214901",
+          "users": {
+            "purchasedSeats": "1",
+            "usedSeats": "1"
+          },
+          "credits": "250"
+        },
+        {
+          "planCategory": "CRM",
+          "planType": "free",
+          "name": "Free",
+          "status": "active",
+          "startDate": "1735678900",
+          "endDate": "1767214900",
+          "users": {
+            "purchasedSeats": "1",
+            "usedSeats": "1"
+          },
+          "credits": "250"
+        }
+      ],
+      "relay": {
+        "data": {
+          "port": 587,
+          "relay": "smtp-relay.brevo.com",
+          "userName": "michael.davis@example.com"
+        },
+        "enabled": true
+      }
+    }
+  },
+  {
+    "operation": "GET /categories",
+    "className": "GetCategoriesResponse",
+    "body": {
+      "categories": [
+        {
+          "createdAt": "2021-12-31T11:42:35.638Z",
+          "id": "C19",
+          "isDeleted": true,
+          "modifiedAt": "2022-03-03T14:48:31.867Z",
+          "name": "Food",
+          "url": "http://mydomain.com/category/food"
+        },
+        {
+          "createdAt": "2021-12-31T11:42:35.638Z",
+          "id": "C20",
+          "isDeleted": true,
+          "modifiedAt": "2022-03-03T14:48:31.867Z",
+          "name": "clothing",
+          "url": "http://mydomain.com/category/clothing"
+        }
+      ],
+      "count": 2
+    }
+  },
+  {
+    "operation": "GET /categories/{id}",
+    "className": "GetCategoryDetails",
+    "body": {
+      "createdAt": "2017-05-12T12:30:00Z",
+      "id": "C11",
+      "isDeleted": true,
+      "modifiedAt": "2017-05-12T12:30:00Z",
+      "name": "Electronics",
+      "url": "http://mydomain.com/category/clothing"
+    }
+  },
+  {
+    "operation": "GET /companies",
+    "className": "GetCompaniesResponse",
+    "body": {
+      "items": [
+        {
+          "attributes": {
+            "created_at": "2022-01-13T19:04:24.376+05:30",
+            "domain": "xyz",
+            "last_updated_at": "2022-04-01T18:47:48.283+05:30",
+            "name": "text",
+            "number_of_contacts": 0,
+            "owner": "62260474111b1101704a9d85",
+            "owner_assign_date": "2022-04-01T18:21:13.379+05:30",
+            "phone_number": 8171844192,
+            "revenue": 10
+          },
+          "id": "629475917295261d9b1f4403",
+          "linkedContactsIds": [
+            1,
+            2,
+            3
+          ],
+          "linkedDealsIds": [
+            "61a5ce58c5d4795761045990",
+            "61a5ce58c5d4795761045991",
+            "61a5ce58c5d4795761045992"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /companies/{id}",
+    "className": "Company",
+    "body": {
+      "attributes": {
+        "created_at": "2022-01-13T19:04:24.376+05:30",
+        "domain": "xyz",
+        "last_updated_at": "2022-04-01T18:47:48.283+05:30",
+        "name": "text",
+        "number_of_contacts": 0,
+        "owner": "62260474111b1101704a9d85",
+        "owner_assign_date": "2022-04-01T18:21:13.379+05:30",
+        "phone_number": 8171844192,
+        "revenue": 10
+      },
+      "id": "629475917295261d9b1f4403",
+      "linkedContactsIds": [
+        1,
+        2,
+        3
+      ],
+      "linkedDealsIds": [
+        "61a5ce58c5d4795761045990",
+        "61a5ce58c5d4795761045991",
+        "61a5ce58c5d4795761045992"
+      ]
+    }
+  },
+  {
+    "operation": "GET /contacts",
+    "className": "GetContacts",
+    "body": {
+      "contacts": [
+        {
+          "attributes": {},
+          "createdAt": "2017-05-01T17:05:03Z",
+          "email": "contact1@example.com",
+          "emailBlacklisted": true,
+          "id": 247,
+          "listIds": [
+            43,
+            58
+          ],
+          "listUnsubscribed": [
+            1000000
+          ],
+          "modifiedAt": "2017-05-01T17:05:03Z",
+          "smsBlacklisted": true,
+          "whatsappBlacklisted": false,
+          "consentGroups": [
+            {
+              "id": 42,
+              "status": "subscribed"
+            }
+          ]
+        },
+        {
+          "attributes": {},
+          "createdAt": "2017-05-01T17:05:03Z",
+          "email": "33058407248@mailin-sms.com",
+          "emailBlacklisted": true,
+          "id": 245,
+          "listIds": [
+            43,
+            61,
+            58
+          ],
+          "listUnsubscribed": [
+            1000000
+          ],
+          "modifiedAt": "2017-05-01T17:05:03Z",
+          "smsBlacklisted": false,
+          "whatsappBlacklisted": false,
+          "consentGroups": [
+            {
+              "id": 42,
+              "status": "subscribed"
+            }
+          ]
+        }
+      ],
+      "count": 3
+    }
+  },
+  {
+    "operation": "GET /contacts/attributes",
+    "className": "GetAttributesResponse",
+    "body": {
+      "attributes": [
+        {
+          "calculatedValue": "COUNT[ORDER_ID,ORDER_DATE,==,NOW(-1)]",
+          "category": "normal",
+          "enumeration": [
+            {
+              "label": "Women",
+              "value": 1,
+              "valueStr": "1"
+            }
+          ],
+          "multiCategoryOptions": [
+            "USA"
+          ],
+          "name": "LASTNAME",
+          "type": "text"
+        },
+        {
+          "calculatedValue": "COUNT[ORDER_ID,ORDER_DATE,==,NOW(-1)]",
+          "category": "normal",
+          "enumeration": [
+            {
+              "label": "Women",
+              "value": 1,
+              "valueStr": "1"
+            }
+          ],
+          "multiCategoryOptions": [
+            "USA"
+          ],
+          "name": "FIRSTNAME",
+          "type": "text"
+        },
+        {
+          "calculatedValue": "COUNT[ORDER_ID,ORDER_DATE,==,NOW(-1)]",
+          "category": "normal",
+          "enumeration": [
+            {
+              "label": "Women",
+              "value": 1,
+              "valueStr": "1"
+            }
+          ],
+          "multiCategoryOptions": [
+            "USA"
+          ],
+          "name": "DOB",
+          "type": "date"
+        },
+        {
+          "calculatedValue": "COUNT[ORDER_ID,ORDER_DATE,==,NOW(-1)]",
+          "category": "category",
+          "enumeration": [
+            {
+              "label": "Men",
+              "value": 1,
+              "valueStr": "1"
+            },
+            {
+              "label": "Women",
+              "value": 2,
+              "valueStr": "2"
+            },
+            {
+              "label": "Kid",
+              "value": 3,
+              "valueStr": "3"
+            }
+          ],
+          "multiCategoryOptions": [
+            "USA"
+          ],
+          "name": "GENDER",
+          "type": "text"
+        },
+        {
+          "calculatedValue": "COUNT[ORDER_ID,ORDER_DATE,==,NOW(-1)]",
+          "category": "category",
+          "enumeration": [
+            {
+              "label": "English",
+              "value": 0,
+              "valueStr": "en"
+            },
+            {
+              "label": "French",
+              "value": 0,
+              "valueStr": "fr"
+            }
+          ],
+          "multiCategoryOptions": [
+            "USA"
+          ],
+          "name": "LANGUAGE",
+          "type": "text"
+        },
+        {
+          "calculatedValue": "COUNT[ORDER_ID,ORDER_DATE,==,NOW(-1)]",
+          "category": "normal",
+          "enumeration": [
+            {
+              "label": "Women",
+              "value": 1,
+              "valueStr": "1"
+            }
+          ],
+          "multiCategoryOptions": [
+            "USA"
+          ],
+          "name": "BDO",
+          "type": "user"
+        },
+        {
+          "calculatedValue": "COUNT[ORDER_ID,ORDER_DATE,==,NOW(-1)]",
+          "category": "normal",
+          "enumeration": [
+            {
+              "label": "Women",
+              "value": 1,
+              "valueStr": "1"
+            }
+          ],
+          "multiCategoryOptions": [
+            "USA",
+            "India",
+            "France"
+          ],
+          "name": "COUNTRY",
+          "type": "multiple-choice"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /contacts/consent-groups",
+    "className": "ConsentGroupsListResponse",
+    "body": {
+      "consentGroups": [
+        {
+          "id": 1,
+          "name": "Newsletter EU",
+          "description": "Consent group for EU newsletter subscribers",
+          "signupMode": "manual",
+          "contactsCount": 1234,
+          "isDefault": false,
+          "createdAt": "2024-01-15T10:00:00Z",
+          "updatedAt": "2024-06-01T08:30:00Z"
+        }
+      ],
+      "total": 1,
+      "limit": 10,
+      "offset": 0
+    }
+  },
+  {
+    "operation": "GET /contacts/consent-groups/{id}",
+    "className": "ConsentGroup",
+    "body": {
+      "id": 1,
+      "name": "Newsletter EU",
+      "description": "Consent group for EU newsletter subscribers",
+      "signupMode": "manual",
+      "contactsCount": 1234,
+      "isDefault": false,
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-06-01T08:30:00Z"
+    }
+  },
+  {
+    "operation": "GET /contacts/folders",
+    "className": "GetFoldersResponse",
+    "body": {
+      "count": 2,
+      "folders": [
+        {
+          "id": 42,
+          "name": "Ninja_Form",
+          "totalBlacklisted": 98,
+          "totalSubscribers": 4567,
+          "uniqueSubscribers": 4665
+        },
+        {
+          "id": 29,
+          "name": "Prestashop",
+          "totalBlacklisted": 10,
+          "totalSubscribers": 6543,
+          "uniqueSubscribers": 6553
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /contacts/folders/{folderId}",
+    "className": "GetFolder",
+    "body": {
+      "id": 1,
+      "name": "Client_Folder",
+      "totalBlacklisted": 987,
+      "totalSubscribers": 16778,
+      "uniqueSubscribers": 17765
+    }
+  },
+  {
+    "operation": "GET /contacts/folders/{folderId}/lists",
+    "className": "GetFolderListsResponse",
+    "body": {
+      "count": 3,
+      "lists": [
+        {
+          "id": 46,
+          "name": "Reactiv",
+          "totalBlacklisted": 0,
+          "totalSubscribers": 7655,
+          "uniqueSubscribers": 7655
+        },
+        {
+          "id": 41,
+          "name": "NY_Area",
+          "totalBlacklisted": 23,
+          "totalSubscribers": 3654,
+          "uniqueSubscribers": 3677
+        },
+        {
+          "id": 22,
+          "name": "VIP_Customer",
+          "totalBlacklisted": 72,
+          "totalSubscribers": 8753,
+          "uniqueSubscribers": 8826
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /contacts/lists",
+    "className": "GetListsResponse",
+    "body": {
+      "count": 2,
+      "lists": [
+        {
+          "id": 53,
+          "name": "Spanish_Speakers",
+          "totalBlacklisted": 65,
+          "totalSubscribers": 5432,
+          "uniqueSubscribers": 5497,
+          "folderId": 1
+        },
+        {
+          "id": 50,
+          "name": "Other",
+          "totalBlacklisted": 765,
+          "totalSubscribers": 10976,
+          "uniqueSubscribers": 11741,
+          "folderId": 2
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /contacts/lists/{listId}",
+    "className": "GetListResponse",
+    "body": {
+      "id": 12,
+      "name": "Newsletter_Weekly",
+      "totalBlacklisted": 63,
+      "totalSubscribers": 6533,
+      "uniqueSubscribers": 6596,
+      "campaignStats": [
+        {
+          "campaignId": 15,
+          "stats": {
+            "appleMppOpens": 10,
+            "clickers": 789,
+            "complaints": 0,
+            "deferred": 0,
+            "delivered": 6632,
+            "estimatedViews": 560,
+            "hardBounces": 4,
+            "listId": 2,
+            "opensRate": 29.54,
+            "returnBounce": 5,
+            "sent": 6645,
+            "softBounces": 34,
+            "trackableViews": 5661,
+            "trackableViewsRate": 23.45,
+            "uniqueClicks": 701,
+            "uniqueViews": 3442,
+            "unsubscriptions": 4,
+            "viewed": 4322
+          }
+        },
+        {
+          "campaignId": 45,
+          "stats": {
+            "appleMppOpens": 10,
+            "clickers": 788,
+            "complaints": 1,
+            "deferred": 0,
+            "delivered": 4078,
+            "estimatedViews": 560,
+            "hardBounces": 2,
+            "listId": 2,
+            "opensRate": 29.54,
+            "returnBounce": 5,
+            "sent": 4334,
+            "softBounces": 18,
+            "trackableViews": 5661,
+            "trackableViewsRate": 23.45,
+            "uniqueClicks": 654,
+            "uniqueViews": 987,
+            "unsubscriptions": 4,
+            "viewed": 1555
+          }
+        }
+      ],
+      "createdAt": "2016-02-26T11:56:08Z",
+      "dynamicList": false,
+      "folderId": 1
+    }
+  },
+  {
+    "operation": "GET /contacts/lists/{listId}/contacts",
+    "className": "GetContacts",
+    "body": {
+      "contacts": [
+        {
+          "attributes": {},
+          "createdAt": "2017-05-12T12:30:00Z",
+          "email": "alex.pain@example.com",
+          "emailBlacklisted": false,
+          "id": 45,
+          "listIds": [
+            12,
+            9,
+            20
+          ],
+          "listUnsubscribed": [
+            1,
+            2
+          ],
+          "modifiedAt": "2017-05-12T12:30:00Z",
+          "smsBlacklisted": true,
+          "whatsappBlacklisted": false,
+          "consentGroups": [
+            {
+              "id": 42,
+              "status": "subscribed"
+            }
+          ]
+        },
+        {
+          "attributes": {},
+          "createdAt": "2017-05-12T12:30:00Z",
+          "email": "john.smith@example.com",
+          "emailBlacklisted": true,
+          "id": 32,
+          "listIds": [
+            12
+          ],
+          "listUnsubscribed": [
+            1
+          ],
+          "modifiedAt": "2017-05-12T12:30:00Z",
+          "smsBlacklisted": false,
+          "whatsappBlacklisted": false,
+          "consentGroups": [
+            {
+              "id": 42,
+              "status": "subscribed"
+            }
+          ]
+        },
+        {
+          "attributes": {},
+          "createdAt": "2017-05-12T12:30:00Z",
+          "email": "helen.rose@example.com",
+          "emailBlacklisted": true,
+          "id": 65,
+          "listIds": [
+            12,
+            9,
+            20
+          ],
+          "listUnsubscribed": [
+            1
+          ],
+          "modifiedAt": "2017-05-12T12:30:00Z",
+          "smsBlacklisted": false,
+          "whatsappBlacklisted": false,
+          "consentGroups": [
+            {
+              "id": 42,
+              "status": "subscribed"
+            }
+          ]
+        }
+      ],
+      "count": 17655
+    }
+  },
+  {
+    "operation": "GET /contacts/segments",
+    "className": "GetSegmentsResponse",
+    "body": {
+      "count": 2,
+      "segments": [
+        {
+          "categoryName": "Name1",
+          "id": 53,
+          "segmentName": "Segment1",
+          "updatedAt": "2017-03-12T12:30:00Z"
+        },
+        {
+          "categoryName": "Name2",
+          "id": 50,
+          "segmentName": "Segment2",
+          "updatedAt": "2017-03-12T12:30:00Z"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /contacts/{identifier}",
+    "className": "GetContactInfoResponse",
+    "body": {
+      "attributes": {},
+      "createdAt": "2017-05-02T16:40:31Z",
+      "email": "peggy.rain@example.com",
+      "emailBlacklisted": false,
+      "id": 42,
+      "listIds": [
+        40
+      ],
+      "listUnsubscribed": [
+        1000000
+      ],
+      "modifiedAt": "2017-05-02T16:40:31Z",
+      "smsBlacklisted": false,
+      "whatsappBlacklisted": false,
+      "consentGroups": [
+        {
+          "id": 42,
+          "status": "subscribed"
+        }
+      ],
+      "statistics": {
+        "clicked": [
+          {
+            "campaignId": 21,
+            "links": [
+              {
+                "count": 2,
+                "eventTime": "2016-05-03T21:25:01Z",
+                "ip": "66.249.93.118",
+                "url": "https://url.domain.com/fbe5387ec717e333628380454f68670010b205ff/1/go?uid={EMAIL}&utm_source=brevo&utm_campaign=test_camp&utm_medium=email"
+              }
+            ]
+          }
+        ],
+        "complaints": [
+          {
+            "campaignId": 3,
+            "eventTime": "2017-03-12T20:15:13Z"
+          }
+        ],
+        "delivered": [
+          {
+            "campaignId": 21,
+            "eventTime": "2016-05-03T21:24:56Z"
+          }
+        ],
+        "hardBounces": [
+          {
+            "campaignId": 3,
+            "eventTime": "2017-03-12T20:15:13Z"
+          }
+        ],
+        "messagesSent": [
+          {
+            "campaignId": 21,
+            "eventTime": "2016-05-03T20:15:13Z"
+          },
+          {
+            "campaignId": 42,
+            "eventTime": "2016-10-17T10:30:01Z"
+          }
+        ],
+        "opened": [
+          {
+            "campaignId": 21,
+            "count": 2,
+            "eventTime": "2016-05-03T21:24:56Z",
+            "ip": "66.249.93.118"
+          },
+          {
+            "campaignId": 68,
+            "count": 1,
+            "eventTime": "2017-01-30T13:56:40Z",
+            "ip": "66.249.93.217"
+          }
+        ],
+        "softBounces": [
+          {
+            "campaignId": 3,
+            "eventTime": "2017-03-12T20:15:13Z"
+          }
+        ],
+        "transacAttributes": [
+          {}
+        ],
+        "unsubscriptions": {
+          "adminUnsubscription": [
+            {
+              "eventTime": "2017-03-12T20:15:13Z",
+              "ip": "165.87.3.15"
+            }
+          ],
+          "userUnsubscription": [
+            {
+              "campaignId": 3,
+              "eventTime": "2017-03-12T20:15:13Z",
+              "ip": "165.87.3.15"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "operation": "GET /contacts/{identifier}/campaignStats",
+    "className": "GetContactStatsResponse",
+    "body": {
+      "clicked": [
+        {
+          "campaignId": 21,
+          "links": [
+            {
+              "count": 2,
+              "eventTime": "2016-05-03T21:25:01Z",
+              "ip": "66.249.93.118",
+              "url": "https://url.domain.com/fbe5387ec717e333628380454f68670010b205ff/1/go?uid={EMAIL}&utm_source=brevo&utm_campaign=test_camp&utm_medium=email"
+            }
+          ]
+        }
+      ],
+      "complaints": [
+        {
+          "campaignId": 3,
+          "eventTime": "2017-03-12T20:15:13Z"
+        }
+      ],
+      "delivered": [
+        {
+          "campaignId": 21,
+          "eventTime": "2016-05-03T21:24:56Z"
+        }
+      ],
+      "hardBounces": [
+        {
+          "campaignId": 3,
+          "eventTime": "2017-03-12T20:15:13Z"
+        }
+      ],
+      "messagesSent": [
+        {
+          "campaignId": 21,
+          "eventTime": "2016-05-03T20:15:13Z"
+        },
+        {
+          "campaignId": 42,
+          "eventTime": "2016-10-17T10:30:01Z"
+        },
+        {
+          "campaignId": 45,
+          "eventTime": "2016-11-09T11:45:02Z"
+        }
+      ],
+      "opened": [
+        {
+          "campaignId": 21,
+          "count": 2,
+          "eventTime": "2016-05-03T21:24:56Z",
+          "ip": "66.249.93.118"
+        },
+        {
+          "campaignId": 45,
+          "count": 1,
+          "eventTime": "2017-01-30T13:56:40Z",
+          "ip": "66.249.93.217"
+        }
+      ],
+      "softBounces": [
+        {
+          "campaignId": 3,
+          "eventTime": "2017-03-12T20:15:13Z"
+        }
+      ],
+      "transacAttributes": [
+        {
+          "orderDate": "2017-03-12",
+          "orderId": 248,
+          "orderPrice": 24.99
+        }
+      ],
+      "unsubscriptions": {
+        "adminUnsubscription": [
+          {
+            "eventTime": "2017-03-12T20:15:13Z",
+            "ip": "165.87.3.15"
+          }
+        ],
+        "userUnsubscription": [
+          {
+            "campaignId": 3,
+            "eventTime": "2017-03-12T20:15:13Z",
+            "ip": "165.87.3.15"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "operation": "GET /conversations/messages/{id}",
+    "className": "ConversationsMessage",
+    "body": {
+      "agentId": "d9nKoegKSjmCtyK78",
+      "agentName": "Liz",
+      "agentUserpic": "https://www.brevo.com/",
+      "attachments": [
+        {
+          "name": "name",
+          "link": "link",
+          "mimeType": "mimeType",
+          "isImage": true,
+          "isSticker": true,
+          "isInline": true,
+          "inlineId": "inlineId",
+          "size": 1000000,
+          "isAllowedFileType": true
+        }
+      ],
+      "bcc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "cc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "createdAt": 1482512803740,
+      "file": {
+        "name": "conversations.png",
+        "link": "https://ucarecdn.com/cee5c10c-8302-45c1-b1fb-43860ca941a9/",
+        "mimeType": "mimeType",
+        "isImage": true,
+        "isSticker": true,
+        "isInline": true,
+        "inlineId": "inlineId",
+        "size": 15538,
+        "imageInfo": {
+          "width": 1129,
+          "height": 525,
+          "previewLink": "https://ucarecdn.com/03cd56cd-1de9-4f65-996d-08afdf27fa1b/-/preview/800x800/-/quality/better/"
+        },
+        "isAllowedFileType": true
+      },
+      "forwardedToSourceStatus": {
+        "error": "error",
+        "isSuccess": true
+      },
+      "from": {
+        "email": "email",
+        "name": "name"
+      },
+      "html": "Hello! How can I help you?",
+      "id": "eYBEm3gq3zc5ayE2g",
+      "integrations": {
+        "key": "value"
+      },
+      "isBot": true,
+      "isMissed": false,
+      "isMissedByVisitor": false,
+      "isPushed": false,
+      "isTrigger": false,
+      "rawUnsafeHtml": "Good morning!<br>How can I help you?",
+      "receivedFrom": "SuperAwesomeHelpdesk",
+      "replyTo": {
+        "email": "email",
+        "name": "name"
+      },
+      "sourceMessageId": "sourceMessageId",
+      "subject": "Invitation to a meeting",
+      "text": "Hello! How can I help you?",
+      "to": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "type": "agent",
+      "isSentViaJsApi": true,
+      "messageType": "messageType",
+      "isForward": true,
+      "source": {
+        "key": "value"
+      },
+      "visitorId": "kZMvWhf8npAu3H6qd57w2Hv6nh6rnxvg"
+    }
+  },
+  {
+    "operation": "GET /conversations/pushedMessages/{id}",
+    "className": "ConversationsMessage",
+    "body": {
+      "agentId": "d9nKoegKSjmCtyK78",
+      "agentName": "Liz",
+      "agentUserpic": "https://www.brevo.com/",
+      "attachments": [
+        {
+          "name": "name",
+          "link": "link",
+          "mimeType": "mimeType",
+          "isImage": true,
+          "isSticker": true,
+          "isInline": true,
+          "inlineId": "inlineId",
+          "size": 1000000,
+          "isAllowedFileType": true
+        }
+      ],
+      "bcc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "cc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "createdAt": 1470222622433,
+      "file": {
+        "name": "conversations.png",
+        "link": "https://ucarecdn.com/cee5c10c-8302-45c1-b1fb-43860ca941a9/",
+        "mimeType": "mimeType",
+        "isImage": true,
+        "isSticker": true,
+        "isInline": true,
+        "inlineId": "inlineId",
+        "size": 15538,
+        "imageInfo": {
+          "width": 1129,
+          "height": 525,
+          "previewLink": "https://ucarecdn.com/03cd56cd-1de9-4f65-996d-08afdf27fa1b/-/preview/800x800/-/quality/better/"
+        },
+        "isAllowedFileType": true
+      },
+      "forwardedToSourceStatus": {
+        "error": "error",
+        "isSuccess": true
+      },
+      "from": {
+        "email": "email",
+        "name": "name"
+      },
+      "html": "Your order has shipped! Here's your tracking number: 9114 5847 3325 9667 4328 88",
+      "id": "AXCR3k9bpSY7bpuh7",
+      "integrations": {
+        "key": "value"
+      },
+      "isBot": true,
+      "isMissed": false,
+      "isMissedByVisitor": false,
+      "isPushed": true,
+      "isTrigger": false,
+      "rawUnsafeHtml": "Good morning!<br>How can I help you?",
+      "receivedFrom": "SuperAwesomeHelpdesk",
+      "replyTo": {
+        "email": "email",
+        "name": "name"
+      },
+      "sourceMessageId": "sourceMessageId",
+      "subject": "Invitation to a meeting",
+      "text": "Your order has shipped! Here's your tracking number: 9114 5847 3325 9667 4328 88",
+      "to": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "type": "agent",
+      "isSentViaJsApi": true,
+      "messageType": "messageType",
+      "isForward": true,
+      "source": {
+        "key": "value"
+      },
+      "visitorId": "kZMvWhf8npAu3H6qd57w2Hv6nh6rnxvg"
+    }
+  },
+  {
+    "operation": "GET /corporate/group/{id}",
+    "className": "GetCorporateGroupIdResponse",
+    "body": {
+      "group": {
+        "createdAt": "2024-02-09T06:14:40+00:00",
+        "groupName": "My group",
+        "id": "5f926dba72a405440a4efc97"
+      },
+      "sub-accounts": [
+        {
+          "companyName": "My sub organization",
+          "createdAt": "2024-02-09T06:14:40+00:00",
+          "id": 7866556
+        },
+        {
+          "companyName": "Your sub organization",
+          "createdAt": "2024-01-05T03:11:40+00:00",
+          "id": 6563051
+        }
+      ],
+      "users": [
+        {
+          "email": "my-user@my-org.com",
+          "firstName": "John",
+          "lastName": "Smith"
+        },
+        {
+          "email": "your-user@your-org.com",
+          "firstName": "firstName",
+          "lastName": "lastName"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /corporate/invited/users",
+    "className": "GetCorporateInvitedUsersListResponse",
+    "body": {
+      "users": [
+        {
+          "email": "master-user2@company.com",
+          "feature_access": {
+            "analytics": [
+              "download_data",
+              "create_alerts",
+              "my_looks",
+              "explore_create"
+            ],
+            "api_keys": [
+              "all"
+            ],
+            "apps_management": [
+              "none"
+            ],
+            "create_sub_organizations": [
+              "all"
+            ],
+            "manage_sub_organizations": [
+              "all"
+            ],
+            "my_plan": [
+              "all",
+              "all"
+            ],
+            "sub_organization_groups": [
+              "create",
+              "edit_delete"
+            ],
+            "user_management": [
+              "none"
+            ]
+          },
+          "groups": {
+            "id": "a5c4f22c08d9ed37ef1ca342",
+            "name": "My group"
+          },
+          "is_owner": "is_owner",
+          "status": "active"
+        },
+        {
+          "email": "master-user3@company.com",
+          "feature_access": {
+            "analytics": [
+              "create_alerts",
+              "my_looks"
+            ],
+            "api_keys": [
+              "none"
+            ],
+            "apps_management": [
+              "all"
+            ],
+            "create_sub_organizations": [
+              "all"
+            ],
+            "manage_sub_organizations": [
+              "all"
+            ],
+            "my_plan": [
+              "none",
+              "none"
+            ],
+            "sub_organization_groups": [
+              "edit_delete"
+            ],
+            "user_management": [
+              "all"
+            ]
+          },
+          "groups": {
+            "id": "a5c4f22c08d9ed37ef1ca342",
+            "name": "My group"
+          },
+          "is_owner": "is_owner",
+          "status": "active"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /corporate/masterAccount",
+    "className": "GetCorporateMasterAccountResponse",
+    "body": {
+      "billingInfo": {
+        "address": {
+          "countryCode": "IN",
+          "locality": "Pandav Nagar, New Delhi",
+          "postalCode": "560048",
+          "stateCode": "UP",
+          "streetAddress": "C-92"
+        },
+        "companyName": "Corp Sample 1-1",
+        "email": "sample@example.com",
+        "name": {
+          "familyName": "Pandit",
+          "givenName": "Uday"
+        }
+      },
+      "companyName": "Corp Sample 1-1",
+      "currencyCode": "INR",
+      "email": "sample@example.com",
+      "id": 1003286,
+      "planInfo": {
+        "currencyCode": "INR",
+        "features": [
+          {
+            "name": "MULTI_USER",
+            "quantity": 10,
+            "remaining": 0,
+            "unitValue": "unitValue",
+            "used": 15
+          },
+          {
+            "name": "ADVANCED_REPORTING",
+            "quantity": 12,
+            "remaining": 11,
+            "unitValue": "unitValue",
+            "used": 1
+          },
+          {
+            "name": "INBOX",
+            "quantity": 10,
+            "remaining": 0,
+            "unitValue": "unitValue",
+            "used": 10
+          },
+          {
+            "name": "LANDING_PAGE",
+            "quantity": 10,
+            "remaining": 0,
+            "unitValue": "unitValue",
+            "used": 11
+          },
+          {
+            "name": "RECURRING_CREDITS",
+            "quantity": 500,
+            "remaining": 499,
+            "unitValue": "unitValue",
+            "used": 1
+          }
+        ],
+        "nextBillingAt": 1637739295,
+        "planPeriod": "month",
+        "price": 2100,
+        "subAccounts": 15
+      },
+      "timezone": "Europe/Paris"
+    }
+  },
+  {
+    "operation": "GET /corporate/subAccount",
+    "className": "GetCorporateSubAccountResponse",
+    "body": {
+      "count": 3,
+      "subAccounts": [
+        {
+          "active": true,
+          "companyName": "Company1",
+          "createdAt": 1631523176,
+          "groups": [
+            {
+              "id": "5f8f8c3b5f56a02d4433b3a8",
+              "name": "Group 1"
+            },
+            {
+              "id": "4fbf3c3b1f56a02ac465b1a0",
+              "name": "Group 2"
+            }
+          ],
+          "id": 4043629
+        },
+        {
+          "active": true,
+          "companyName": "Company2",
+          "createdAt": 1629439311,
+          "groups": [
+            {}
+          ],
+          "id": 3984002
+        },
+        {
+          "active": true,
+          "companyName": "Company3",
+          "createdAt": 1614713641,
+          "groups": [
+            {}
+          ],
+          "id": 3524191
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /corporate/subAccount/{id}",
+    "className": "GetCorporateSubAccountIdResponse",
+    "body": {
+      "companyName": "API-Sub-26thOct21-4",
+      "email": "uday+1@brevo.com",
+      "groups": [
+        {
+          "id": "5f8f8c3b5f56a02d4433b3a7",
+          "name": "Group 1"
+        },
+        {
+          "id": "5f8f8c3b5f56a02d4433b3a8",
+          "name": "Group 2"
+        }
+      ],
+      "name": "Uday Pandit",
+      "planInfo": {
+        "credits": {
+          "emails": {
+            "quantity": 2000,
+            "remaining": 1955
+          },
+          "externalFeeds": {
+            "quantity": 1,
+            "remaining": 1
+          },
+          "sms": {
+            "quantity": 2000,
+            "remaining": 1955
+          },
+          "whatsapp": {
+            "quantity": 100,
+            "remaining": 50
+          },
+          "wpSubscribers": {
+            "quantity": 2000,
+            "remaining": 1955
+          }
+        },
+        "features": {
+          "inbox": {
+            "quantity": 20,
+            "remaining": 12
+          },
+          "landingPage": {
+            "quantity": 25,
+            "remaining": 14
+          },
+          "salesUsers": {
+            "quantity": 30,
+            "remaining": 14
+          },
+          "users": {
+            "quantity": 30,
+            "remaining": 14
+          }
+        },
+        "planType": "paid"
+      }
+    }
+  },
+  {
+    "operation": "GET /corporate/user/{email}/permissions",
+    "className": "GetCorporateUserPermissionResponse",
+    "body": {
+      "email": "invitedUser@company.com",
+      "feature_access": {
+        "analytics": [
+          "download_data",
+          "create_alerts",
+          "my_looks",
+          "explore_create"
+        ],
+        "api_keys": [
+          "all"
+        ],
+        "apps_management": [
+          "all"
+        ],
+        "create_sub_organizations": [
+          "all"
+        ],
+        "manage_sub_organizations": [
+          "all"
+        ],
+        "my_plan": [
+          "all",
+          "all"
+        ],
+        "sub_organization_groups": [
+          "create",
+          "edit_delete"
+        ],
+        "user_management": [
+          "none"
+        ]
+      },
+      "groups": [
+        {
+          "id": "6543ab3667ffbb00142e4486",
+          "name": "Support"
+        },
+        {
+          "id": "174bab366732bbce142e4412",
+          "name": "Technical"
+        }
+      ],
+      "status": "active"
+    }
+  },
+  {
+    "operation": "GET /couponCollections",
+    "className": "GetCouponCollection",
+    "body": {
+      "createdAt": "2023-01-06T05:03:47Z",
+      "defaultCoupon": "10 OFF",
+      "expirationDate": "2024-01-01T00:00:00Z",
+      "id": "23befbae-1505-47a8-bd27-e30ef739f32c",
+      "name": "SummerPromotions",
+      "remainingCoupons": 5000,
+      "remainingCouponsAlert": 5,
+      "remainingDaysAlert": 5,
+      "totalCoupons": 10000
+    }
+  },
+  {
+    "operation": "GET /couponCollections/{id}",
+    "className": "GetCouponCollection",
+    "body": {
+      "createdAt": "2023-01-06T05:03:47Z",
+      "defaultCoupon": "10 OFF",
+      "expirationDate": "2024-01-01T00:00:00Z",
+      "id": "23befbae-1505-47a8-bd27-e30ef739f32c",
+      "name": "SummerPromotions",
+      "remainingCoupons": 5000,
+      "remainingCouponsAlert": 5,
+      "remainingDaysAlert": 5,
+      "totalCoupons": 10000
+    }
+  },
+  {
+    "operation": "GET /crm/deals",
+    "className": "GetCrmDealsResponse",
+    "body": {
+      "items": [
+        {
+          "id": "629475917295261d9b1f4403",
+          "attributes": {
+            "amount": 12,
+            "created_at": "2022-05-30T07:42:05.671Z",
+            "deal_name": "testname",
+            "deal_owner": "6093d2425a9b436e9519d034",
+            "deal_stage": "9e577ff7-8e42-4ab3-be26-2b5e01b42518",
+            "last_activity_date": "2022-06-06T08:38:36.000Z",
+            "last_updated_date": "2022-06-06T08:38:36.761Z",
+            "number_of_activities": 0,
+            "number_of_contacts": 1,
+            "pipeline": "6093d296ad1e9c5cf2140a58",
+            "stage_updated_at": "2022-05-30T07:42:05.671Z"
+          },
+          "linkedContactsIds": [
+            1,
+            2,
+            3
+          ],
+          "linkedCompaniesIds": [
+            "61a5ce58c5d4795761045990",
+            "61a5ce58c5d4795761045991",
+            "61a5ce58c5d4795761045992"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /crm/deals/{id}",
+    "className": "Deal",
+    "body": {
+      "id": "629475917295261d9b1f4403",
+      "attributes": {
+        "amount": 12,
+        "created_at": "2022-05-30T07:42:05.671Z",
+        "deal_name": "testname",
+        "deal_owner": "6093d2425a9b436e9519d034",
+        "deal_stage": "9e577ff7-8e42-4ab3-be26-2b5e01b42518",
+        "last_activity_date": "2022-06-06T08:38:36.000Z",
+        "last_updated_date": "2022-06-06T08:38:36.761Z",
+        "number_of_activities": 0,
+        "number_of_contacts": 1,
+        "pipeline": "6093d296ad1e9c5cf2140a58",
+        "stage_updated_at": "2022-05-30T07:42:05.671Z"
+      },
+      "linkedContactsIds": [
+        1,
+        2,
+        3
+      ],
+      "linkedCompaniesIds": [
+        "61a5ce58c5d4795761045990",
+        "61a5ce58c5d4795761045991",
+        "61a5ce58c5d4795761045992"
+      ]
+    }
+  },
+  {
+    "operation": "GET /crm/files/{id}",
+    "className": "GetCrmFilesIdResponse",
+    "body": {
+      "fileUrl": "https://storage.googleapis.com/brevo-app-crm.......-sample.pdf"
+    }
+  },
+  {
+    "operation": "GET /crm/files/{id}/data",
+    "className": "FileData",
+    "body": {
+      "id": "61a5ce58c5d4795761045991",
+      "name": "example.png",
+      "authorId": "61a5ce58c5d4795761045991",
+      "contactId": 1,
+      "dealId": "61a5ce58c5d4795761045991",
+      "companyId": "61a5ce58c5d4795761045991",
+      "size": 10,
+      "createdAt": "2017-05-01T17:05:03Z"
+    }
+  },
+  {
+    "operation": "GET /crm/notes/{id}",
+    "className": "Note",
+    "body": {
+      "id": "61a5cd07ca1347c82306ad09",
+      "text": "<p>Meeting notes: <b>Action item</b> - visit <a href=\"https://www.brevo.com/\">Brevo</a> for details.</p>",
+      "contactIds": [
+        247,
+        1,
+        2
+      ],
+      "companyIds": [
+        "61a5ce58c5d4795761045990",
+        "61a5ce58c5d4795761045991"
+      ],
+      "dealIds": [
+        "61a5ce58c5d4795761045990",
+        "61a5ce58c5d4795761045991"
+      ],
+      "authorId": {
+        "email": "johndoe@example.com",
+        "id": "61a5ce58y5d4795761045991",
+        "locale": "en_GB",
+        "name": {
+          "fullName": "John Doe"
+        },
+        "timezone": "Asia/Kolkata"
+      },
+      "createdAt": "2017-05-01T17:05:03Z",
+      "updatedAt": "2017-05-01T17:05:03Z"
+    }
+  },
+  {
+    "operation": "GET /crm/pipeline/details",
+    "className": "Pipeline",
+    "body": {
+      "pipeline": "5ea675e3da0dd085acaea610",
+      "pipeline_name": "Sales Pipeline",
+      "stages": [
+        {
+          "id": "9e577ff7-8e42-4ab3-be26-2b5e01b42518",
+          "name": "New"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /crm/tasks",
+    "className": "GetCrmTasksResponse",
+    "body": {
+      "items": [
+        {
+          "id": "61a5cd07ca1347c82306ad06",
+          "taskTypeId": "61a5cd07ca1347c82306ad09",
+          "name": "Task: Connect with client",
+          "companiesIds": [
+            "61a5ce58c5d4795761045990",
+            "61a5ce58c5d4795761045991",
+            "61a5ce58c5d4795761045992"
+          ],
+          "dealsIds": [
+            "61a5ce58c5d4795761045990",
+            "61a5ce58c5d4795761045991",
+            "61a5ce58c5d4795761045992"
+          ],
+          "contactsIds": [
+            1,
+            2,
+            3
+          ],
+          "assignToId": "5faab4b7f195bb3c4c31e62a",
+          "date": "2021-11-01T17:44:54Z",
+          "notes": "In communication with client for resolution of queries.",
+          "done": false,
+          "createdAt": "2021-11-01T17:44:54Z",
+          "updatedAt": "2021-11-01T17:44:54Z"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /crm/tasks/{id}",
+    "className": "Task",
+    "body": {
+      "id": "61a5cd07ca1347c82306ad06",
+      "taskTypeId": "61a5cd07ca1347c82306ad09",
+      "name": "Task: Connect with client",
+      "companiesIds": [
+        "61a5ce58c5d4795761045990",
+        "61a5ce58c5d4795761045991",
+        "61a5ce58c5d4795761045992"
+      ],
+      "dealsIds": [
+        "61a5ce58c5d4795761045990",
+        "61a5ce58c5d4795761045991",
+        "61a5ce58c5d4795761045992"
+      ],
+      "contactsIds": [
+        1,
+        2,
+        3
+      ],
+      "assignToId": "5faab4b7f195bb3c4c31e62a",
+      "date": "2021-11-01T17:44:54Z",
+      "notes": "In communication with client for resolution of queries.",
+      "done": false,
+      "createdAt": "2021-11-01T17:44:54Z",
+      "updatedAt": "2021-11-01T17:44:54Z"
+    }
+  },
+  {
+    "operation": "GET /ecommerce/attribution/metrics",
+    "className": "GetEcommerceAttributionMetricsResponse",
+    "body": {
+      "results": [
+        {
+          "averageBasket": 3,
+          "conversionSource": "email_campaign",
+          "id": 1.1,
+          "ordersCount": 300,
+          "revenue": 900
+        },
+        {
+          "averageBasket": 4,
+          "conversionSource": "email_campaign",
+          "id": 1.1,
+          "ordersCount": 200,
+          "revenue": 800
+        }
+      ],
+      "totals": {
+        "averageBasket": 3.4,
+        "ordersCount": 500,
+        "revenue": 1700
+      }
+    }
+  },
+  {
+    "operation": "GET /ecommerce/attribution/metrics/{conversionSource}/{conversionSourceId}",
+    "className": "GetEcommerceAttributionMetricsConversionSourceConversionSourceIdResponse",
+    "body": {
+      "averageBasket": 1.1,
+      "conversionSource": "email_campaign",
+      "id": 1.1,
+      "ordersCount": 1.1,
+      "revenue": 1.1,
+      "newCustomersCount": 1.1
+    }
+  },
+  {
+    "operation": "GET /ecommerce/attribution/products/{conversionSource}/{conversionSourceId}",
+    "className": "GetEcommerceAttributionProductsConversionSourceConversionSourceIdResponse",
+    "body": {
+      "products": [
+        {
+          "id": "1",
+          "imageUrl": "http://mydomain.com/product-absoulte-url/img.jpeg",
+          "name": "Milky Way Galaxy",
+          "ordersCount": 200,
+          "price": 1000,
+          "revenue": 999.99,
+          "sku": "sku-1",
+          "url": "https://mydomain.com/products/alpina-panoma-classic"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /ecommerce/config/displayCurrency",
+    "className": "GetEcommerceConfigDisplayCurrencyResponse",
+    "body": {
+      "code": "EUR"
+    }
+  },
+  {
+    "operation": "GET /emailCampaigns",
+    "className": "GetEmailCampaignsResponse",
+    "body": {
+      "campaigns": [
+        {
+          "attachmentFile": "http://mydomain.com/campaign/attachment/file.pdf",
+          "abTesting": true,
+          "id": 12,
+          "name": "EN - Sales Summer 2017",
+          "previewText": "Don't miss the sale!",
+          "scheduledAt": "2017-06-01T12:30:00Z",
+          "sendAtBestTime": true,
+          "splitRule": 25,
+          "status": "sent",
+          "subject": "20% OFF for 2017 Summer Sales",
+          "subjectA": "Discover the New Collection!",
+          "subjectB": "Want to discover the New Collection?",
+          "type": "classic",
+          "winnerCriteria": "open",
+          "winnerDelay": 50,
+          "attachmentUrl": "https://attachment.domain.com/file.pdf",
+          "createdAt": "2017-05-01T12:30:00Z",
+          "emailExpirationDate": {
+            "duration": 30
+          },
+          "footer": "[DEFAULT_FOOTER]",
+          "header": "[DEFAULT_HEADER]",
+          "htmlContent": "This is my HTML Content",
+          "inlineImageActivation": true,
+          "mirrorActive": true,
+          "modifiedAt": "2017-05-01T12:30:00Z",
+          "recurring": false,
+          "replyTo": "replyto@domain.com",
+          "returnBounce": 5,
+          "sender": {
+            "email": "marketing@mycompany.com",
+            "id": 26,
+            "name": "Marketing"
+          },
+          "sentDate": "2018-12-01T16:30:00Z",
+          "shareLink": "http://example.com/fhsgccc.html?t=9865448900",
+          "tag": "Newsletter",
+          "tags": [
+            "tag1",
+            "tag2"
+          ],
+          "testSent": true,
+          "toField": "{FNAME} {LNAME}",
+          "utmCampaignValue": "myutm",
+          "utmContent": "hero_button",
+          "utmID": 12,
+          "utmMedium": "EMAIL",
+          "utmSource": "Brevo",
+          "utmTerm": "summer_sale",
+          "recipients": {
+            "excludedSegments": [
+              14
+            ],
+            "exclusionLists": [
+              13
+            ],
+            "lists": [
+              5
+            ],
+            "segments": [
+              23
+            ]
+          },
+          "statistics": {
+            "campaignStats": [
+              {
+                "appleMppOpens": 10,
+                "clickers": 2665,
+                "complaints": 1,
+                "deferred": 30,
+                "delivered": 19765,
+                "estimatedViews": 560,
+                "hardBounces": 87,
+                "listId": 5,
+                "opensRate": 29.54,
+                "returnBounce": 5,
+                "sent": 19887,
+                "softBounces": 100,
+                "trackableViews": 5661,
+                "trackableViewsRate": 23.45,
+                "uniqueClicks": 2300,
+                "uniqueViews": 7779,
+                "unsubscriptions": 2,
+                "viewed": 8999
+              }
+            ],
+            "globalStats": {
+              "appleMppOpens": 10,
+              "clickers": 2665,
+              "complaints": 1,
+              "deferred": 30,
+              "delivered": 19765,
+              "estimatedViews": 560,
+              "hardBounces": 87,
+              "listId": 2,
+              "opensRate": 29.54,
+              "returnBounce": 5,
+              "sent": 19887,
+              "softBounces": 100,
+              "trackableViews": 5661,
+              "trackableViewsRate": 23.45,
+              "uniqueClicks": 2300,
+              "uniqueViews": 7779,
+              "unsubscriptions": 2,
+              "viewed": 8999
+            },
+            "linksStats": {
+              "http://myUrl1.domain.com": 80
+            },
+            "mirrorClick": 120,
+            "remaining": 1000,
+            "statsByDomain": {
+              "hotmail.co.uk": {
+                "appleMppOpens": 10,
+                "clickers": 2720,
+                "complaints": 5,
+                "deferred": 30,
+                "delivered": 117056,
+                "estimatedViews": 560,
+                "hardBounces": 0,
+                "listId": 2,
+                "opensRate": 29.54,
+                "returnBounce": 5,
+                "sent": 117055,
+                "softBounces": 111,
+                "trackableViews": 5661,
+                "trackableViewsRate": 23.45,
+                "uniqueClicks": 1970,
+                "uniqueViews": 21111,
+                "unsubscriptions": 105,
+                "viewed": 35251
+              },
+              "yahoo.com": {
+                "appleMppOpens": 10,
+                "clickers": 533,
+                "complaints": 0,
+                "deferred": 30,
+                "delivered": 25596,
+                "estimatedViews": 560,
+                "hardBounces": 0,
+                "listId": 2,
+                "opensRate": 29.54,
+                "returnBounce": 5,
+                "sent": 25601,
+                "softBounces": 5,
+                "trackableViews": 5661,
+                "trackableViewsRate": 23.45,
+                "uniqueClicks": 298,
+                "uniqueViews": 3527,
+                "unsubscriptions": 17,
+                "viewed": 5255
+              }
+            }
+          }
+        },
+        {
+          "attachmentFile": "http://img.mailinblue.com/{clientID-campaignID}/attachments/{fileName}",
+          "abTesting": true,
+          "id": 22,
+          "name": "Weekly - 1",
+          "previewText": "your weekly newsletter!",
+          "scheduledAt": "",
+          "sendAtBestTime": true,
+          "splitRule": 25,
+          "status": "draft",
+          "subject": "Week 1 - Newsletter",
+          "subjectA": "Discover the New Collection!",
+          "subjectB": "Want to discover the New Collection?",
+          "type": "classic",
+          "winnerCriteria": "open",
+          "winnerDelay": 50,
+          "attachmentUrl": "https://attachment.domain.com/file.pdf",
+          "createdAt": "2017-05-01T12:30:00Z",
+          "emailExpirationDate": {
+            "duration": 30
+          },
+          "footer": "[DEFAULT_FOOTER]",
+          "header": "[DEFAULT_HEADER]",
+          "htmlContent": "This is my HTML Content",
+          "inlineImageActivation": true,
+          "mirrorActive": true,
+          "modifiedAt": "2017-05-01T12:30:00Z",
+          "recurring": false,
+          "replyTo": "replyto@domain.com",
+          "returnBounce": 5,
+          "sender": {
+            "email": "newsletter@mycompany.com",
+            "id": 26,
+            "name": "Newsletter"
+          },
+          "sentDate": "2018-12-01T16:30:00Z",
+          "shareLink": "http://example.com/fhsgccc.html?t=9865448900",
+          "tag": "Newsletter",
+          "tags": [
+            "Newsletter",
+            "Weekly"
+          ],
+          "testSent": false,
+          "toField": "{FNAME} {LNAME}",
+          "utmCampaignValue": "myutm",
+          "utmContent": "hero_button",
+          "utmID": 12,
+          "utmMedium": "EMAIL",
+          "utmSource": "Brevo",
+          "utmTerm": "summer_sale",
+          "recipients": {
+            "excludedSegments": [
+              14
+            ],
+            "exclusionLists": [
+              45
+            ],
+            "lists": [
+              10
+            ],
+            "segments": [
+              23
+            ]
+          },
+          "statistics": {
+            "campaignStats": [
+              {
+                "appleMppOpens": 10,
+                "clickers": 2665,
+                "complaints": 1,
+                "deferred": 30,
+                "delivered": 19765,
+                "estimatedViews": 560,
+                "hardBounces": 87,
+                "listId": 10,
+                "opensRate": 29.54,
+                "returnBounce": 5,
+                "sent": 19887,
+                "softBounces": 100,
+                "trackableViews": 5661,
+                "trackableViewsRate": 23.45,
+                "uniqueClicks": 2300,
+                "uniqueViews": 7779,
+                "unsubscriptions": 2,
+                "viewed": 8999
+              }
+            ],
+            "globalStats": {
+              "appleMppOpens": 10,
+              "clickers": 2665,
+              "complaints": 1,
+              "deferred": 30,
+              "delivered": 19765,
+              "estimatedViews": 560,
+              "hardBounces": 87,
+              "listId": 2,
+              "opensRate": 29.42,
+              "returnBounce": 5,
+              "sent": 19887,
+              "softBounces": 100,
+              "trackableViews": 5661,
+              "trackableViewsRate": 23.45,
+              "uniqueClicks": 2300,
+              "uniqueViews": 7779,
+              "unsubscriptions": 2,
+              "viewed": 8999
+            },
+            "linksStats": {
+              "http://myUrl1.domain.com": 1000000,
+              "http://myUrl2.domain.com": 1000000,
+              "http://myUrl3.domain.com": 1000000
+            },
+            "mirrorClick": 120,
+            "remaining": 1000,
+            "statsByDomain": {
+              "aol": {
+                "appleMppOpens": 10,
+                "clickers": 2665,
+                "complaints": 1,
+                "deferred": 30,
+                "delivered": 19765,
+                "estimatedViews": 560,
+                "hardBounces": 87,
+                "listId": 2,
+                "opensRate": 29.54,
+                "returnBounce": 5,
+                "sent": 19887,
+                "softBounces": 100,
+                "trackableViews": 5661,
+                "trackableViewsRate": 23.45,
+                "uniqueClicks": 2300,
+                "uniqueViews": 7779,
+                "unsubscriptions": 2,
+                "viewed": 8999
+              },
+              "gmail": {
+                "appleMppOpens": 10,
+                "clickers": 2665,
+                "complaints": 1,
+                "deferred": 30,
+                "delivered": 19765,
+                "estimatedViews": 560,
+                "hardBounces": 87,
+                "listId": 2,
+                "opensRate": 29.54,
+                "returnBounce": 5,
+                "sent": 19887,
+                "softBounces": 100,
+                "trackableViews": 5661,
+                "trackableViewsRate": 23.45,
+                "uniqueClicks": 2300,
+                "uniqueViews": 7779,
+                "unsubscriptions": 2,
+                "viewed": 8999
+              }
+            }
+          }
+        }
+      ],
+      "count": 2
+    }
+  },
+  {
+    "operation": "GET /emailCampaigns/{campaignId}",
+    "className": "GetEmailCampaignResponse",
+    "body": {
+      "attachmentFile": "http://img.mailinblue.com/{clientID-campaignID}/attachments/{fileName}",
+      "abTesting": true,
+      "id": 22,
+      "name": "Weekly - 1",
+      "previewText": "your weekly newsletter",
+      "scheduledAt": "2017-09-22T12:30:00Z",
+      "sendAtBestTime": true,
+      "splitRule": 25,
+      "status": "draft",
+      "subject": "Week 1 - Newsletter",
+      "subjectA": "Discover the New Collection!",
+      "subjectB": "Want to discover the New Collection?",
+      "type": "classic",
+      "winnerCriteria": "open",
+      "winnerDelay": 50,
+      "attachmentUrl": "https://attachment.domain.com/file.pdf",
+      "createdAt": "2017-05-01T12:30:00Z",
+      "emailExpirationDate": {
+        "duration": 30,
+        "unit": "days"
+      },
+      "footer": "[DEFAULT_FOOTER]",
+      "header": "[DEFAULT_HEADER]",
+      "htmlContent": "This is my HTML Content",
+      "inlineImageActivation": true,
+      "mirrorActive": true,
+      "modifiedAt": "2017-05-01T12:30:00Z",
+      "recurring": false,
+      "replyTo": "replyto@domain.com",
+      "returnBounce": 5,
+      "sender": {
+        "email": "newsletter@mycompany.com",
+        "id": 26,
+        "name": "Newsletter"
+      },
+      "sentDate": "2018-12-01T16:30:00Z",
+      "shareLink": "http://dhh.brevo.com/fhsgccc.html?t=9865448900",
+      "tag": "Newsletter",
+      "tags": [
+        "Newsletter",
+        "Weekly"
+      ],
+      "testSent": false,
+      "toField": "{FNAME} {LNAME}",
+      "utmCampaignValue": "myutm",
+      "utmContent": "hero_button",
+      "utmID": 12,
+      "utmMedium": "EMAIL",
+      "utmSource": "Brevo",
+      "utmTerm": "summer_sale",
+      "recipients": {
+        "excludedSegments": [
+          14
+        ],
+        "exclusionLists": [
+          45
+        ],
+        "lists": [
+          22
+        ],
+        "segments": [
+          23
+        ]
+      },
+      "statistics": {
+        "campaignStats": [
+          {
+            "appleMppOpens": 10,
+            "clickers": 2665,
+            "complaints": 1,
+            "deferred": 30,
+            "delivered": 19765,
+            "estimatedViews": 560,
+            "hardBounces": 87,
+            "listId": 22,
+            "opensRate": 29.54,
+            "returnBounce": 5,
+            "sent": 19887,
+            "softBounces": 100,
+            "trackableViews": 5661,
+            "trackableViewsRate": 23.45,
+            "uniqueClicks": 2300,
+            "uniqueViews": 7779,
+            "unsubscriptions": 2,
+            "viewed": 8999
+          }
+        ],
+        "globalStats": {
+          "appleMppOpens": 10,
+          "clickers": 2665,
+          "complaints": 1,
+          "deferred": 30,
+          "delivered": 19765,
+          "estimatedViews": 560,
+          "hardBounces": 87,
+          "listId": 2,
+          "opensRate": 24.59,
+          "returnBounce": 5,
+          "sent": 19887,
+          "softBounces": 100,
+          "trackableViews": 5661,
+          "trackableViewsRate": 23.45,
+          "uniqueClicks": 2300,
+          "uniqueViews": 7779,
+          "unsubscriptions": 2,
+          "viewed": 8999
+        },
+        "linksStats": {
+          "http://myUrl1.domain.com": 1000000,
+          "http://myUrl2.domain.com": 1000000,
+          "http://myUrl3.domain.com": 1000000
+        },
+        "mirrorClick": 120,
+        "remaining": 1000,
+        "statsByBrowser": {
+          "internetExplorer": {
+            "clickers": 0,
+            "uniqueClicks": 0,
+            "uniqueViews": 0,
+            "viewed": 1
+          },
+          "safari": {
+            "clickers": 1,
+            "uniqueClicks": 0,
+            "uniqueViews": 0,
+            "viewed": 1
+          },
+          "thunderbird": {
+            "clickers": 1,
+            "uniqueClicks": 0,
+            "uniqueViews": 0,
+            "viewed": 1
+          }
+        },
+        "statsByDevice": {
+          "desktop": {
+            "mac": {
+              "clickers": 1,
+              "uniqueClicks": 0,
+              "uniqueViews": 1,
+              "viewed": 2
+            }
+          },
+          "mobile": {
+            "androidMobile": {
+              "clickers": 1,
+              "uniqueClicks": 0,
+              "uniqueViews": 0,
+              "viewed": 1
+            },
+            "iPhone": {
+              "clickers": 1,
+              "uniqueClicks": 0,
+              "uniqueViews": 0,
+              "viewed": 2
+            }
+          },
+          "tablet": {
+            "key": {
+              "clickers": 2665,
+              "uniqueClicks": 2300,
+              "uniqueViews": 7779,
+              "viewed": 8999
+            }
+          },
+          "unknown": {
+            "key": {
+              "clickers": 2665,
+              "uniqueClicks": 2300,
+              "uniqueViews": 7779,
+              "viewed": 8999
+            }
+          }
+        },
+        "statsByDomain": {
+          "gmail": {
+            "appleMppOpens": 10,
+            "clickers": 2665,
+            "complaints": 1,
+            "deferred": 30,
+            "delivered": 19765,
+            "estimatedViews": 560,
+            "hardBounces": 87,
+            "listId": 2,
+            "opensRate": 29.54,
+            "returnBounce": 5,
+            "sent": 19887,
+            "softBounces": 100,
+            "trackableViews": 5661,
+            "trackableViewsRate": 23.45,
+            "uniqueClicks": 2300,
+            "uniqueViews": 7779,
+            "unsubscriptions": 2,
+            "viewed": 8999
+          }
+        }
+      }
+    }
+  },
+  {
+    "operation": "GET /emailCampaigns/{campaignId}/abTestCampaignResult",
+    "className": "GetAbTestCampaignResultResponse",
+    "body": {
+      "clickRate": "50%",
+      "clickedLinks": {
+        "Version A": [
+          {
+            "clickRate": "0%",
+            "clicksCount": 0,
+            "link": "https://google.com"
+          },
+          {
+            "clickRate": "0%",
+            "clicksCount": 0,
+            "link": "https://youtube.com"
+          }
+        ],
+        "Version B": [
+          {
+            "clickRate": "40%",
+            "clicksCount": 2,
+            "link": "http://www.github.com"
+          },
+          {
+            "clickRate": "60%",
+            "clicksCount": 3,
+            "link": "http://www.stackoverflow.com"
+          }
+        ]
+      },
+      "openRate": "100%",
+      "statistics": {
+        "clicks": {
+          "Version A": "0%",
+          "Version B": "50%"
+        },
+        "complaints": {
+          "Version A": "0%",
+          "Version B": "0%"
+        },
+        "hardBounces": {
+          "Version A": "0%",
+          "Version B": "0%"
+        },
+        "openers": {
+          "Version A": "20%",
+          "Version B": "100%"
+        },
+        "softBounces": {
+          "Version A": "0%",
+          "Version B": "0%"
+        },
+        "unsubscribed": {
+          "Version A": "20%",
+          "Version B": "0%"
+        }
+      },
+      "winningCriteria": "Click",
+      "winningSubjectLine": "Subject Line A",
+      "winningVersion": "B",
+      "winningVersionRate": "0%"
+    }
+  },
+  {
+    "operation": "GET /emailCampaigns/{campaignId}/sharedUrl",
+    "className": "GetSharedTemplateUrlResponse",
+    "body": {
+      "sharedUrl": "https://my.brevo.com/pt2YU7R5W_guXlowgumy_VX4pFsKu._zd0Gjj96x1_GMmzc1Qps5ZIpj6nx-"
+    }
+  },
+  {
+    "operation": "GET /events",
+    "className": "GetEventsList",
+    "body": {
+      "events": [
+        {
+          "contact_id": 211,
+          "event_date": "2024-02-06T20:59:23Z",
+          "event_name": "order_created",
+          "event_filter_id": "abc123",
+          "object_type": "subscription",
+          "event_properties": {
+            "duration": 142,
+            "video_title": "Brevo — The most approachable CRM suite"
+          },
+          "contact_properties": {
+            "AGE": 32,
+            "GENDER": "FEMALE"
+          }
+        }
+      ],
+      "count": 2
+    }
+  },
+  {
+    "operation": "GET /feeds",
+    "className": "GetAllExternalFeedsResponse",
+    "body": {
+      "count": 18,
+      "feeds": [
+        {
+          "id": "b1c2d3e4-f5a6-47b8-89c0-d1e2f3a4b5c6",
+          "name": "Product Catalog Feed",
+          "url": "https://api.example.com/products",
+          "authType": "noAuth",
+          "username": "apiuser",
+          "password": "apipass",
+          "token": "abc123token456",
+          "maxRetries": 3,
+          "cache": true,
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer xyz789"
+            }
+          ],
+          "createdAt": "2025-09-18T13:29:27Z",
+          "modifiedAt": "2025-09-18T13:29:27Z"
+        },
+        {
+          "id": "c2d3e4f5-a6b7-48c9-90d1-e2f3a4b5c6d7",
+          "name": "Blog News Feed",
+          "url": "https://blog.example.com/api/posts",
+          "authType": "token",
+          "username": "apiuser",
+          "password": "apipass",
+          "token": "abc123token456",
+          "maxRetries": 3,
+          "cache": true,
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer xyz789"
+            }
+          ],
+          "createdAt": "2025-09-17T16:03:25Z",
+          "modifiedAt": "2025-09-17T16:03:25Z"
+        },
+        {
+          "id": "d3e4f5a6-b7c8-49d0-91e2-f3a4b5c6d7e8",
+          "name": "Public Data Feed",
+          "url": "https://jsonplaceholder.typicode.com/posts",
+          "authType": "basic",
+          "username": "apiuser",
+          "password": "apipass",
+          "token": "abc123token456",
+          "maxRetries": 3,
+          "cache": true,
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer xyz789"
+            }
+          ],
+          "createdAt": "2025-09-05T09:06:42Z",
+          "modifiedAt": "2025-09-05T09:06:42Z"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /feeds/{uuid}",
+    "className": "GetExternalFeedByUuidResponse",
+    "body": {
+      "id": "b1c2d3e4-f5a6-47b8-89c0-d1e2f3a4b5c6",
+      "name": "Product Catalog Feed",
+      "url": "https://api.example.com/products",
+      "authType": "token",
+      "username": "api_user",
+      "password": "secure_pass123",
+      "token": "abc123token456",
+      "maxRetries": 3,
+      "cache": true,
+      "createdAt": "2025-09-18T13:29:27Z",
+      "modifiedAt": "2025-09-18T13:29:27Z"
+    }
+  },
+  {
+    "operation": "GET /inbound/events",
+    "className": "GetInboundEmailEventsResponse",
+    "body": {
+      "events": [
+        {
+          "date": "2017-03-11T12:30:00Z",
+          "recipient": "alexa@example.com",
+          "sender": "john@example.com",
+          "uuid": "1a825d56-029b-4a41-b8e4-1a825d56"
+        },
+        {
+          "date": "2017-03-12T12:30:00Z",
+          "recipient": "bob@example.com",
+          "sender": "alice@example.com",
+          "uuid": "1a825d56-029b-4a41-b8e4-61670463431b"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /inbound/events/{uuid}",
+    "className": "GetInboundEmailEventsByUuidResponse",
+    "body": {
+      "attachments": [
+        {
+          "contentLength": 12345,
+          "contentType": "application/pdf",
+          "name": "invoice.pdf"
+        }
+      ],
+      "deliveredAt": "2017-03-12T12:31:00Z",
+      "logs": [
+        {
+          "date": "2017-03-12T12:30:00Z",
+          "type": "received"
+        },
+        {
+          "date": "2017-03-12T12:30:04Z",
+          "type": "webhookFailed"
+        },
+        {
+          "date": "2017-03-12T12:31:04Z",
+          "type": "webhookDelivered"
+        }
+      ],
+      "messageId": "<a_nice@message.id>",
+      "receivedAt": "2017-03-12T12:30:00Z",
+      "recipient": "bob@example.com",
+      "sender": "alice@example.com",
+      "subject": "Re: Question about your API"
+    }
+  },
+  {
+    "operation": "GET /loyalty/balance/programs/{pid}/active-balance",
+    "className": "GetLoyaltyBalanceProgramsPidActiveBalanceResponse",
+    "body": {
+      "count": 1000000,
+      "loyaltyProgramId": "loyaltyProgramId",
+      "contactId": 1000000,
+      "balanceDefinitionId": "balanceDefinitionId",
+      "activeBalances": [
+        {
+          "id": "id",
+          "amount": 1.1,
+          "createdAt": "2024-01-15T09:30:00Z",
+          "expiresAt": "2024-01-15T09:30:00Z"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /loyalty/balance/programs/{pid}/balance-definitions",
+    "className": "GetBalanceDefinitionListResponseUndefined",
+    "body": {
+      "items": [
+        {
+          "id": "id",
+          "name": "name",
+          "description": "description",
+          "imageRef": "imageRef",
+          "meta": {
+            "key": "value"
+          },
+          "unit": "POINTS",
+          "minAmount": 1.1,
+          "maxAmount": 1.1,
+          "maxCreditAmountLimit": 1.1,
+          "maxDebitAmountLimit": 1.1,
+          "balanceOptionAmountOvertakingStrategy": "strict",
+          "balanceOptionCreditRounding": "lower",
+          "balanceOptionDebitRounding": "lower",
+          "balanceAvailabilityDurationValue": 1,
+          "balanceAvailabilityDurationUnit": "day",
+          "balanceAvailabilityDurationModifier": "noModification",
+          "balanceExpirationDate": "balanceExpirationDate",
+          "createdAt": "2024-01-15T09:30:00Z",
+          "updatedAt": "2024-01-15T09:30:00Z",
+          "deletedAt": "2024-01-15T09:30:00Z"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /loyalty/balance/programs/{pid}/balance-definitions/{bdid}",
+    "className": "BalanceDefinition",
+    "body": {
+      "id": "id",
+      "name": "name",
+      "description": "description",
+      "imageRef": "imageRef",
+      "meta": {
+        "key": "value"
+      },
+      "unit": "POINTS",
+      "minAmount": 1.1,
+      "maxAmount": 1.1,
+      "maxCreditAmountLimit": 1.1,
+      "maxDebitAmountLimit": 1.1,
+      "balanceOptionAmountOvertakingStrategy": "strict",
+      "balanceOptionCreditRounding": "lower",
+      "balanceOptionDebitRounding": "lower",
+      "balanceAvailabilityDurationValue": 1,
+      "balanceAvailabilityDurationUnit": "day",
+      "balanceAvailabilityDurationModifier": "noModification",
+      "balanceExpirationDate": "balanceExpirationDate",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z",
+      "deletedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "GET /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid}",
+    "className": "BalanceLimit",
+    "body": {
+      "id": "id",
+      "balanceDefinitionId": "balanceDefinitionId",
+      "transactionType": "credit",
+      "constraintType": "transaction",
+      "durationValue": 1,
+      "durationUnit": "hour",
+      "value": 1.1,
+      "slidingSchedule": true,
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "GET /loyalty/balance/programs/{pid}/contact-balances",
+    "className": "GetContactBalancesResponse",
+    "body": {
+      "balanceDefinitionId": "balanceDefinitionId",
+      "balances": [
+        {
+          "contactId": 1,
+          "loyaltySubscriptionId": "loyaltySubscriptionId",
+          "updatedAt": "updatedAt",
+          "value": 1.1
+        }
+      ],
+      "count": 1,
+      "loyaltyProgramId": "loyaltyProgramId"
+    }
+  },
+  {
+    "operation": "GET /loyalty/balance/programs/{pid}/subscriptions/{cid}/balances",
+    "className": "GetSubscriptionBalancesResponse",
+    "body": {
+      "loyaltyProgramId": "loyaltyProgramId",
+      "contactId": 1000000,
+      "balance": [
+        {
+          "balanceDefinitionId": "balanceDefinitionId",
+          "value": 1.1
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /loyalty/balance/programs/{pid}/transaction-history",
+    "className": "GetLoyaltyBalanceProgramsPidTransactionHistoryResponse",
+    "body": {
+      "balanceDefinitionId": "balanceDefinitionId",
+      "contactId": 1,
+      "count": 1,
+      "loyaltyProgramId": "loyaltyProgramId",
+      "transactionHistory": [
+        {
+          "amount": 1.1,
+          "transactionType": "credit",
+          "balanceExpirationDate": "balanceExpirationDate",
+          "cancelledAt": "cancelledAt",
+          "completedAt": "completedAt",
+          "createdAt": "createdAt",
+          "id": "id",
+          "meta": {
+            "key": "value"
+          },
+          "rejectReason": "rejectReason",
+          "rejectedAt": "rejectedAt",
+          "status": "status"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /loyalty/config/programs",
+    "className": "GetLpListResponse",
+    "body": {
+      "items": [
+        {
+          "id": "id",
+          "name": "name",
+          "description": "description",
+          "meta": {
+            "key": "value"
+          },
+          "state": "inactive",
+          "subscriptionPoolId": "subscriptionPoolId",
+          "subscriptionGeneratorId": "subscriptionGeneratorId",
+          "pattern": "pattern",
+          "codeCount": 1000000,
+          "documentId": "documentId",
+          "birthdayAttribute": "birthdayAttribute",
+          "createdAt": "2024-01-15T09:30:00Z",
+          "updatedAt": "2024-01-15T09:30:00Z"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /loyalty/config/programs/{pid}",
+    "className": "LoyaltyProgram",
+    "body": {
+      "id": "id",
+      "name": "name",
+      "description": "description",
+      "meta": {
+        "key": "value"
+      },
+      "state": "inactive",
+      "subscriptionPoolId": "subscriptionPoolId",
+      "subscriptionGeneratorId": "subscriptionGeneratorId",
+      "pattern": "pattern",
+      "codeCount": 1000000,
+      "documentId": "documentId",
+      "birthdayAttribute": "birthdayAttribute",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "GET /loyalty/config/programs/{pid}/account-info",
+    "className": "GetParameterSubscriptionInfoResponse",
+    "body": {
+      "balance": {
+        "balances": [
+          {}
+        ],
+        "contactId": 1,
+        "loyaltyProgramId": "loyaltyProgramId"
+      },
+      "members": [
+        {
+          "createdAt": "createdAt",
+          "memberContactId": 1,
+          "updatedAt": "updatedAt"
+        }
+      ],
+      "reward": [
+        {
+          "code": "code",
+          "contactId": 1,
+          "createdAt": "createdAt",
+          "expirationDate": "expirationDate",
+          "id": "id",
+          "loyaltyProgramId": "loyaltyProgramId",
+          "meta": {
+            "key": "value"
+          },
+          "rewardId": "rewardId",
+          "updatedAt": "2024-01-15T09:30:00Z",
+          "validFrom": "2024-01-15T09:30:00Z"
+        }
+      ],
+      "tier": [
+        {
+          "contactId": 1,
+          "createdAt": "createdAt",
+          "groupId": "groupId",
+          "loyaltyProgramId": "loyaltyProgramId",
+          "meta": {
+            "key": "value"
+          },
+          "tierId": "tierId",
+          "updatedAt": "updatedAt"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /loyalty/offer/programs/{pid}/code-pools/{cpid}/codes-count",
+    "className": "GetCodeCountResponse",
+    "body": {
+      "count": 1000000
+    }
+  },
+  {
+    "operation": "GET /loyalty/offer/programs/{pid}/offers",
+    "className": "GetLoyaltyOfferProgramsPidOffersResponse",
+    "body": {
+      "items": [
+        {
+          "createdAt": "2024-01-15T09:30:00Z",
+          "endDate": "2024-01-15T09:30:00Z",
+          "id": "id",
+          "loyaltyProgramId": "loyaltyProgramId",
+          "name": "name",
+          "publicImage": "publicImage",
+          "startDate": "2024-01-15T09:30:00Z",
+          "state": "state",
+          "updatedAt": "2024-01-15T09:30:00Z"
+        }
+      ],
+      "totalCount": 1
+    }
+  },
+  {
+    "operation": "GET /loyalty/offer/programs/{pid}/rewards/{rid}",
+    "className": "GetLoyaltyOfferProgramsPidRewardsRidResponse",
+    "body": {
+      "attributionPerConsumer": 1,
+      "balanceDefinitionId": "balanceDefinitionId",
+      "code": "code",
+      "codeCount": 1000000,
+      "codeGeneratorId": "codeGeneratorId",
+      "codePoolId": "codePoolId",
+      "config": "config",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "disabledAt": "2024-01-15T09:30:00Z",
+      "endDate": "2024-01-15T09:30:00Z",
+      "expirationDate": "2024-01-15T09:30:00Z",
+      "expirationModifier": "startOfPeriod",
+      "expirationUnit": "expirationUnit",
+      "expirationValue": 1,
+      "generator": {
+        "createdAt": "createdAt",
+        "description": "description",
+        "id": "id",
+        "name": "name",
+        "pattern": "pattern",
+        "updatedAt": "2024-01-15T09:30:00Z"
+      },
+      "id": "id",
+      "limits": [
+        {
+          "createdAt": "2024-01-15T09:30:00Z",
+          "durationUnit": "durationUnit",
+          "durationValue": 1,
+          "limitValue": 1,
+          "rewardLimitId": "rewardLimitId",
+          "slidingSchedule": true,
+          "type": "type",
+          "updatedAt": "2024-01-15T09:30:00Z"
+        }
+      ],
+      "loyaltyProgramId": "loyaltyProgramId",
+      "meta": {
+        "key": "value"
+      },
+      "name": "name",
+      "products": [
+        {
+          "createdAt": "createdAt",
+          "imageRef": "imageRef",
+          "productId": "productId",
+          "value": "value"
+        }
+      ],
+      "publicDescription": "publicDescription",
+      "publicImage": "publicImage",
+      "publicName": "publicName",
+      "redeemPerConsumer": 1,
+      "redeemRules": [
+        "redeemRules"
+      ],
+      "rewardConfigs": {
+        "attribution": "attribution",
+        "code": "code",
+        "value": "value"
+      },
+      "rule": {
+        "condition": {
+          "op": "op"
+        },
+        "createdAt": "createdAt",
+        "description": "description",
+        "event": {
+          "name": "name",
+          "source": "source"
+        },
+        "isInternal": true,
+        "loyaltyProgramId": "loyaltyProgramId",
+        "loyaltyVersionId": 1,
+        "meta": {
+          "key": "value"
+        },
+        "name": "name",
+        "results": [
+          {}
+        ],
+        "ruleId": "ruleId",
+        "ruleType": "ruleType",
+        "updatedAt": "updatedAt"
+      },
+      "startDate": "2024-01-15T09:30:00Z",
+      "subtractBalanceDefinitionId": "subtractBalanceDefinitionId",
+      "subtractBalanceStrategy": "subtractBalanceStrategy",
+      "subtractBalanceValue": 1,
+      "subtractTotalBalance": true,
+      "totalAttribution": 1,
+      "totalRedeem": 1,
+      "triggerId": "triggerId",
+      "unit": "unit",
+      "updatedAt": "updatedAt",
+      "value": 1.1,
+      "valueType": "valueType"
+    }
+  },
+  {
+    "operation": "GET /loyalty/offer/programs/{pid}/vouchers",
+    "className": "GetLoyaltyOfferProgramsPidVouchersResponse",
+    "body": {
+      "contactId": 1000000,
+      "contactRewards": [
+        {
+          "code": "code",
+          "consumedAt": "consumedAt",
+          "createdAt": "createdAt",
+          "expirationDate": "expirationDate",
+          "id": "id",
+          "meta": {
+            "key": "value"
+          },
+          "rewardId": "rewardId",
+          "unit": "unit",
+          "updatedAt": "updatedAt",
+          "value": 1.1,
+          "validFrom": "2024-01-15T09:30:00Z"
+        }
+      ],
+      "count": 1,
+      "loyaltyProgramId": "loyaltyProgramId",
+      "loyaltySubscriptionId": "loyaltySubscriptionId"
+    }
+  },
+  {
+    "operation": "GET /loyalty/tier/programs/{pid}/tier-groups",
+    "className": "GetListOfTierGroupsResponse",
+    "body": {
+      "items": [
+        {
+          "createdAt": "2024-01-15T09:30:00Z",
+          "downgradeStrategy": "real_time",
+          "id": "id",
+          "loyaltyProgramId": "loyaltyProgramId",
+          "name": "name",
+          "tierOrder": [
+            "tierOrder"
+          ],
+          "updatedAt": "2024-01-15T09:30:00Z",
+          "upgradeStrategy": "real_time"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /loyalty/tier/programs/{pid}/tier-groups/{gid}",
+    "className": "TierGroup",
+    "body": {
+      "createdAt": "2024-01-15T09:30:00Z",
+      "downgradeStrategy": "real_time",
+      "id": "id",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "name": "name",
+      "tierOrder": [
+        "tierOrder"
+      ],
+      "updatedAt": "2024-01-15T09:30:00Z",
+      "upgradeStrategy": "real_time",
+      "upgradeSchedule": {
+        "strategy": "strategy",
+        "durationValue": 1,
+        "durationUnit": "day",
+        "durationModifier": "start_of_period",
+        "scheduledDate": "scheduledDate"
+      },
+      "downgradeSchedule": {
+        "strategy": "strategy",
+        "durationValue": 1,
+        "durationUnit": "day",
+        "durationModifier": "start_of_period",
+        "scheduledDate": "scheduledDate"
+      }
+    }
+  },
+  {
+    "operation": "GET /loyalty/tier/programs/{pid}/tiers",
+    "className": "GetLoyaltyProgramTierResponse",
+    "body": {
+      "items": [
+        {
+          "accessConditions": [
+            {}
+          ],
+          "createdAt": "2024-01-15T09:30:00Z",
+          "groupId": "groupId",
+          "imageRef": "imageRef",
+          "loyaltyProgramId": "loyaltyProgramId",
+          "name": "name",
+          "tierId": "tierId",
+          "tierRewards": [
+            {}
+          ],
+          "updatedAt": "2024-01-15T09:30:00Z"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /objects/{object_type}/associated-records",
+    "className": "GetAssociatedRecordsResponse",
+    "body": {
+      "has_more": true,
+      "items": [
+        {
+          "object": {
+            "attributes": {
+              "name": "Downtown Motors",
+              "city": "Paris"
+            },
+            "created_at": "2026-07-22T10:20:30Z",
+            "ext_id": "f7e8d9c0ba",
+            "id": 12345,
+            "updated_at": "2026-07-22T10:20:30Z"
+          },
+          "type": "garage"
+        },
+        {
+          "object": {
+            "attributes": {
+              "email": "jane.doe@example.com",
+              "first_name": "Jane",
+              "last_name": "Doe",
+              "ext_id": "crm-4471"
+            },
+            "created_at": "2026-07-22T10:20:30Z",
+            "ext_id": "f7e8d9c0ba",
+            "id": 402,
+            "updated_at": "2026-07-22T10:20:30Z"
+          },
+          "type": "contact"
+        }
+      ],
+      "offset": 0
+    }
+  },
+  {
+    "operation": "GET /objects/{object_type}/records",
+    "className": "GetrecordsResponse",
+    "body": {
+      "count": 350,
+      "records": [
+        {
+          "associations": [
+            {
+              "object_type": "garage",
+              "records": [
+                {
+                  "identifiers": {
+                    "id": 12345
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": {
+            "make": "Toyota",
+            "model": "Corolla",
+            "color": "Black",
+            "year": 2020,
+            "engine_type": "hybrid"
+          },
+          "createdAt": "2025-07-22T10:20:30Z",
+          "identifiers": {
+            "ext_id": "507f1f77bc",
+            "id": 16789
+          },
+          "updatedAt": "2025-07-22T10:20:30Z"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /organization/activities",
+    "className": "GetAccountActivityResponse",
+    "body": {
+      "logs": [
+        {
+          "action": "login-success",
+          "date": "2023-03-16T16:49:23+05:30",
+          "user_agent": "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us)",
+          "user_email": "test@mycompany.com",
+          "user_ip": "192.158.1.34"
+        },
+        {
+          "action": "update-profile",
+          "date": "2023-03-15T16:49:23+05:30",
+          "user_agent": "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us)",
+          "user_email": "test@myexample.com",
+          "user_ip": "192.158.1.38"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /organization/invited/users",
+    "className": "GetInvitedUsersListResponse",
+    "body": {
+      "users": [
+        {
+          "email": "owner@company.com",
+          "feature_access": {
+            "conversations": "owner",
+            "crm": "owner",
+            "marketing": "owner"
+          },
+          "is_owner": "is_owner",
+          "status": "active"
+        },
+        {
+          "email": "pendingInvitedUser@company.com",
+          "feature_access": {
+            "conversations": "none",
+            "crm": "full",
+            "marketing": "custom"
+          },
+          "is_owner": "is_owner",
+          "status": "pending"
+        },
+        {
+          "email": "connectedInvitedUser@company.com",
+          "feature_access": {
+            "conversations": "full",
+            "crm": "none",
+            "marketing": "none"
+          },
+          "is_owner": "is_owner",
+          "status": "active"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /organization/user/{email}/permissions",
+    "className": "GetUserPermissionResponse",
+    "body": {
+      "email": "invitedUser@company.com",
+      "privileges": [
+        {
+          "feature": "Email campaign",
+          "permissions": [
+            "Create / edit / delete",
+            "Send / schedule / suspend"
+          ]
+        },
+        {
+          "feature": "Templates",
+          "permissions": [
+            "Create / edit / delete",
+            "Activate / deactivate"
+          ]
+        },
+        {
+          "feature": "SMS campaign",
+          "permissions": [
+            "Create / edit / delete",
+            "Send / schedule / suspend"
+          ]
+        },
+        {
+          "feature": "Facebook Ads",
+          "permissions": [
+            "Schedule / pause"
+          ]
+        },
+        {
+          "feature": "Landing pages",
+          "permissions": [
+            "All"
+          ]
+        },
+        {
+          "feature": "Workflows",
+          "permissions": [
+            "Create / edit / delete",
+            "Activate / deactivate / Pause"
+          ]
+        },
+        {
+          "feature": "Contacts",
+          "permissions": [
+            "View",
+            "Contact forms"
+          ]
+        },
+        {
+          "feature": "SMTP & API",
+          "permissions": [
+            "SMTP",
+            "API Keys",
+            "Authorized IPs"
+          ]
+        },
+        {
+          "feature": "User management",
+          "permissions": [
+            "None"
+          ]
+        },
+        {
+          "feature": "Sales Platform",
+          "permissions": [
+            "Create / edit / delete owned deals and tasks",
+            "Manage deals and tasks from other users",
+            "Reports",
+            "Settings"
+          ]
+        },
+        {
+          "feature": "Conversations",
+          "permissions": [
+            "None"
+          ]
+        },
+        {
+          "feature": "Senders, Domains & Dedicated IPs",
+          "permissions": [
+            "Senders management",
+            "Domains management",
+            "Dedicated IPs management"
+          ]
+        },
+        {
+          "feature": "Push",
+          "permissions": [
+            "View",
+            "Create / edit / delete",
+            "Send",
+            "Settings"
+          ]
+        },
+        {
+          "feature": "Companies",
+          "permissions": [
+            "Create / edit / delete owned companies",
+            "Manage companies from other users",
+            "Settings"
+          ]
+        }
+      ],
+      "status": "active"
+    }
+  },
+  {
+    "operation": "GET /payments/requests/{id}",
+    "className": "GetPaymentRequestResponse",
+    "body": {
+      "cart": {
+        "currency": "EUR",
+        "specificAmount": 1200
+      },
+      "configuration": {
+        "customSuccessUrl": "https://my-company.com/payment-success"
+      },
+      "contactId": 43,
+      "notification": {
+        "channel": "email",
+        "text": "Please pay for your yoga class."
+      },
+      "numberOfRemindersSent": 5,
+      "reference": "Invoice #INV0001\n",
+      "status": "paid"
+    }
+  },
+  {
+    "operation": "GET /processes",
+    "className": "GetProcessesResponse",
+    "body": {
+      "count": 198,
+      "processes": [
+        {
+          "id": 217,
+          "name": "IMPORTUSER",
+          "status": "completed",
+          "export_url": "https://s3.eu-west-1.amazonaws.com/api-export.example.com/upload/contacts_export.csv"
+        },
+        {
+          "id": 213,
+          "name": "SEARCH_EXPORT_USERS",
+          "status": "completed",
+          "export_url": "https://s3.eu-west-1.amazonaws.com/api-export.example.com/upload/contacts_export.csv"
+        },
+        {
+          "id": 212,
+          "name": "IMPORTUSER",
+          "status": "queued",
+          "export_url": "https://s3.eu-west-1.amazonaws.com/api-export.example.com/upload/contacts_export.csv"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /processes/{processId}",
+    "className": "GetProcessResponse",
+    "body": {
+      "id": 217,
+      "name": "IMPORTUSER",
+      "status": "queued",
+      "info": {
+        "import": {
+          "invalid_emails": "invalid_emails",
+          "duplicate_contact_id": "duplicate_contact_id",
+          "duplicate_ext_id": "duplicate_ext_id",
+          "duplicate_email_id": "duplicate_email_id",
+          "duplicate_phone_id": "duplicate_phone_id",
+          "duplicate_whatsapp_id": "duplicate_whatsapp_id",
+          "duplicate_landline_number_id": "duplicate_landline_number_id"
+        }
+      },
+      "export_url": "https://s3.eu-west-1.amazonaws.com/api-export.example.com/upload/contacts_export.csv"
+    }
+  },
+  {
+    "operation": "GET /products",
+    "className": "GetProductsResponse",
+    "body": {
+      "count": 2,
+      "products": [
+        {
+          "brand": "Adidas",
+          "categories": [
+            "279638835374",
+            "279502848174"
+          ],
+          "createdAt": "2022-06-30T10:29:16.078Z",
+          "description": "Shoes for sports",
+          "id": "P11",
+          "imageUrl": "http://mydomain.com/product-absoulte-url/img.jpeg",
+          "isDeleted": true,
+          "metaInfo": {
+            "brand": "addidas",
+            "description": "Shoes for sports"
+          },
+          "modifiedAt": "2022-06-30T10:29:16.078Z",
+          "name": "Alpina Panoma Classic",
+          "parentId": "parentId",
+          "price": 49.95,
+          "alternativePrice": 39.95,
+          "s3Original": "https://img-ecom.mailinblue.com/path-to-original/img.jpg",
+          "s3ThumbAnalytics": "https://img-ecom.mailinblue.com/path-to-analytics/img.jpg",
+          "s3ThumbEditor": "https://img-ecom.mailinblue.com/path-to-editor/img.jpg",
+          "sku": "186622-9",
+          "stock": 100,
+          "url": "https://mydomain.com/products/alpina-panoma-classic"
+        },
+        {
+          "brand": "Adidas",
+          "categories": [
+            "2d79638835374",
+            "27d9502848174"
+          ],
+          "createdAt": "2022-06-30T10:29:16.078Z",
+          "description": "Shoes for sports",
+          "id": "P11",
+          "imageUrl": "http://mydomain.com/product-absoulte-url/img.jpeg",
+          "isDeleted": true,
+          "metaInfo": {
+            "brand": "addidas",
+            "description": "Shoes for sports"
+          },
+          "modifiedAt": "2022-06-30T10:29:16.078Z",
+          "name": "Alpina Panoma Classic2",
+          "parentId": "parentId",
+          "price": 49.95,
+          "alternativePrice": 44.95,
+          "s3Original": "https://img-ecom.mailinblue.com/path-to-original/img.jpg",
+          "s3ThumbAnalytics": "https://img-ecom.mailinblue.com/path-to-analytics/img.jpg",
+          "s3ThumbEditor": "https://img-ecom.mailinblue.com/path-to-editor/img.jpg",
+          "sku": "186622-9",
+          "stock": 350,
+          "url": "https://mydomain.com/products/alpina-panoma-classic2"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /products/{id}",
+    "className": "GetProductDetails",
+    "body": {
+      "brand": "Adidas",
+      "categories": [
+        "categories"
+      ],
+      "createdAt": "2017-05-12T12:30:00Z",
+      "description": "Shoes for sports",
+      "id": "P11",
+      "imageUrl": "http://mydomain.com/product-absoulte-url/img.jpeg",
+      "isDeleted": true,
+      "metaInfo": {
+        "brand": "addidas",
+        "description": "Shoes for sports"
+      },
+      "modifiedAt": "2017-05-12T12:30:00Z",
+      "name": "Iphone 11",
+      "parentId": "parentId",
+      "price": 1.1,
+      "alternativePrice": 1.1,
+      "s3Original": "s3Original",
+      "s3ThumbAnalytics": "s3ThumbAnalytics",
+      "s3ThumbEditor": "s3ThumbEditor",
+      "sku": "sku",
+      "stock": 100,
+      "url": "http://mydomain.com/product/electronics/product1"
+    }
+  },
+  {
+    "operation": "GET /senders",
+    "className": "GetSendersResponse",
+    "body": {
+      "senders": [
+        {
+          "active": true,
+          "email": "support@example.com",
+          "id": 1,
+          "ips": [
+            {
+              "domain": "example.com",
+              "ip": "203.0.113.100",
+              "weight": 50
+            }
+          ],
+          "name": "Support Team"
+        },
+        {
+          "active": false,
+          "email": "hello@example.com",
+          "id": 3,
+          "ips": [
+            {
+              "domain": "example.com",
+              "ip": "203.0.113.100",
+              "weight": 50
+            }
+          ],
+          "name": "Customer Service"
+        },
+        {
+          "active": false,
+          "email": "marketing@testcompany.com",
+          "id": 5,
+          "ips": [
+            {
+              "domain": "example.com",
+              "ip": "203.0.113.100",
+              "weight": 50
+            }
+          ],
+          "name": "Marketing Team"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /senders/domains",
+    "className": "GetDomainsResponse",
+    "body": {
+      "domains": [
+        {
+          "id": "67e57b40130375f045064c45",
+          "domain_name": "mycompany.com",
+          "authenticated": true,
+          "verified": true,
+          "ip": "192.168.1.100",
+          "provider": "Cloudflare",
+          "creator": {
+            "id": "62e4fce597550d0b0177cb0c",
+            "email": "admin@mycompany.com",
+            "creationDate": "2025-03-27T16:22:24Z"
+          }
+        },
+        {
+          "id": "67f778570dd65f97c70910ed",
+          "domain_name": "newsletter.mycompany.com",
+          "authenticated": false,
+          "verified": true,
+          "provider": "GoDaddy",
+          "creator": {
+            "id": "62e4fce597550d0b0177cb0c",
+            "email": "admin@mycompany.com",
+            "creationDate": "2025-04-10T07:50:47Z"
+          }
+        },
+        {
+          "id": "688cd306d8893504e50ea615",
+          "domain_name": "test.example.com",
+          "authenticated": false,
+          "verified": false,
+          "provider": "Other",
+          "creator": {
+            "id": "62e4fce597550d0b0177cb0c",
+            "email": "admin@mycompany.com",
+            "creationDate": "2025-08-01T14:45:26Z"
+          }
+        }
+      ],
+      "count": 3,
+      "current_page": 1,
+      "total_pages": 1
+    }
+  },
+  {
+    "operation": "GET /senders/domains/{domainName}",
+    "className": "GetDomainConfigurationResponse",
+    "body": {
+      "domain": "mycompany.com",
+      "verified": true,
+      "authenticated": true,
+      "dns_records": {
+        "brevo_code": {
+          "host_name": "@",
+          "type": "TXT",
+          "value": "brevo-code=abc123def456",
+          "status": true
+        },
+        "dkim_record": {
+          "host_name": "mail._domainkey",
+          "type": "TXT",
+          "value": "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GN...",
+          "status": true
+        },
+        "dmarc_record": {
+          "host_name": "_dmarc",
+          "type": "TXT",
+          "value": "v=DMARC1; p=quarantine; rua=mailto:dmarc@mycompany.com",
+          "status": true
+        }
+      }
+    }
+  },
+  {
+    "operation": "GET /senders/ips",
+    "className": "GetIpsResponse",
+    "body": {
+      "ips": [
+        {
+          "id": 1,
+          "active": true,
+          "domain": "mailing.enterprise.com",
+          "ip": "192.168.1.100"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /senders/{senderId}/ips",
+    "className": "GetIpsFromSenderResponse",
+    "body": {
+      "ips": [
+        {
+          "domain": "mailing.enterprise.com",
+          "id": 3,
+          "ip": "192.168.1.100",
+          "weight": 75
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /smsCampaigns",
+    "className": "GetSmsCampaignsResponse",
+    "body": {
+      "campaigns": [
+        {
+          "content": "Visit our Store and get some discount !",
+          "createdAt": "2017-06-01T12:30:00Z",
+          "id": 2,
+          "modifiedAt": "2017-05-01T12:30:00Z",
+          "name": "PROMO CODE",
+          "organisationPrefix": "MyCompany",
+          "scheduledAt": "2017-06-01T12:30:00Z",
+          "sender": "MyCompany",
+          "sentDate": "2017-06-01T12:30:00Z",
+          "status": "sent",
+          "unsubscribeInstruction": "send Stop if you want to unsubscribe.",
+          "recipients": {
+            "excludedSegments": [
+              14
+            ],
+            "exclusionLists": [
+              13
+            ],
+            "lists": [
+              21
+            ],
+            "segments": [
+              23
+            ]
+          },
+          "statistics": {
+            "answered": 2,
+            "delivered": 2987,
+            "hardBounces": 1,
+            "processing": 0,
+            "sent": 3000,
+            "softBounces": 3,
+            "unsubscriptions": 3
+          }
+        },
+        {
+          "content": "Summer Sale is starting tomorrow. Get extra 10% with this code:SUM17",
+          "createdAt": "2017-06-01T12:30:00Z",
+          "id": 10,
+          "modifiedAt": "2017-05-01T12:30:00Z",
+          "name": "SUMMER SALE",
+          "organisationPrefix": "",
+          "scheduledAt": "2017-08-04T12:30:00Z",
+          "sender": "MyCompany",
+          "sentDate": "2017-06-01T12:30:00Z",
+          "status": "draft",
+          "unsubscribeInstruction": "",
+          "recipients": {
+            "excludedSegments": [
+              14
+            ],
+            "exclusionLists": [
+              13
+            ],
+            "lists": [
+              21
+            ],
+            "segments": [
+              23
+            ]
+          },
+          "statistics": {
+            "answered": 2,
+            "delivered": 2987,
+            "hardBounces": 1,
+            "processing": 0,
+            "sent": 3000,
+            "softBounces": 3,
+            "unsubscriptions": 3
+          }
+        }
+      ],
+      "count": 12
+    }
+  },
+  {
+    "operation": "GET /smsCampaigns/{campaignId}",
+    "className": "GetSmsCampaignResponse",
+    "body": {
+      "content": "Visit our Store and get some discount !",
+      "createdAt": "2017-06-01T12:30:00Z",
+      "id": 2,
+      "modifiedAt": "2017-05-01T12:30:00Z",
+      "name": "PROMO CODE",
+      "organisationPrefix": "MyCompany",
+      "scheduledAt": "2017-06-01T12:30:00Z",
+      "sender": "MyCompany",
+      "sentDate": "2017-06-01T12:30:00Z",
+      "status": "sent",
+      "unsubscribeInstruction": "send Stop if you want to unsubscribe.",
+      "recipients": {
+        "exclusionLists": [
+          {
+            "id": 13,
+            "name": "Exclusion List"
+          }
+        ],
+        "lists": [
+          {
+            "id": 21,
+            "name": "Main List"
+          }
+        ]
+      },
+      "statistics": {
+        "answered": 2,
+        "delivered": 2987,
+        "hardBounces": 1,
+        "processing": 0,
+        "sent": 3000,
+        "softBounces": 3,
+        "unsubscriptions": 3
+      },
+      "tags": [
+        "promo"
+      ]
+    }
+  },
+  {
+    "operation": "GET /smtp/blockedContacts",
+    "className": "GetTransacBlockedContactsResponse",
+    "body": {
+      "contacts": [
+        {
+          "blockedAt": "2017-05-01T12:30:00Z",
+          "email": "abc@xyz.com",
+          "reason": {
+            "code": "adminBlocked",
+            "message": "Admin blocked"
+          },
+          "senderEmail": "ez312@gmal.com"
+        }
+      ],
+      "count": 1
+    }
+  },
+  {
+    "operation": "GET /smtp/blockedDomains",
+    "className": "GetBlockedDomainsResponse",
+    "body": {
+      "domains": [
+        "example.com",
+        "testdomain.com"
+      ]
+    }
+  },
+  {
+    "operation": "GET /smtp/emailStatus/{identifier}",
+    "className": "GetScheduledEmailByIdResponse",
+    "body": {
+      "batches": [
+        {
+          "createdAt": "2022-02-26T11:36:43Z",
+          "scheduledAt": "2022-02-28T11:36:43Z",
+          "status": "queued"
+        },
+        {
+          "createdAt": "2022-02-24T11:36:43Z",
+          "scheduledAt": "2022-02-25T11:36:43Z",
+          "status": "processed"
+        },
+        {
+          "createdAt": "2022-02-25T11:36:43Z",
+          "scheduledAt": "2022-02-26T11:36:43Z",
+          "status": "inProgress"
+        }
+      ],
+      "count": 3
+    }
+  },
+  {
+    "operation": "GET /smtp/emails",
+    "className": "GetTransacEmailsListResponse",
+    "body": {
+      "count": 120,
+      "transactionalEmails": [
+        {
+          "date": "2019-05-25T11:53:26Z",
+          "email": "abc@xyz.com",
+          "from": "diana.doe@example.com",
+          "messageId": "<201798300811.5787683@relay.domain.com>",
+          "subject": "summer camp",
+          "tags": [
+            "tag1"
+          ],
+          "templateId": 15,
+          "uuid": "5a78c-209ok98262910-std2341"
+        },
+        {
+          "date": "2019-05-25T07:28:11Z",
+          "email": "test@test.com",
+          "from": "diana.doe@example.com",
+          "messageId": "<201798300811.5700093@relay.domain.com>",
+          "subject": "details verification",
+          "tags": [
+            "tag1"
+          ],
+          "templateId": 15,
+          "uuid": "5a78c-209ok98262910-s99a341"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /smtp/emails/{uuid}",
+    "className": "GetTransacEmailContentResponse",
+    "body": {
+      "attachmentCount": 2,
+      "body": "<!DOCTYPE html> <html> <body> <h1>Greetings from the team</h1> <p>This is the actual html content sent</p> </body> </html>",
+      "date": "2016-02-25T11:53:26Z",
+      "email": "abc@example.com",
+      "events": [
+        {
+          "name": "sent",
+          "time": "2016-02-25T11:53:26Z"
+        },
+        {
+          "name": "delivered",
+          "time": "2016-02-25T11:55:26Z"
+        },
+        {
+          "name": "opened",
+          "time": "2016-02-26T09:53:26Z"
+        }
+      ],
+      "subject": "Summer Camps",
+      "templateId": 12
+    }
+  },
+  {
+    "operation": "GET /smtp/statistics/aggregatedReport",
+    "className": "GetAggregatedSmtpReportResponse",
+    "body": {
+      "blocked": 2,
+      "clicks": 9987,
+      "delivered": 18996,
+      "hardBounces": 234,
+      "invalid": 0,
+      "opens": 17654,
+      "range": "2016-09-08|2017-04-28",
+      "requests": 19887,
+      "softBounces": 1533,
+      "spamReports": 1,
+      "uniqueClicks": 8766,
+      "uniqueOpens": 13688,
+      "unsubscribed": 2
+    }
+  },
+  {
+    "operation": "GET /smtp/statistics/events",
+    "className": "GetEmailEventReportResponse",
+    "body": {
+      "events": [
+        {
+          "date": "2017-03-12T12:30:00Z",
+          "email": "john.smith@example.com",
+          "event": "deferred",
+          "from": "john@example.com",
+          "ip": "165.87.3.15",
+          "link": "https://www.someexamplelink.com",
+          "messageId": "<201798300811.5787683@example.domain.com>",
+          "reason": "Error connection timeout",
+          "subject": "Sib client test",
+          "tag": "OrderConfirmation",
+          "templateId": 4
+        },
+        {
+          "date": "2017-03-13T16:30:00Z",
+          "email": "john.smith@example.com",
+          "event": "delivered",
+          "from": "john@example.com",
+          "ip": "165.87.3.15",
+          "link": "https://www.someexamplelink.com",
+          "messageId": "<201798300811.5787683@example.domain.com>",
+          "reason": "Error connection timeout",
+          "subject": "Sib client test",
+          "tag": "OrderConfirmation",
+          "templateId": 5
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /smtp/statistics/reports",
+    "className": "GetSmtpReportResponse",
+    "body": {
+      "reports": [
+        {
+          "blocked": 519,
+          "clicks": 1026,
+          "date": "2017-04-30",
+          "delivered": 10103,
+          "hardBounces": 21,
+          "invalid": 1,
+          "opens": 5091,
+          "requests": 10756,
+          "softBounces": 137,
+          "spamReports": 0,
+          "uniqueClicks": 720,
+          "uniqueOpens": 2318,
+          "unsubscribed": 0
+        },
+        {
+          "blocked": 920,
+          "clicks": 1514,
+          "date": "2017-05-01",
+          "delivered": 17499,
+          "hardBounces": 34,
+          "invalid": 2,
+          "opens": 10089,
+          "requests": 18812,
+          "softBounces": 254,
+          "spamReports": 0,
+          "uniqueClicks": 1090,
+          "uniqueOpens": 4393,
+          "unsubscribed": 3
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /smtp/templates",
+    "className": "GetSmtpTemplatesResponse",
+    "body": {
+      "count": 2,
+      "templates": [
+        {
+          "createdAt": "2016-02-24T14:44:24Z",
+          "doiTemplate": false,
+          "htmlContent": "HTML CONTENT 1",
+          "id": 5,
+          "isActive": false,
+          "modifiedAt": "2016-02-24T15:37:11Z",
+          "name": "ChristomasTimeTemplate",
+          "replyTo": "replyto@domain.com",
+          "sender": {
+            "email": "john.smith@example.com",
+            "id": "id",
+            "name": "John"
+          },
+          "subject": "Merry Christmas",
+          "tag": "Festival",
+          "testSent": false,
+          "toField": "",
+          "customTemplateId": "my-custom-template-001"
+        },
+        {
+          "createdAt": "2016-02-25T11:53:26Z",
+          "doiTemplate": false,
+          "htmlContent": "HTML CONTENT 2",
+          "id": 12,
+          "isActive": true,
+          "modifiedAt": "2016-02-25T11:53:26Z",
+          "name": "SummerSales2017Template",
+          "replyTo": "replyto@domain.com",
+          "sender": {
+            "email": "john.smith@example.com",
+            "id": "id",
+            "name": "John"
+          },
+          "subject": "Enjoy our summer Sales !",
+          "tag": "Summer",
+          "testSent": false,
+          "toField": "",
+          "customTemplateId": "my-custom-template-001"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /smtp/templates/{templateId}",
+    "className": "GetSmtpTemplateOverview",
+    "body": {
+      "createdAt": "2016-02-25T11:53:26Z",
+      "doiTemplate": false,
+      "htmlContent": "HTML CONTENT 4",
+      "id": 33,
+      "isActive": true,
+      "modifiedAt": "2016-02-25T11:53:26Z",
+      "name": "OrderConfirmation",
+      "replyTo": "replyto@domain.com",
+      "sender": {
+        "email": "john.smith@example.com",
+        "id": "id",
+        "name": "John"
+      },
+      "subject": "Order Confirmation : Thanks for your Purchase !",
+      "tag": "",
+      "testSent": false,
+      "toField": "",
+      "customTemplateId": "my-custom-template-001"
+    }
+  },
+  {
+    "operation": "GET /transactionalSMS/statistics/aggregatedReport",
+    "className": "GetTransacAggregatedSmsReportResponse",
+    "body": {
+      "accepted": 6,
+      "blocked": 4,
+      "delivered": 16,
+      "hardBounces": 5,
+      "range": "2015-05-22|2017-11-29",
+      "rejected": 14,
+      "replied": 8,
+      "requests": 54,
+      "skipped": 1,
+      "softBounces": 26,
+      "unsubscribed": 10
+    }
+  },
+  {
+    "operation": "GET /transactionalSMS/statistics/events",
+    "className": "GetSmsEventsResponse",
+    "body": {
+      "events": [
+        {
+          "date": "2015-05-20T12:30:00Z",
+          "event": "sent",
+          "messageId": "1473139351170140",
+          "phoneNumber": "phoneNumber",
+          "reason": "Recipient is currently unreachable",
+          "reply": "reply",
+          "tag": "cabWaiting"
+        },
+        {
+          "date": "2015-05-20T16:30:00Z",
+          "event": "delivered",
+          "messageId": "1473139351170140",
+          "phoneNumber": "phoneNumber",
+          "reason": "Recipient is currently unreachable",
+          "reply": "reply",
+          "tag": "cabRequest"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /transactionalSMS/statistics/reports",
+    "className": "GetTransacSmsReportResponse",
+    "body": {
+      "reports": [
+        {
+          "accepted": 2318,
+          "blocked": 1026,
+          "date": "2017-04-30",
+          "delivered": 10103,
+          "hardBounces": 21,
+          "rejected": 0,
+          "replied": 5091,
+          "requests": 10756,
+          "skipped": 1,
+          "softBounces": 137,
+          "unsubscribed": 720
+        },
+        {
+          "accepted": 4393,
+          "blocked": 1514,
+          "date": "2017-05-01",
+          "delivered": 17499,
+          "hardBounces": 34,
+          "rejected": 0,
+          "replied": 10089,
+          "requests": 18812,
+          "skipped": 0,
+          "softBounces": 254,
+          "unsubscribed": 1090
+        },
+        {
+          "accepted": 4689,
+          "blocked": 1646,
+          "date": "2017-05-02",
+          "delivered": 13427,
+          "hardBounces": 16,
+          "rejected": 0,
+          "replied": 11563,
+          "requests": 14321,
+          "skipped": 1,
+          "softBounces": 176,
+          "unsubscribed": 1170
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /transactionalSMS/templates",
+    "className": "GetSmsTemplatesResponse",
+    "body": {
+      "count": 1,
+      "templates": [
+        {
+          "id": 4,
+          "name": "Order Confirmation - EN",
+          "short_url_enabled": false,
+          "message": "Thanks for your order !",
+          "compliance": {
+            "compliance_toggle": true,
+            "organisation_prefix": "BREVO",
+            "stop_keyword": "STOP"
+          },
+          "encryption": true,
+          "unicode_sms": true,
+          "media_file": "brv-logo.png",
+          "media_file_size": "media_file_size",
+          "media_url": "https://img-st2.mailinblue.com/1232/images/content_library/original/69282fe28f55fd22de6e0cf9.png",
+          "createdAt": "2025-05-01T12:30:00Z",
+          "updatedAt": "2025-05-01T12:30:00Z"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /wallet/passes/{passId}/installUrl/{contactId}",
+    "className": "WalletPassInstallUrl",
+    "body": {
+      "url": "https://wallet.brevo.com/pass/eyJhbGciOiJ..."
+    }
+  },
+  {
+    "operation": "GET /webhooks",
+    "className": "GetWebhooksResponse",
+    "body": {
+      "webhooks": [
+        {
+          "auth": {
+            "token": "test-auth-token1234",
+            "type": "bearer"
+          },
+          "batched": true,
+          "createdAt": "2016-07-18T12:30:09Z",
+          "description": "Webhook triggered on campaign openings",
+          "events": [
+            "opened"
+          ],
+          "headers": [
+            {
+              "key": "cf-secret",
+              "value": "test-header-value"
+            }
+          ],
+          "id": 9864,
+          "modifiedAt": "2016-07-18T16:00:50Z",
+          "type": "transactional",
+          "domain": "example.com",
+          "url": "https://example.domain.com/webhook/events/kzfxxxxxxxx0uyo1"
+        },
+        {
+          "auth": {
+            "token": "test-auth-token1234",
+            "type": "bearer"
+          },
+          "batched": true,
+          "createdAt": "2017-02-20T14:30:00Z",
+          "description": "Webhook triggered on campaign hard bounces",
+          "events": [
+            "hardBounce"
+          ],
+          "headers": [
+            {
+              "key": "cf-secret",
+              "value": "test-header-value"
+            }
+          ],
+          "id": 22770,
+          "modifiedAt": "2017-02-20T19:00:00Z",
+          "type": "marketing",
+          "domain": "example.com",
+          "url": "http://exmaple.domain.com/15kxxxxxn1"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /webhooks/{webhookId}",
+    "className": "GetWebhook",
+    "body": {
+      "auth": {
+        "token": "test-auth-token1234",
+        "type": "bearer"
+      },
+      "batched": true,
+      "createdAt": "2016-06-07T09:10:10Z",
+      "description": "Webhook triggered on campaign openings and addition of lists",
+      "events": [
+        "listAddition",
+        "opened"
+      ],
+      "headers": [
+        {
+          "key": "cf-secret",
+          "value": "test-header-value"
+        }
+      ],
+      "id": 7287,
+      "modifiedAt": "2016-06-08T11:30:00Z",
+      "type": "marketing",
+      "domain": "example.com",
+      "url": "http://example.domain.com/1brxxxxxx5p1"
+    }
+  },
+  {
+    "operation": "GET /whatsapp/statistics/events",
+    "className": "GetWhatsappEventReportResponse",
+    "body": {
+      "events": [
+        {
+          "body": "Hi! I am a reply",
+          "contactNumber": "contactNumber",
+          "date": "2017-03-12T12:30:00Z",
+          "event": "sent",
+          "mediaUrl": "https://example.com/media.png",
+          "messageId": "23befbae-1505-47a8-bd27-e30ef739f32c",
+          "reason": "23befbae-1505-47a8-bd27-e30ef739f32c",
+          "senderNumber": "senderNumber"
+        },
+        {
+          "body": "Hi! I am a reply",
+          "contactNumber": "contactNumber",
+          "date": "2017-03-12T12:30:00Z",
+          "event": "error",
+          "mediaUrl": "https://example.com/media.png",
+          "messageId": "23befbae-1505-47a8-bd27-e30ef739f32c",
+          "reason": "error reason",
+          "senderNumber": "senderNumber"
+        },
+        {
+          "body": "Hi! I am a reply",
+          "contactNumber": "contactNumber",
+          "date": "2017-03-12T12:30:00Z",
+          "event": "soft-bounce",
+          "mediaUrl": "https://example.com/media.png",
+          "messageId": "23befbae-1505-47a8-bd27-e30ef739f32c",
+          "reason": "invalid whatsapp contact",
+          "senderNumber": "senderNumber"
+        },
+        {
+          "body": "body only in case of text reply & url will be empty",
+          "contactNumber": "contactNumber",
+          "date": "2017-03-12T12:30:00Z",
+          "event": "reply",
+          "mediaUrl": "media url only in case media reply & body will be empty",
+          "messageId": "23befbae-1505-47a8-bd27-e30ef739f32c",
+          "reason": "23befbae-1505-47a8-bd27-e30ef739f32c",
+          "senderNumber": "senderNumber"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /whatsappCampaigns",
+    "className": "GetWhatsAppCampaignsResponse",
+    "body": {
+      "campaigns": [
+        {
+          "campaignName": "campaign_22",
+          "campaignStatus": "sent",
+          "createdAt": "2017-05-01T12:30:00Z",
+          "errorReason": "NONE",
+          "id": 1672035851100690,
+          "invalidatedContacts": 0,
+          "modifiedAt": "2017-05-01T12:30:00Z",
+          "readPercentage": 28.57,
+          "scheduledAt": "2022-12-27T09:50:00Z",
+          "stats": {
+            "delivered": 3,
+            "notSent": 4,
+            "read": 2,
+            "sent": 3,
+            "unsubscribe": 0
+          },
+          "templateId": "templateId"
+        }
+      ],
+      "count": 23
+    }
+  },
+  {
+    "operation": "GET /whatsappCampaigns/config",
+    "className": "GetWhatsAppConfigResponse",
+    "body": {
+      "businessStatus": "verified",
+      "phoneNumberNameStatus": "APPROVED",
+      "phoneNumberQuality": "GREEN",
+      "sendingLimit": "TIER_1K",
+      "whatsappBusinessAccountId": "whatsappBusinessAccountId",
+      "whatsappBusinessAccountStatus": "APPROVED"
+    }
+  },
+  {
+    "operation": "GET /whatsappCampaigns/template-list",
+    "className": "GetWhatsAppTemplatesResponse",
+    "body": {
+      "count": 2,
+      "templates": [
+        {
+          "category": "MARKETING",
+          "createdAt": "2017-05-01T12:30:00Z",
+          "errorReason": "NONE",
+          "id": 235,
+          "language": "en",
+          "modifiedAt": "2017-05-01T12:30:00Z",
+          "name": "campaign_22",
+          "status": "approved",
+          "type": "whatsapp"
+        },
+        {
+          "category": "MARKETING",
+          "createdAt": "2017-0",
+          "errorReason": "NONE",
+          "id": 124,
+          "language": "",
+          "modifiedAt": "2017-05-01T12:30:00Z",
+          "name": "test-template",
+          "status": "draft",
+          "type": "whatsapp"
+        }
+      ]
+    }
+  },
+  {
+    "operation": "GET /whatsappCampaigns/{campaignId}",
+    "className": "GetWhatsAppCampaignResponse",
+    "body": {
+      "campaignName": "Test WhatsApp Campaign",
+      "campaignStatus": "sent",
+      "createdAt": "2022-12-26T06:50:00Z",
+      "id": 1672035851100690,
+      "modifiedAt": "2022-12-26T08:50:00Z",
+      "scheduledAt": "2022-12-27T09:50:00Z",
+      "recipients": {
+        "excludedLists": [
+          45
+        ],
+        "includedLists": [
+          22
+        ],
+        "segments": [
+          23
+        ],
+        "type": "list"
+      },
+      "senderNumber": "senderNumber",
+      "stats": {
+        "delivered": 3,
+        "notSent": 4,
+        "read": 2,
+        "sent": 3,
+        "unsubscribe": 0
+      },
+      "template": {
+        "body_variables": [
+          {
+            "datatype": "text",
+            "default": "INVALID_HEADER",
+            "name": "FIRSTNAME"
+          }
+        ],
+        "button_type": "CALL_TO_ACTION",
+        "category": "MARKETING",
+        "components": [
+          {
+            "text": "making it look like readable English.",
+            "type": "BODY"
+          },
+          {
+            "text": "Life is a long lesson in humility",
+            "type": "BUTTONS"
+          }
+        ],
+        "contains_button": true,
+        "display_header": false,
+        "header_type": "text",
+        "header_variables": [
+          {
+            "datatype": "text",
+            "default": "INVALID HEADER",
+            "name": "FIRSTNAME"
+          }
+        ],
+        "hide_footer": true,
+        "language": "en",
+        "name": "official_campaign8"
+      }
+    }
+  },
+  {
+    "operation": "PATCH /companies/{id}",
+    "className": "Company",
+    "body": {
+      "attributes": {
+        "created_at": "2022-01-13T19:04:24.376+05:30",
+        "domain": "xyz",
+        "last_updated_at": "2022-04-01T18:47:48.283+05:30",
+        "name": "text",
+        "number_of_contacts": 0,
+        "owner": "62260474111b1101704a9d85",
+        "owner_assign_date": "2022-04-01T18:21:13.379+05:30",
+        "phone_number": 8171844192,
+        "revenue": 10
+      },
+      "id": "629475917295261d9b1f4403",
+      "linkedContactsIds": [
+        1,
+        2,
+        3
+      ],
+      "linkedDealsIds": [
+        "61a5ce58c5d4795761045990",
+        "61a5ce58c5d4795761045991",
+        "61a5ce58c5d4795761045992"
+      ]
+    }
+  },
+  {
+    "operation": "PATCH /couponCollections/{id}",
+    "className": "UpdateCouponCollectionResponse",
+    "body": {
+      "defaultCoupon": "10 OFF",
+      "id": "23befbae-1505-47a8-bd27-e30ef739f32c",
+      "name": "SummerPromotions"
+    }
+  },
+  {
+    "operation": "PATCH /loyalty/config/programs/{pid}",
+    "className": "LoyaltyProgram",
+    "body": {
+      "id": "id",
+      "name": "name",
+      "description": "description",
+      "meta": {
+        "key": "value"
+      },
+      "state": "inactive",
+      "subscriptionPoolId": "subscriptionPoolId",
+      "subscriptionGeneratorId": "subscriptionGeneratorId",
+      "pattern": "pattern",
+      "codeCount": 1000000,
+      "documentId": "documentId",
+      "birthdayAttribute": "birthdayAttribute",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /categories",
+    "className": "CreateUpdateCategoryResponseUndefined",
+    "body": {
+      "id": "CAT123"
+    }
+  },
+  {
+    "operation": "POST /categories/batch",
+    "className": "CreateUpdateBatchCategoryResponse",
+    "body": {
+      "createdCount": 2,
+      "updatedCount": 7
+    }
+  },
+  {
+    "operation": "POST /companies",
+    "className": "PostCompaniesResponse",
+    "body": {
+      "id": "61a5cd07ca1347c82306ad06"
+    }
+  },
+  {
+    "operation": "POST /companies/import",
+    "className": "PostCompaniesImportResponse",
+    "body": {
+      "processId": 50
+    }
+  },
+  {
+    "operation": "POST /contacts",
+    "className": "CreateContactResponseUndefined",
+    "body": {
+      "id": 21
+    }
+  },
+  {
+    "operation": "POST /contacts/consent-groups",
+    "className": "ConsentGroup",
+    "body": {
+      "id": 1,
+      "name": "Newsletter EU",
+      "description": "Consent group for EU newsletter subscribers",
+      "signupMode": "manual",
+      "contactsCount": 1234,
+      "isDefault": false,
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-06-01T08:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /contacts/lists/{listId}/contacts/add",
+    "className": "PostContactInfo",
+    "body": {
+      "contacts": {
+        "failure": [
+          "jeff32@example.com, jim56@example.com"
+        ],
+        "processId": 78,
+        "success": [
+          "success"
+        ],
+        "total": 27
+      }
+    }
+  },
+  {
+    "operation": "POST /contacts/lists/{listId}/contacts/remove",
+    "className": "PostContactInfo",
+    "body": {
+      "contacts": {
+        "failure": [
+          "jeff32@example.com, jim56@example.com"
+        ],
+        "processId": 78,
+        "success": [
+          "success"
+        ],
+        "total": 27
+      }
+    }
+  },
+  {
+    "operation": "POST /conversations/messages",
+    "className": "ConversationsMessage",
+    "body": {
+      "agentId": "d9nKoegKSjmCtyK78",
+      "agentName": "Liz",
+      "agentUserpic": "https://www.brevo.com/",
+      "attachments": [
+        {
+          "name": "name",
+          "link": "link",
+          "mimeType": "mimeType",
+          "isImage": true,
+          "isSticker": true,
+          "isInline": true,
+          "inlineId": "inlineId",
+          "size": 1000000,
+          "isAllowedFileType": true
+        }
+      ],
+      "bcc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "cc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "createdAt": 1482512803740,
+      "file": {
+        "name": "conversations.png",
+        "link": "https://ucarecdn.com/cee5c10c-8302-45c1-b1fb-43860ca941a9/",
+        "mimeType": "mimeType",
+        "isImage": true,
+        "isSticker": true,
+        "isInline": true,
+        "inlineId": "inlineId",
+        "size": 15538,
+        "imageInfo": {
+          "width": 1129,
+          "height": 525,
+          "previewLink": "https://ucarecdn.com/03cd56cd-1de9-4f65-996d-08afdf27fa1b/-/preview/800x800/-/quality/better/"
+        },
+        "isAllowedFileType": true
+      },
+      "forwardedToSourceStatus": {
+        "error": "error",
+        "isSuccess": true
+      },
+      "from": {
+        "email": "email",
+        "name": "name"
+      },
+      "html": "Hello! How can I help you?",
+      "id": "eYBEm3gq3zc5ayE2g",
+      "integrations": {
+        "key": "value"
+      },
+      "isBot": true,
+      "isMissed": false,
+      "isMissedByVisitor": false,
+      "isPushed": false,
+      "isTrigger": false,
+      "rawUnsafeHtml": "Good morning!<br>How can I help you?",
+      "receivedFrom": "SuperAwesomeHelpdesk",
+      "replyTo": {
+        "email": "email",
+        "name": "name"
+      },
+      "sourceMessageId": "sourceMessageId",
+      "subject": "Invitation to a meeting",
+      "text": "Hello! How can I help you?",
+      "to": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "type": "agent",
+      "isSentViaJsApi": true,
+      "messageType": "messageType",
+      "isForward": true,
+      "source": {
+        "key": "value"
+      },
+      "visitorId": "kZMvWhf8npAu3H6qd57w2Hv6nh6rnxvg"
+    }
+  },
+  {
+    "operation": "POST /conversations/pushedMessages",
+    "className": "ConversationsMessage",
+    "body": {
+      "agentId": "d9nKoegKSjmCtyK78",
+      "agentName": "Liz",
+      "agentUserpic": "https://www.brevo.com/",
+      "attachments": [
+        {
+          "name": "name",
+          "link": "link",
+          "mimeType": "mimeType",
+          "isImage": true,
+          "isSticker": true,
+          "isInline": true,
+          "inlineId": "inlineId",
+          "size": 1000000,
+          "isAllowedFileType": true
+        }
+      ],
+      "bcc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "cc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "createdAt": 1470222622433,
+      "file": {
+        "name": "conversations.png",
+        "link": "https://ucarecdn.com/cee5c10c-8302-45c1-b1fb-43860ca941a9/",
+        "mimeType": "mimeType",
+        "isImage": true,
+        "isSticker": true,
+        "isInline": true,
+        "inlineId": "inlineId",
+        "size": 15538,
+        "imageInfo": {
+          "width": 1129,
+          "height": 525,
+          "previewLink": "https://ucarecdn.com/03cd56cd-1de9-4f65-996d-08afdf27fa1b/-/preview/800x800/-/quality/better/"
+        },
+        "isAllowedFileType": true
+      },
+      "forwardedToSourceStatus": {
+        "error": "error",
+        "isSuccess": true
+      },
+      "from": {
+        "email": "email",
+        "name": "name"
+      },
+      "html": "Your order has shipped! Here's your tracking number: 9114 5847 3325 9667 4328 88",
+      "id": "AXCR3k9bpSY7bpuh7",
+      "integrations": {
+        "key": "value"
+      },
+      "isBot": true,
+      "isMissed": false,
+      "isMissedByVisitor": false,
+      "isPushed": true,
+      "isTrigger": false,
+      "rawUnsafeHtml": "Good morning!<br>How can I help you?",
+      "receivedFrom": "SuperAwesomeHelpdesk",
+      "replyTo": {
+        "email": "email",
+        "name": "name"
+      },
+      "sourceMessageId": "sourceMessageId",
+      "subject": "Invitation to a meeting",
+      "text": "Your order has shipped! Here's your tracking number: 9114 5847 3325 9667 4328 88",
+      "to": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "type": "agent",
+      "isSentViaJsApi": true,
+      "messageType": "messageType",
+      "isForward": true,
+      "source": {
+        "key": "value"
+      },
+      "visitorId": "kZMvWhf8npAu3H6qd57w2Hv6nh6rnxvg"
+    }
+  },
+  {
+    "operation": "POST /corporate/group",
+    "className": "PostCorporateGroupResponse",
+    "body": {
+      "id": "659xxxxxxxxxxxxxxxx6ef9c8"
+    }
+  },
+  {
+    "operation": "POST /corporate/ssoToken",
+    "className": "GetSsoToken",
+    "body": {
+      "token": "5cadaxxxxxxxxxxxxxxxxxxxx5a179f85a0"
+    }
+  },
+  {
+    "operation": "POST /corporate/subAccount",
+    "className": "PostCorporateSubAccountResponse",
+    "body": {
+      "id": 4109344
+    }
+  },
+  {
+    "operation": "POST /corporate/subAccount/ip/associate",
+    "className": "RecordStringUnknown",
+    "body": {
+      "key": "value"
+    }
+  },
+  {
+    "operation": "POST /corporate/subAccount/key",
+    "className": "PostCorporateSubAccountKeyResponse",
+    "body": {
+      "key": "xkeysib-21881axxxxxcc92e04-mIrexxxx7z",
+      "status": "success"
+    }
+  },
+  {
+    "operation": "POST /corporate/subAccount/ssoToken",
+    "className": "GetSsoToken",
+    "body": {
+      "token": "5cadaxxxxxxxxxxxxxxxxxxxx5a179f85a0"
+    }
+  },
+  {
+    "operation": "POST /corporate/user/invitation/send",
+    "className": "InviteAdminUserResponse",
+    "body": {
+      "id": "659xxxxxxxxxxxxxxxx6ef9c8"
+    }
+  },
+  {
+    "operation": "POST /couponCollections",
+    "className": "CreateCouponCollectionResponse",
+    "body": {
+      "id": "23befbae-1505-47a8-bd27-e30ef739f32c"
+    }
+  },
+  {
+    "operation": "POST /crm/attributes",
+    "className": "PostCrmAttributesResponse",
+    "body": {
+      "id": "61a5cd07ca1347c82306ad07"
+    }
+  },
+  {
+    "operation": "POST /crm/deals",
+    "className": "PostCrmDealsResponse",
+    "body": {
+      "id": "61a5cd07ca1347c82306ad06"
+    }
+  },
+  {
+    "operation": "POST /crm/deals/import",
+    "className": "PostCrmDealsImportResponse",
+    "body": {
+      "processId": 50
+    }
+  },
+  {
+    "operation": "POST /crm/files",
+    "className": "FileData",
+    "body": {
+      "id": "61a5ce58c5d4795761045991",
+      "name": "example.png",
+      "authorId": "61a5ce58c5d4795761045991",
+      "contactId": 1,
+      "dealId": "61a5ce58c5d4795761045991",
+      "companyId": "61a5ce58c5d4795761045991",
+      "size": 10,
+      "createdAt": "2017-05-01T17:05:03Z"
+    }
+  },
+  {
+    "operation": "POST /crm/notes",
+    "className": "PostCrmNotesResponse",
+    "body": {
+      "id": "61a5cd07ca1347c82306ad09"
+    }
+  },
+  {
+    "operation": "POST /crm/tasks",
+    "className": "PostCrmTasksResponse",
+    "body": {
+      "id": "61a5cd07ca1347c82306ad06"
+    }
+  },
+  {
+    "operation": "POST /ecommerce/config/displayCurrency",
+    "className": "SetConfigDisplayCurrencyResponse",
+    "body": {
+      "code": "EUR"
+    }
+  },
+  {
+    "operation": "POST /emailCampaigns/images",
+    "className": "UploadImageToGalleryResponse",
+    "body": {
+      "url": "https://img.mailinblue.com/100000/images/rnb/original/62casdase8wewq9df1c2f27c.jpeg"
+    }
+  },
+  {
+    "operation": "POST /feeds",
+    "className": "CreateExternalFeedResponse",
+    "body": {
+      "id": "b1c2d3e4-f5a6-47b8-89c0-d1e2f3a4b5c6"
+    }
+  },
+  {
+    "operation": "POST /loyalty/balance/programs/{pid}/balance-definitions",
+    "className": "BalanceDefinition",
+    "body": {
+      "id": "id",
+      "name": "name",
+      "description": "description",
+      "imageRef": "imageRef",
+      "meta": {
+        "key": "value"
+      },
+      "unit": "POINTS",
+      "minAmount": 1.1,
+      "maxAmount": 1.1,
+      "maxCreditAmountLimit": 1.1,
+      "maxDebitAmountLimit": 1.1,
+      "balanceOptionAmountOvertakingStrategy": "strict",
+      "balanceOptionCreditRounding": "lower",
+      "balanceOptionDebitRounding": "lower",
+      "balanceAvailabilityDurationValue": 1,
+      "balanceAvailabilityDurationUnit": "day",
+      "balanceAvailabilityDurationModifier": "noModification",
+      "balanceExpirationDate": "balanceExpirationDate",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z",
+      "deletedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits",
+    "className": "BalanceLimit",
+    "body": {
+      "id": "id",
+      "balanceDefinitionId": "balanceDefinitionId",
+      "transactionType": "credit",
+      "constraintType": "transaction",
+      "durationValue": 1,
+      "durationUnit": "hour",
+      "value": 1.1,
+      "slidingSchedule": true,
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/balance/programs/{pid}/create-order",
+    "className": "CreateBalanceOrderResponse",
+    "body": {
+      "amount": 1.1,
+      "balanceDefinitionId": "balanceDefinitionId",
+      "contactId": 1,
+      "createdAt": "createdAt",
+      "dueAt": "dueAt",
+      "expiresAt": "expiresAt",
+      "id": "id",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "meta": {
+        "key": "value"
+      },
+      "processedAt": "processedAt",
+      "transactionid": "transactionid",
+      "updatedAt": "updatedAt"
+    }
+  },
+  {
+    "operation": "POST /loyalty/balance/programs/{pid}/subscriptions/{cid}/balances",
+    "className": "PostLoyaltyBalanceProgramsPidSubscriptionsCidBalancesResponse",
+    "body": {
+      "id": "id",
+      "amount": 1.1,
+      "loyaltyProgramId": "loyaltyProgramId",
+      "organizationId": 1000000,
+      "contactId": 1000000,
+      "balanceDefinitionId": "balanceDefinitionId",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "expiresAt": "2024-01-15T09:30:00Z",
+      "consumedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/balance/programs/{pid}/transactions",
+    "className": "Transaction",
+    "body": {
+      "id": "id",
+      "amount": 1.1,
+      "transactionType": "credit",
+      "meta": {
+        "key": "value"
+      },
+      "status": "pending",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "balanceDefinitionId": "balanceDefinitionId",
+      "contactId": 1000000,
+      "eventTime": "2024-01-15T09:30:00Z",
+      "rejectReason": "rejectReason",
+      "rejectedAt": "2024-01-15T09:30:00Z",
+      "expirationDate": "2024-01-15T09:30:00Z",
+      "completedAt": "2024-01-15T09:30:00Z",
+      "cancelledAt": "2024-01-15T09:30:00Z",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/balance/programs/{pid}/transactions/{tid}/cancel",
+    "className": "Transaction",
+    "body": {
+      "id": "id",
+      "amount": 1.1,
+      "transactionType": "credit",
+      "meta": {
+        "key": "value"
+      },
+      "status": "pending",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "balanceDefinitionId": "balanceDefinitionId",
+      "contactId": 1000000,
+      "eventTime": "2024-01-15T09:30:00Z",
+      "rejectReason": "rejectReason",
+      "rejectedAt": "2024-01-15T09:30:00Z",
+      "expirationDate": "2024-01-15T09:30:00Z",
+      "completedAt": "2024-01-15T09:30:00Z",
+      "cancelledAt": "2024-01-15T09:30:00Z",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/balance/programs/{pid}/transactions/{tid}/complete",
+    "className": "Transaction",
+    "body": {
+      "id": "id",
+      "amount": 1.1,
+      "transactionType": "credit",
+      "meta": {
+        "key": "value"
+      },
+      "status": "pending",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "balanceDefinitionId": "balanceDefinitionId",
+      "contactId": 1000000,
+      "eventTime": "2024-01-15T09:30:00Z",
+      "rejectReason": "rejectReason",
+      "rejectedAt": "2024-01-15T09:30:00Z",
+      "expirationDate": "2024-01-15T09:30:00Z",
+      "completedAt": "2024-01-15T09:30:00Z",
+      "cancelledAt": "2024-01-15T09:30:00Z",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/config/programs",
+    "className": "LoyaltyProgram",
+    "body": {
+      "id": "id",
+      "name": "name",
+      "description": "description",
+      "meta": {
+        "key": "value"
+      },
+      "state": "inactive",
+      "subscriptionPoolId": "subscriptionPoolId",
+      "subscriptionGeneratorId": "subscriptionGeneratorId",
+      "pattern": "pattern",
+      "codeCount": 1000000,
+      "documentId": "documentId",
+      "birthdayAttribute": "birthdayAttribute",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/config/programs/{pid}/subscription-members",
+    "className": "SubscribeMemberToASubscriptionResponse",
+    "body": {
+      "organizationId": 1000000,
+      "ownerContactId": 1000000,
+      "memberContactIds": [
+        1000000
+      ],
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/config/programs/{pid}/subscriptions",
+    "className": "SubscribeToLoyaltyProgramResponse",
+    "body": {
+      "organizationId": 1000000,
+      "loyaltyProgramId": "loyaltyProgramId",
+      "versionId": 1,
+      "contactId": 1000000,
+      "loyaltySubscriptionId": "loyaltySubscriptionId",
+      "meta": {
+        "key": "value"
+      },
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/offer/programs/{pid}/offers",
+    "className": "CreateRewardResponse",
+    "body": {
+      "id": "id",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "name": "name",
+      "publicDescription": "publicDescription",
+      "publicImage": "publicImage",
+      "publicName": "publicName",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/offer/programs/{pid}/rewards/attribute",
+    "className": "CreateVoucherResponse",
+    "body": {
+      "code": "code",
+      "consumedAt": "consumedAt",
+      "contactId": 1000000,
+      "createdAt": "2024-01-15T09:30:00Z",
+      "expirationDate": "2024-01-15T09:30:00Z",
+      "id": "id",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "meta": {
+        "key": "value"
+      },
+      "rewardId": "rewardId",
+      "updatedAt": "2024-01-15T09:30:00Z",
+      "value": 1.1,
+      "validFrom": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/offer/programs/{pid}/rewards/redeem",
+    "className": "Redeem",
+    "body": {
+      "cancelledAt": "2024-01-15T09:30:00Z",
+      "completedAt": "2024-01-15T09:30:00Z",
+      "contactId": 1000000,
+      "createdAt": "2024-01-15T09:30:00Z",
+      "debitTransactionId": "debitTransactionId",
+      "expiresAt": "2024-01-15T09:30:00Z",
+      "id": "id",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "meta": {
+        "key": "value"
+      },
+      "rejectReason": "rejectReason",
+      "rejectedAt": "2024-01-15T09:30:00Z",
+      "rewardAttributionId": "rewardAttributionId",
+      "status": "status",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/offer/programs/{pid}/rewards/redeem/{tid}/complete",
+    "className": "Redeem",
+    "body": {
+      "cancelledAt": "2024-01-15T09:30:00Z",
+      "completedAt": "2024-01-15T09:30:00Z",
+      "contactId": 1000000,
+      "createdAt": "2024-01-15T09:30:00Z",
+      "debitTransactionId": "debitTransactionId",
+      "expiresAt": "2024-01-15T09:30:00Z",
+      "id": "id",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "meta": {
+        "key": "value"
+      },
+      "rejectReason": "rejectReason",
+      "rejectedAt": "2024-01-15T09:30:00Z",
+      "rewardAttributionId": "rewardAttributionId",
+      "status": "status",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/offer/programs/{pid}/rewards/validate",
+    "className": "ValidateRewardResponse",
+    "body": {
+      "authorize": true
+    }
+  },
+  {
+    "operation": "POST /loyalty/tier/programs/{pid}/contacts/{cid}/tiers/{tid}",
+    "className": "AddSubscriptionToTierResponse",
+    "body": {
+      "contactId": 1,
+      "createdAt": "2024-01-15T09:30:00Z",
+      "groupId": "groupId",
+      "id": "id",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "meta": {
+        "key": "value"
+      },
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /loyalty/tier/programs/{pid}/tier-groups",
+    "className": "TierGroup",
+    "body": {
+      "createdAt": "2024-01-15T09:30:00Z",
+      "downgradeStrategy": "real_time",
+      "id": "id",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "name": "name",
+      "tierOrder": [
+        "tierOrder"
+      ],
+      "updatedAt": "2024-01-15T09:30:00Z",
+      "upgradeStrategy": "real_time",
+      "upgradeSchedule": {
+        "strategy": "strategy",
+        "durationValue": 1,
+        "durationUnit": "day",
+        "durationModifier": "start_of_period",
+        "scheduledDate": "scheduledDate"
+      },
+      "downgradeSchedule": {
+        "strategy": "strategy",
+        "durationValue": 1,
+        "durationUnit": "day",
+        "durationModifier": "start_of_period",
+        "scheduledDate": "scheduledDate"
+      }
+    }
+  },
+  {
+    "operation": "POST /loyalty/tier/programs/{pid}/tier-groups/{gid}/tiers",
+    "className": "Tier",
+    "body": {
+      "accessConditions": [
+        {
+          "balanceDefinitionId": "balanceDefinitionId",
+          "createdAt": "2024-01-15T09:30:00Z",
+          "minimumValue": 1,
+          "updatedAt": "2024-01-15T09:30:00Z"
+        }
+      ],
+      "createdAt": "2024-01-15T09:30:00Z",
+      "groupId": "groupId",
+      "imageRef": "imageRef",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "name": "name",
+      "tierId": "tierId",
+      "tierRewards": [
+        {
+          "createdAt": "2024-01-15T09:30:00Z",
+          "rewardId": "rewardId",
+          "updatedAt": "2024-01-15T09:30:00Z"
+        }
+      ],
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "POST /objects/{object_type}/batch/delete",
+    "className": "BatchDeleteObjectRecordsResponse",
+    "body": {
+      "processId": 21,
+      "message": "Batch object records are being processed for deletion"
+    }
+  },
+  {
+    "operation": "POST /objects/{object_type}/batch/upsert",
+    "className": "UpsertrecordsResponse",
+    "body": {
+      "message": "Batch object records are being processed",
+      "processId": 21
+    }
+  },
+  {
+    "operation": "POST /orders/status/batch",
+    "className": "CreateBatchOrderResponse",
+    "body": {
+      "count": 17655,
+      "batch_id": 1.1
+    }
+  },
+  {
+    "operation": "POST /organization/user/invitation/send",
+    "className": "InviteuserResponse",
+    "body": {
+      "invoice_id": "invoice_id",
+      "status": "OK"
+    }
+  },
+  {
+    "operation": "POST /organization/user/update/permissions",
+    "className": "EditUserPermissionResponse",
+    "body": {
+      "credit_notes": [
+        "TEST-123"
+      ],
+      "invoice_id": "invoice_id",
+      "status": "OK"
+    }
+  },
+  {
+    "operation": "POST /payments/requests",
+    "className": "CreatePaymentRequestResponse",
+    "body": {
+      "id": 122,
+      "url": "https://pay.brevo.com/payment/6d4ec0b2b48ef803df4103ve"
+    }
+  },
+  {
+    "operation": "POST /products",
+    "className": "CreateUpdateProductResponseUndefined",
+    "body": {
+      "id": "P11"
+    }
+  },
+  {
+    "operation": "POST /products/batch",
+    "className": "CreateUpdateBatchProductsResponse",
+    "body": {
+      "createdCount": 2,
+      "updatedCount": 7
+    }
+  },
+  {
+    "operation": "POST /senders",
+    "className": "CreateSenderResponse",
+    "body": {
+      "dkimError": false,
+      "id": 15,
+      "spfError": false
+    }
+  },
+  {
+    "operation": "POST /senders/domains",
+    "className": "CreateDomainResponse",
+    "body": {
+      "id": 5,
+      "domain_name": "mycompany.com",
+      "domain_provider": "Cloudflare",
+      "message": "Domain added successfully. To authenticate it, add following DNS records",
+      "dns_records": {
+        "brevo_code": {
+          "host_name": "@",
+          "type": "TXT",
+          "value": "brevo-code=abc123def456",
+          "status": false
+        },
+        "dkim_record": {
+          "host_name": "mail._domainkey",
+          "type": "TXT",
+          "value": "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GN...",
+          "status": false
+        },
+        "dmarc_record": {
+          "host_name": "_dmarc",
+          "type": "TXT",
+          "value": "v=DMARC1; p=none; rua=mailto:dmarc@mycompany.com",
+          "status": false
+        }
+      }
+    }
+  },
+  {
+    "operation": "POST /smtp/email",
+    "className": "SendTransacEmailResponse",
+    "body": {
+      "messageId": "<201798300811.5787683@relay.domain.com>",
+      "messageIds": [
+        "messageIds"
+      ]
+    }
+  },
+  {
+    "operation": "POST /smtp/template/preview",
+    "className": "PostPreviewSmtpEmailTemplatesResponse",
+    "body": {
+      "fromEmail": "fromEmail",
+      "fromName": "fromName",
+      "html": "html",
+      "previewText": "previewText",
+      "subject": "subject",
+      "usedFeedNames": [
+        "usedFeedNames",
+        "usedFeedNames"
+      ]
+    }
+  },
+  {
+    "operation": "POST /transactionalSMS/send",
+    "className": "SendAsyncTransactionalSmsResponse",
+    "body": {
+      "messageId": 1511882900176220
+    }
+  },
+  {
+    "operation": "POST /transactionalSMS/sms",
+    "className": "SendTransacSmsResponse",
+    "body": {
+      "messageId": 1511882900176220,
+      "reference": "ab1cde2fgh3i4jklmno",
+      "remainingCredits": 82.85,
+      "smsCount": 2,
+      "usedCredits": 0.7
+    }
+  },
+  {
+    "operation": "POST /whatsapp/sendMessage",
+    "className": "SendWhatsappMessageResponse",
+    "body": {
+      "messageId": "23befbae-1505-47a8-bd27-e30ef739f32c"
+    }
+  },
+  {
+    "operation": "PUT /contacts/consent-groups/{id}",
+    "className": "ConsentGroup",
+    "body": {
+      "id": 1,
+      "name": "Newsletter EU",
+      "description": "Consent group for EU newsletter subscribers",
+      "signupMode": "manual",
+      "contactsCount": 1234,
+      "isDefault": false,
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-06-01T08:30:00Z"
+    }
+  },
+  {
+    "operation": "PUT /conversations/messages/{id}",
+    "className": "ConversationsMessage",
+    "body": {
+      "agentId": "d9nKoegKSjmCtyK78",
+      "agentName": "Liz",
+      "agentUserpic": "https://www.brevo.com/",
+      "attachments": [
+        {
+          "name": "name",
+          "link": "link",
+          "mimeType": "mimeType",
+          "isImage": true,
+          "isSticker": true,
+          "isInline": true,
+          "inlineId": "inlineId",
+          "size": 1000000,
+          "isAllowedFileType": true
+        }
+      ],
+      "bcc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "cc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "createdAt": 1482512803740,
+      "file": {
+        "name": "conversations.png",
+        "link": "https://ucarecdn.com/cee5c10c-8302-45c1-b1fb-43860ca941a9/",
+        "mimeType": "mimeType",
+        "isImage": true,
+        "isSticker": true,
+        "isInline": true,
+        "inlineId": "inlineId",
+        "size": 15538,
+        "imageInfo": {
+          "width": 1129,
+          "height": 525,
+          "previewLink": "https://ucarecdn.com/03cd56cd-1de9-4f65-996d-08afdf27fa1b/-/preview/800x800/-/quality/better/"
+        },
+        "isAllowedFileType": true
+      },
+      "forwardedToSourceStatus": {
+        "error": "error",
+        "isSuccess": true
+      },
+      "from": {
+        "email": "email",
+        "name": "name"
+      },
+      "html": "Good morning! How can I help you?",
+      "id": "eYBEm3gq3zc5ayE2g",
+      "integrations": {
+        "key": "value"
+      },
+      "isBot": true,
+      "isMissed": false,
+      "isMissedByVisitor": false,
+      "isPushed": false,
+      "isTrigger": false,
+      "rawUnsafeHtml": "Good morning!<br>How can I help you?",
+      "receivedFrom": "SuperAwesomeHelpdesk",
+      "replyTo": {
+        "email": "email",
+        "name": "name"
+      },
+      "sourceMessageId": "sourceMessageId",
+      "subject": "Invitation to a meeting",
+      "text": "Good morning! How can I help you?",
+      "to": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "type": "agent",
+      "isSentViaJsApi": true,
+      "messageType": "messageType",
+      "isForward": true,
+      "source": {
+        "key": "value"
+      },
+      "visitorId": "kZMvWhf8npAu3H6qd57w2Hv6nh6rnxvg"
+    }
+  },
+  {
+    "operation": "PUT /conversations/pushedMessages/{id}",
+    "className": "ConversationsMessage",
+    "body": {
+      "agentId": "d9nKoegKSjmCtyK78",
+      "agentName": "Liz",
+      "agentUserpic": "https://www.brevo.com/",
+      "attachments": [
+        {
+          "name": "name",
+          "link": "link",
+          "mimeType": "mimeType",
+          "isImage": true,
+          "isSticker": true,
+          "isInline": true,
+          "inlineId": "inlineId",
+          "size": 1000000,
+          "isAllowedFileType": true
+        }
+      ],
+      "bcc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "cc": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "createdAt": 1470222622433,
+      "file": {
+        "name": "conversations.png",
+        "link": "https://ucarecdn.com/cee5c10c-8302-45c1-b1fb-43860ca941a9/",
+        "mimeType": "mimeType",
+        "isImage": true,
+        "isSticker": true,
+        "isInline": true,
+        "inlineId": "inlineId",
+        "size": 15538,
+        "imageInfo": {
+          "width": 1129,
+          "height": 525,
+          "previewLink": "https://ucarecdn.com/03cd56cd-1de9-4f65-996d-08afdf27fa1b/-/preview/800x800/-/quality/better/"
+        },
+        "isAllowedFileType": true
+      },
+      "forwardedToSourceStatus": {
+        "error": "error",
+        "isSuccess": true
+      },
+      "from": {
+        "email": "email",
+        "name": "name"
+      },
+      "html": "Your order has shipped! Here's your tracking number: 9114 5847 4668 7775 9233 54",
+      "id": "AXCR3k9bpSY7bpuh7",
+      "integrations": {
+        "key": "value"
+      },
+      "isBot": true,
+      "isMissed": false,
+      "isMissedByVisitor": false,
+      "isPushed": true,
+      "isTrigger": false,
+      "rawUnsafeHtml": "Good morning!<br>How can I help you?",
+      "receivedFrom": "SuperAwesomeHelpdesk",
+      "replyTo": {
+        "email": "email",
+        "name": "name"
+      },
+      "sourceMessageId": "sourceMessageId",
+      "subject": "Invitation to a meeting",
+      "text": "Your order has shipped! Here's your tracking number: 9114 5847 4668 7775 9233 54",
+      "to": [
+        {
+          "email": "email",
+          "name": "name"
+        }
+      ],
+      "type": "agent",
+      "isSentViaJsApi": true,
+      "messageType": "messageType",
+      "isForward": true,
+      "source": {
+        "key": "value"
+      },
+      "visitorId": "kZMvWhf8npAu3H6qd57w2Hv6nh6rnxvg"
+    }
+  },
+  {
+    "operation": "PUT /conversations/visitorGroup",
+    "className": "PutConversationsVisitorGroupResponse",
+    "body": {
+      "groupId": "PjRBMhWGen6aRHjif",
+      "visitorId": "AXCR3k9bpSY7bpuh7"
+    }
+  },
+  {
+    "operation": "PUT /corporate/user/invitation/{action}/{email}",
+    "className": "PutCorporateUserInvitationActionEmailResponse",
+    "body": {
+      "message": "Invitation resent successfully"
+    }
+  },
+  {
+    "operation": "PUT /loyalty/balance/programs/{pid}/balance-definitions/{bdid}",
+    "className": "BalanceDefinition",
+    "body": {
+      "id": "id",
+      "name": "name",
+      "description": "description",
+      "imageRef": "imageRef",
+      "meta": {
+        "key": "value"
+      },
+      "unit": "POINTS",
+      "minAmount": 1.1,
+      "maxAmount": 1.1,
+      "maxCreditAmountLimit": 1.1,
+      "maxDebitAmountLimit": 1.1,
+      "balanceOptionAmountOvertakingStrategy": "strict",
+      "balanceOptionCreditRounding": "lower",
+      "balanceOptionDebitRounding": "lower",
+      "balanceAvailabilityDurationValue": 1,
+      "balanceAvailabilityDurationUnit": "day",
+      "balanceAvailabilityDurationModifier": "noModification",
+      "balanceExpirationDate": "balanceExpirationDate",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z",
+      "deletedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "PUT /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid}",
+    "className": "BalanceLimit",
+    "body": {
+      "id": "id",
+      "balanceDefinitionId": "balanceDefinitionId",
+      "transactionType": "credit",
+      "constraintType": "transaction",
+      "durationValue": 1,
+      "durationUnit": "hour",
+      "value": 1.1,
+      "slidingSchedule": true,
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "PUT /loyalty/config/programs/{pid}",
+    "className": "LoyaltyProgram",
+    "body": {
+      "id": "id",
+      "name": "name",
+      "description": "description",
+      "meta": {
+        "key": "value"
+      },
+      "state": "inactive",
+      "subscriptionPoolId": "subscriptionPoolId",
+      "subscriptionGeneratorId": "subscriptionGeneratorId",
+      "pattern": "pattern",
+      "codeCount": 1000000,
+      "documentId": "documentId",
+      "birthdayAttribute": "birthdayAttribute",
+      "createdAt": "2024-01-15T09:30:00Z",
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "PUT /loyalty/tier/programs/{pid}/tier-groups/{gid}",
+    "className": "TierGroup",
+    "body": {
+      "createdAt": "2024-01-15T09:30:00Z",
+      "downgradeStrategy": "real_time",
+      "id": "id",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "name": "name",
+      "tierOrder": [
+        "tierOrder"
+      ],
+      "updatedAt": "2024-01-15T09:30:00Z",
+      "upgradeStrategy": "real_time",
+      "upgradeSchedule": {
+        "strategy": "strategy",
+        "durationValue": 1,
+        "durationUnit": "day",
+        "durationModifier": "start_of_period",
+        "scheduledDate": "scheduledDate"
+      },
+      "downgradeSchedule": {
+        "strategy": "strategy",
+        "durationValue": 1,
+        "durationUnit": "day",
+        "durationModifier": "start_of_period",
+        "scheduledDate": "scheduledDate"
+      }
+    }
+  },
+  {
+    "operation": "PUT /loyalty/tier/programs/{pid}/tiers/{tid}",
+    "className": "Tier",
+    "body": {
+      "accessConditions": [
+        {
+          "balanceDefinitionId": "balanceDefinitionId",
+          "createdAt": "2024-01-15T09:30:00Z",
+          "minimumValue": 1,
+          "updatedAt": "2024-01-15T09:30:00Z"
+        }
+      ],
+      "createdAt": "2024-01-15T09:30:00Z",
+      "groupId": "groupId",
+      "imageRef": "imageRef",
+      "loyaltyProgramId": "loyaltyProgramId",
+      "name": "name",
+      "tierId": "tierId",
+      "tierRewards": [
+        {
+          "createdAt": "2024-01-15T09:30:00Z",
+          "rewardId": "rewardId",
+          "updatedAt": "2024-01-15T09:30:00Z"
+        }
+      ],
+      "updatedAt": "2024-01-15T09:30:00Z"
+    }
+  },
+  {
+    "operation": "PUT /organization/user/invitation/revoke/{email}",
+    "className": "PutRevokeUserPermissionResponse",
+    "body": {
+      "credit_notes": [
+        "TEST-123"
+      ],
+      "status": "OK"
+    }
+  },
+  {
+    "operation": "PUT /organization/user/invitation/{action}/{email}",
+    "className": "PutresendcancelinvitationResponse",
+    "body": {
+      "credit_notes": [
+        "TEST-123"
+      ],
+      "status": "OK"
+    }
+  },
+  {
+    "operation": "PUT /senders/domains/{domainName}/authenticate",
+    "className": "AuthenticateDomainResponse",
+    "body": {
+      "domain_name": "mycompany.com",
+      "message": "Domain has been authenticated successfully."
+    }
+  }
+]

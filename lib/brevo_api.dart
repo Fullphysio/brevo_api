@@ -42,3 +42,4 @@ export 'src/core/open_enum.dart' show BrevoOpenEnum;
 export 'src/core/request_options.dart' show BrevoRequestOptions;
 export 'src/core/transport.dart' show brevoDefaultBaseUrl;
 export 'src/core/version.dart' show brevoApiVersion;
+export 'src/generated/generated.dart';

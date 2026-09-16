@@ -1,0 +1,37 @@
+name: Integration
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Nightly, against the live Brevo API.
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+env:
+  PUB_ENVIRONMENT: bot.github
+
+jobs:
+  live:
+    name: Live Brevo API
+    runs-on: ubuntu-latest
+    # Real credentials belong in repository secrets, never in variables.
+    # Secrets are not readable from a job-level `if`, so they are mapped into
+    # the environment here and the run step checks for an empty value.
+    env:
+      BREVO_TEST_API_KEY: ${{ secrets.BREVO_TEST_API_KEY }}
+      BREVO_TEST_RECIPIENT: ${{ vars.BREVO_TEST_RECIPIENT }}
+      BREVO_TEST_TEMPLATE_ID: ${{ vars.BREVO_TEST_TEMPLATE_ID }}
+      BREVO_TEST_ALLOW_WRITES: ${{ vars.BREVO_TEST_ALLOW_WRITES }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
+        with:
+          sdk: stable
+      - run: dart pub get
+      - name: Run integration tests
+        if: env.BREVO_TEST_API_KEY != ''
+        run: dart test --tags integration --run-skipped
+      - name: Explain the skip
+        if: env.BREVO_TEST_API_KEY == ''
+        run: echo 'BREVO_TEST_API_KEY is not configured; the live tier did not run.'

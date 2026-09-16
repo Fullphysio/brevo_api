@@ -84,17 +84,6 @@ substitutes an empty string for an undefined variable, so every emptiness
 check is `isEmpty`, not `== null`. Assertions are structural: never assert on
 how many contacts an account holds, or the suite rots.
 
-## CI jobs that are deliberately not here yet
-
-Each of these fails if added before its prerequisite exists, so each lands
-with the thing it checks. Do not add them back early.
-
-| Job | Blocked on | Why it fails today |
-|---|---|---|
-| `codegen` (`tool/generate.dart --check`) | the generator | the script does not exist |
-| `mock` (`--tags mock`) | the generated mock tests | `dart test` exits 79 when no test carries the tag |
-| `integration.yml` | `test/integration/` | same exit 79 |
-
 ## Conformance with @getbrevo/brevo
 
 This package reproduces `@getbrevo/brevo` 6.0.3 behaviour deliberately,
