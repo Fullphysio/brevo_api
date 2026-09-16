@@ -3,9 +3,10 @@ import 'dart:io';
 
 import 'package:yaml/yaml.dart';
 
-typedef JsonMap = Map<String, Object?>;
+import '../operation_key.dart';
+export '../operation_key.dart' show httpMethods, normalisePathTemplate;
 
-const Set<String> httpMethods = {'get', 'post', 'put', 'patch', 'delete'};
+typedef JsonMap = Map<String, Object?>;
 
 final class OpenApiSpec {
   OpenApiSpec(this.root);

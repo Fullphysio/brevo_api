@@ -421,6 +421,14 @@ final class Resolver {
           return _inlineObject(node,
               owner: owner, prop: prop, kind: kind, group: group);
         }
+        // A schema with no `type` is legitimately "any JSON" and maps to
+        // IrJson. A schema that names a type this resolver does not know is
+        // a spec construct we would otherwise mistype in silence, so it
+        // stops generation instead.
+        if (type != null) {
+          throw StateError(
+              '$group.$owner.$prop: unsupported schema type "$type"');
+        }
         return const IrJson();
     }
   }
@@ -684,6 +692,12 @@ final class Resolver {
         return IrList(_paramType(items,
             owner: owner, prop: '${prop}Item', group: group, isPath: isPath));
       default:
+        // As in [_typeOf]: an absent type is "any", a named type this
+        // resolver does not know is a generation failure.
+        if (type != null) {
+          throw StateError(
+              '$group.$owner.$prop: unsupported parameter type "$type"');
+        }
         return isPath ? const IrString() : const IrJson();
     }
   }
@@ -802,12 +816,13 @@ final class Resolver {
     final byKey = <String, OperationIr>{
       for (final namespace in _namespaces.values)
         for (final op in namespace.operations)
-          '${op.httpMethod} ${_normalise(op.pathTemplate)}': op,
+          '${op.httpMethod} ${normalisePathTemplate(op.pathTemplate)}': op,
     };
     for (final mapping in mappings.mappings) {
       final request = mapping['request']! as JsonMap;
       final template = request['urlPathTemplate'] as String;
-      final normalised = '${request['method']} ${_normalise(template)}';
+      final normalised =
+          '${request['method']} ${normalisePathTemplate(template)}';
       final op = byKey[normalised];
       if (op == null) throw StateError('mapping $normalised has no operation');
       final pathParams = <String, String>{};
@@ -847,11 +862,5 @@ final class Resolver {
         status: response['status'] as int,
       ));
     }
-  }
-
-  static String _normalise(String path) {
-    var normalised = path.replaceAll(RegExp(r'\{[^}]*\}'), '{}');
-    if (!normalised.startsWith('/')) normalised = '/$normalised';
-    return normalised;
   }
 }

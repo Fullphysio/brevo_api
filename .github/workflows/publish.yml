@@ -10,4 +10,10 @@ jobs:
   publish:
     permissions:
       id-token: write
+    # Anyone who can push a `v*` tag would otherwise be able to publish to the
+    # fullphysio.com publisher unreviewed. Requiring a GitHub environment puts
+    # the release behind that environment's reviewers; create `pub.dev` under
+    # Settings → Environments with required reviewers, and declare the same
+    # name on pub.dev when enabling automated publishing.
+    environment: pub.dev
     uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1

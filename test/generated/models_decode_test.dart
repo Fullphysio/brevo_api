@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:brevo_api/brevo_api.dart';
 import 'package:test/test.dart';
 
+import '../_support/round_trip.dart';
+
 final Map<String, Object Function(Map<String, Object?>)> _decoders = {
   'AbTestVersionStats': AbTestVersionStats.fromJson,
   'AddContactToListRequest': AddContactToListRequest.fromJson,
@@ -814,6 +816,2879 @@ final Map<String, Object Function(Map<String, Object?>)> _decoders = {
   'VariablesItems': VariablesItems.fromJson,
   'WalletPassInstallUrl': WalletPassInstallUrl.fromJson,
   'WhatsappCampStats': WhatsappCampStats.fromJson,
+};
+
+const Map<String, Set<String>> _known = {
+  'AbTestVersionStats': {'Version A', 'Version B'},
+  'AddContactToListRequest': {'emails', 'ids', 'extIds'},
+  'AddSubscriptionToTierResponse': {
+    'contactId',
+    'createdAt',
+    'groupId',
+    'id',
+    'loyaltyProgramId',
+    'meta',
+    'updatedAt'
+  },
+  'AuthenticateDomainResponse': {'domain_name', 'message'},
+  'BalanceDefinition': {
+    'balanceAvailabilityDurationModifier',
+    'balanceAvailabilityDurationUnit',
+    'balanceAvailabilityDurationValue',
+    'balanceExpirationDate',
+    'balanceOptionAmountOvertakingStrategy',
+    'balanceOptionCreditRounding',
+    'balanceOptionDebitRounding',
+    'createdAt',
+    'deletedAt',
+    'description',
+    'id',
+    'imageRef',
+    'maxAmount',
+    'maxCreditAmountLimit',
+    'maxDebitAmountLimit',
+    'meta',
+    'minAmount',
+    'name',
+    'unit',
+    'updatedAt'
+  },
+  'BalanceLimit': {
+    'balanceDefinitionId',
+    'constraintType',
+    'createdAt',
+    'durationUnit',
+    'durationValue',
+    'id',
+    'slidingSchedule',
+    'transactionType',
+    'updatedAt',
+    'value'
+  },
+  'BatchAcceptedResponse': {'count', 'message'},
+  'BatchDeleteObjectRecordsRequest': {'identifiers'},
+  'BatchDeleteObjectRecordsRequestIdentifiers': {'ids', 'ext_ids'},
+  'BatchDeleteObjectRecordsResponse': {'message', 'processId'},
+  'BatchEventsResponse': {
+    'errors',
+    'failed_events',
+    'status',
+    'successful_events',
+    'total_events'
+  },
+  'BatchEventsResponseErrorsItem': {'eventIndex', 'message'},
+  'BeginTransactionRequest': {
+    'LoyaltySubscriptionId',
+    'amount',
+    'autoComplete',
+    'balanceDefinitionId',
+    'balanceExpiryInMinutes',
+    'contactId',
+    'eventTime',
+    'meta',
+    'transactionType',
+    'ttl'
+  },
+  'BlockNewDomainRequest': {'domain'},
+  'Cart': {'currency', 'specificAmount'},
+  'Company': {'attributes', 'id', 'linkedContactsIds', 'linkedDealsIds'},
+  'Configuration': {'customSuccessUrl'},
+  'ConsentGroup': {
+    'contactsCount',
+    'createdAt',
+    'description',
+    'id',
+    'isDefault',
+    'name',
+    'signupMode',
+    'updatedAt'
+  },
+  'ConsentGroupItem': {'id', 'status'},
+  'ConsentGroupsListResponse': {'consentGroups', 'limit', 'offset', 'total'},
+  'ContactErrorModel': {'code', 'message', 'metadata'},
+  'ConversationsMessage': {
+    'agentId',
+    'agentName',
+    'agentUserpic',
+    'attachments',
+    'bcc',
+    'cc',
+    'createdAt',
+    'file',
+    'forwardedToSourceStatus',
+    'from',
+    'html',
+    'id',
+    'integrations',
+    'isBot',
+    'isForward',
+    'isMissed',
+    'isMissedByVisitor',
+    'isPushed',
+    'isSentViaJsApi',
+    'isTrigger',
+    'messageType',
+    'rawUnsafeHtml',
+    'receivedFrom',
+    'replyTo',
+    'source',
+    'sourceMessageId',
+    'subject',
+    'text',
+    'to',
+    'type',
+    'visitorId'
+  },
+  'ConversationsMessageAttachmentsItem': {
+    'imageInfo',
+    'inlineId',
+    'isAllowedFileType',
+    'isImage',
+    'isInline',
+    'isSticker',
+    'link',
+    'mimeType',
+    'name',
+    'size'
+  },
+  'ConversationsMessageAttachmentsItemImageInfo': {
+    'height',
+    'previewLink',
+    'width'
+  },
+  'ConversationsMessageBccItem': {'email', 'name'},
+  'ConversationsMessageCcItem': {'email', 'name'},
+  'ConversationsMessageFile': {
+    'imageInfo',
+    'inlineId',
+    'isAllowedFileType',
+    'isImage',
+    'isInline',
+    'isSticker',
+    'link',
+    'mimeType',
+    'name',
+    'size'
+  },
+  'ConversationsMessageFileImageInfo': {'height', 'previewLink', 'width'},
+  'ConversationsMessageForwardedToSourceStatus': {'error', 'isSuccess'},
+  'ConversationsMessageFrom': {'email', 'name'},
+  'ConversationsMessageReplyTo': {'email', 'name'},
+  'ConversationsMessageToItem': {'email', 'name'},
+  'ConversionSourceMetrics': {
+    'averageBasket',
+    'conversionSource',
+    'id',
+    'ordersCount',
+    'revenue'
+  },
+  'CreateAttributeRequest': {
+    'enumeration',
+    'isRecurring',
+    'multiCategoryOptions',
+    'type',
+    'value'
+  },
+  'CreateAttributeRequestEnumerationItem': {'label', 'value'},
+  'CreateBalanceLimitRequest': {
+    'constraintType',
+    'durationUnit',
+    'durationValue',
+    'slidingSchedule',
+    'transactionType',
+    'value'
+  },
+  'CreateBalanceOrderRequest': {
+    'amount',
+    'balanceDefinitionId',
+    'contactId',
+    'dueAt',
+    'expiresAt',
+    'meta',
+    'source'
+  },
+  'CreateBalanceOrderResponse': {
+    'amount',
+    'balanceDefinitionId',
+    'contactId',
+    'createdAt',
+    'dueAt',
+    'expiresAt',
+    'id',
+    'loyaltyProgramId',
+    'meta',
+    'processedAt',
+    'transactionid',
+    'updatedAt'
+  },
+  'CreateBatchEventsRequest': {'events'},
+  'CreateBatchEventsRequestEventsItem': {
+    'contact_properties',
+    'event_date',
+    'event_name',
+    'event_properties',
+    'identifiers',
+    'object'
+  },
+  'CreateBatchEventsRequestEventsItemIdentifiers': {
+    'contact_id',
+    'email_id',
+    'ext_id',
+    'landline_number_id',
+    'phone_id',
+    'whatsapp_id'
+  },
+  'CreateBatchEventsRequestEventsItemObject': {'identifiers', 'type'},
+  'CreateBatchEventsRequestEventsItemObjectIdentifiers': {'ext_id', 'id'},
+  'CreateBatchOrderRequest': {'historical', 'notifyUrl', 'orders'},
+  'CreateBatchOrderResponse': {'batchId', 'count'},
+  'CreateConsentGroupRequest': {'description', 'listIds', 'name', 'signupMode'},
+  'CreateContactRequest': {
+    'attributes',
+    'email',
+    'emailBlacklisted',
+    'ext_id',
+    'forceMerge',
+    'getId',
+    'listIds',
+    'smsBlacklisted',
+    'smtpBlacklistSender',
+    'updateEnabled'
+  },
+  'CreateContactResponseUndefined': {'id'},
+  'CreateCouponCollectionRequest': {
+    'defaultCoupon',
+    'expirationDate',
+    'name',
+    'remainingCouponsAlert',
+    'remainingDaysAlert'
+  },
+  'CreateCouponCollectionResponse': {'id'},
+  'CreateCouponsRequest': {'collectionId', 'coupons'},
+  'CreateDoiContactRequest': {
+    'attributes',
+    'email',
+    'excludeListIds',
+    'includeListIds',
+    'redirectionUrl',
+    'templateId'
+  },
+  'CreateDomainRequest': {'name'},
+  'CreateDomainResponse': {
+    'dns_records',
+    'domain_name',
+    'domain_provider',
+    'id',
+    'message'
+  },
+  'CreateDomainResponseDnsRecords': {
+    'brevo_code',
+    'dkim_record',
+    'dmarc_record'
+  },
+  'CreateDomainResponseDnsRecordsBrevoCode': {
+    'host_name',
+    'status',
+    'type',
+    'value'
+  },
+  'CreateDomainResponseDnsRecordsDkimRecord': {
+    'host_name',
+    'status',
+    'type',
+    'value'
+  },
+  'CreateDomainResponseDnsRecordsDmarcRecord': {
+    'host_name',
+    'status',
+    'type',
+    'value'
+  },
+  'CreateEmailCampaignRequest': {
+    'abTesting',
+    'attachmentUrl',
+    'emailExpirationDate',
+    'footer',
+    'header',
+    'htmlContent',
+    'htmlUrl',
+    'increaseRate',
+    'initialQuota',
+    'inlineImageActivation',
+    'ipWarmupEnable',
+    'mirrorActive',
+    'name',
+    'params',
+    'previewText',
+    'recipients',
+    'replyTo',
+    'scheduledAt',
+    'sendAtBestTime',
+    'sender',
+    'splitRule',
+    'subject',
+    'subjectA',
+    'subjectB',
+    'tag',
+    'templateId',
+    'toField',
+    'unsubscriptionPageId',
+    'updateFormId',
+    'utmCampaign',
+    'utmContent',
+    'utmTerm',
+    'winnerCriteria',
+    'winnerDelay'
+  },
+  'CreateEmailCampaignRequestEmailExpirationDate': {'duration', 'unit'},
+  'CreateEmailCampaignRequestRecipients': {
+    'exclusionListIds',
+    'exclusionSegmentIds',
+    'listIds',
+    'segmentIds'
+  },
+  'CreateEmailCampaignRequestSender': {'email', 'id', 'name'},
+  'CreateEventRequest': {
+    'contact_properties',
+    'event_date',
+    'event_name',
+    'event_properties',
+    'identifiers',
+    'object'
+  },
+  'CreateEventRequestIdentifiers': {
+    'contact_id',
+    'email_id',
+    'ext_id',
+    'landline_number_id',
+    'phone_id',
+    'whatsapp_id'
+  },
+  'CreateEventRequestObject': {'identifiers', 'type'},
+  'CreateEventRequestObjectIdentifiers': {'ext_id', 'id'},
+  'CreateExternalFeedRequest': {
+    'authType',
+    'cache',
+    'headers',
+    'maxRetries',
+    'name',
+    'password',
+    'token',
+    'url',
+    'username'
+  },
+  'CreateExternalFeedRequestHeadersItem': {'name', 'value'},
+  'CreateExternalFeedResponse': {'id'},
+  'CreateListRequest': {'folderId', 'name'},
+  'CreateNewLpRequest': {'description', 'documentId', 'meta', 'name'},
+  'CreatePaymentRequestRequest': {
+    'cart',
+    'configuration',
+    'contactId',
+    'description',
+    'notification',
+    'reference'
+  },
+  'CreatePaymentRequestResponse': {'id', 'url'},
+  'CreateProductAlertRequest': {'contactIdentifiers'},
+  'CreateProductAlertRequestContactIdentifiers': {'email', 'ext_id', 'sms'},
+  'CreateRewardRequest': {
+    'name',
+    'publicDescription',
+    'publicImage',
+    'publicName'
+  },
+  'CreateRewardResponse': {
+    'createdAt',
+    'id',
+    'loyaltyProgramId',
+    'name',
+    'publicDescription',
+    'publicImage',
+    'publicName',
+    'updatedAt'
+  },
+  'CreateSenderRequest': {'email', 'ips', 'name'},
+  'CreateSenderRequestIpsItem': {'domain', 'ip', 'weight'},
+  'CreateSenderResponse': {'dkimError', 'id', 'spfError'},
+  'CreateSmsCampaignRequest': {
+    'content',
+    'name',
+    'organisationPrefix',
+    'recipients',
+    'scheduledAt',
+    'sender',
+    'unicodeEnabled',
+    'unsubscribeInstruction'
+  },
+  'CreateSmsCampaignRequestRecipients': {'exclusionListIds', 'listIds'},
+  'CreateSmtpTemplateRequest': {
+    'attachmentUrl',
+    'htmlContent',
+    'htmlUrl',
+    'isActive',
+    'replyTo',
+    'sender',
+    'subject',
+    'tag',
+    'templateName',
+    'toField'
+  },
+  'CreateSmtpTemplateRequestSender': {'email', 'id', 'name'},
+  'CreateTierForTierGroupRequest': {
+    'accessConditions',
+    'imageRef',
+    'name',
+    'tierRewards'
+  },
+  'CreateTierForTierGroupRequestAccessConditionsItem': {
+    'balanceDefinitionId',
+    'minimumValue'
+  },
+  'CreateTierForTierGroupRequestTierRewardsItem': {'rewardId'},
+  'CreateTierGroupRequest': {
+    'downgradeSchedule',
+    'downgradeStrategy',
+    'meta',
+    'name',
+    'tierOrder',
+    'upgradeSchedule',
+    'upgradeStrategy'
+  },
+  'CreateTierGroupRequestDowngradeSchedule': {
+    'durationModifier',
+    'durationUnit',
+    'durationValue',
+    'scheduledDate'
+  },
+  'CreateTierGroupRequestMeta': {'isInternal'},
+  'CreateTierGroupRequestUpgradeSchedule': {
+    'durationModifier',
+    'durationUnit',
+    'durationValue',
+    'scheduledDate'
+  },
+  'CreateUpdateBatchCategoryRequest': {'categories', 'updateEnabled'},
+  'CreateUpdateBatchCategoryRequestCategoriesItem': {
+    'deletedAt',
+    'id',
+    'isDeleted',
+    'name',
+    'url'
+  },
+  'CreateUpdateBatchCategoryResponse': {'createdCount', 'updatedCount'},
+  'CreateUpdateBatchProductsRequest': {'products', 'updateEnabled'},
+  'CreateUpdateBatchProductsRequestProductsItem': {
+    'alternativePrice',
+    'brand',
+    'categories',
+    'deletedAt',
+    'description',
+    'id',
+    'imageUrl',
+    'isDeleted',
+    'metaInfo',
+    'name',
+    'parentId',
+    'price',
+    'sku',
+    'stock',
+    'url'
+  },
+  'CreateUpdateBatchProductsResponse': {'createdCount', 'updatedCount'},
+  'CreateUpdateCategoryRequest': {
+    'deletedAt',
+    'id',
+    'isDeleted',
+    'name',
+    'updateEnabled',
+    'url'
+  },
+  'CreateUpdateCategoryResponseUndefined': {'id'},
+  'CreateUpdateFolder': {'name'},
+  'CreateUpdateProductRequest': {
+    'alternativePrice',
+    'brand',
+    'categories',
+    'deletedAt',
+    'description',
+    'id',
+    'imageUrl',
+    'isDeleted',
+    'metaInfo',
+    'name',
+    'parentId',
+    'price',
+    'sku',
+    'stock',
+    'updateEnabled',
+    'url'
+  },
+  'CreateUpdateProductResponseUndefined': {'id'},
+  'CreateVoucherRequest': {
+    'code',
+    'contactId',
+    'expirationDate',
+    'loyaltySubscriptionId',
+    'meta',
+    'rewardId',
+    'validFrom',
+    'value'
+  },
+  'CreateVoucherResponse': {
+    'code',
+    'consumedAt',
+    'contactId',
+    'createdAt',
+    'expirationDate',
+    'id',
+    'loyaltyProgramId',
+    'meta',
+    'rewardId',
+    'updatedAt',
+    'validFrom',
+    'value'
+  },
+  'CreateWebhookRequest': {
+    'auth',
+    'batched',
+    'channel',
+    'description',
+    'domain',
+    'events',
+    'headers',
+    'type',
+    'url'
+  },
+  'CreateWebhookRequestAuth': {'token', 'type'},
+  'CreateWebhookRequestHeadersItem': {'key', 'value'},
+  'CreateWhatsAppCampaignRequest': {
+    'name',
+    'recipients',
+    'scheduledAt',
+    'templateId'
+  },
+  'CreateWhatsAppCampaignRequestRecipients': {
+    'excludedListIds',
+    'listIds',
+    'segments'
+  },
+  'CreateWhatsAppTemplateRequest': {
+    'bodyText',
+    'category',
+    'headerText',
+    'language',
+    'mediaUrl',
+    'name',
+    'source'
+  },
+  'Deal': {'attributes', 'id', 'linkedCompaniesIds', 'linkedContactsIds'},
+  'DeleteHardbouncesRequest': {'contactEmail', 'endDate', 'startDate'},
+  'EditUserPermissionResponse': {'credit_notes', 'invoice_id', 'status'},
+  'EmailExportRecipientsRequest': {'notifyURL', 'recipientsType'},
+  'ErrorModel': {'code', 'message'},
+  'ExportWebhooksHistoryRequest': {
+    'days',
+    'email',
+    'endDate',
+    'event',
+    'messageId',
+    'notifyURL',
+    'sort',
+    'startDate',
+    'type',
+    'webhookId'
+  },
+  'FileData': {
+    'authorId',
+    'companyId',
+    'contactId',
+    'createdAt',
+    'dealId',
+    'id',
+    'name',
+    'size'
+  },
+  'GetAbTestCampaignResultResponse': {
+    'clickRate',
+    'clickedLinks',
+    'openRate',
+    'statistics',
+    'winningCriteria',
+    'winningSubjectLine',
+    'winningVersion',
+    'winningVersionRate'
+  },
+  'GetAbTestCampaignResultResponseClickedLinks': {'Version A', 'Version B'},
+  'GetAbTestCampaignResultResponseClickedLinksVersionAItem': {
+    'clickRate',
+    'clicksCount',
+    'link'
+  },
+  'GetAbTestCampaignResultResponseClickedLinksVersionBItem': {
+    'clickRate',
+    'clicksCount',
+    'link'
+  },
+  'GetAbTestCampaignResultResponseStatistics': {
+    'clicks',
+    'complaints',
+    'hardBounces',
+    'openers',
+    'softBounces',
+    'unsubscribed'
+  },
+  'GetAccountActivityResponse': {'logs'},
+  'GetAccountActivityResponseLogsItem': {
+    'action',
+    'date',
+    'user_agent',
+    'user_email',
+    'user_ip'
+  },
+  'GetAccountResponse': {
+    'companyName',
+    'email',
+    'enterprise',
+    'firstName',
+    'lastName',
+    'organization_id',
+    'user_id',
+    'address',
+    'marketingAutomation',
+    'plan',
+    'planVerticals',
+    'relay'
+  },
+  'GetAccountResponseAddress': {'city', 'country', 'street', 'zipCode'},
+  'GetAccountResponseMarketingAutomation': {'enabled', 'key'},
+  'GetAccountResponsePlanItem': {
+    'credits',
+    'creditsType',
+    'endDate',
+    'startDate',
+    'type'
+  },
+  'GetAccountResponsePlanVerticalsItem': {
+    'credits',
+    'endDate',
+    'name',
+    'planCategory',
+    'planType',
+    'startDate',
+    'status',
+    'users'
+  },
+  'GetAccountResponsePlanVerticalsItemUsers': {'purchasedSeats', 'usedSeats'},
+  'GetAccountResponseRelay': {'data', 'enabled'},
+  'GetAccountResponseRelayData': {'port', 'relay', 'userName'},
+  'GetAggregatedSmtpReportResponse': {
+    'blocked',
+    'clicks',
+    'delivered',
+    'hardBounces',
+    'invalid',
+    'opens',
+    'range',
+    'requests',
+    'softBounces',
+    'spamReports',
+    'uniqueClicks',
+    'uniqueOpens',
+    'unsubscribed'
+  },
+  'GetAllExternalFeedsResponse': {'count', 'feeds'},
+  'GetAllExternalFeedsResponseFeedsItem': {
+    'authType',
+    'cache',
+    'createdAt',
+    'headers',
+    'id',
+    'maxRetries',
+    'modifiedAt',
+    'name',
+    'password',
+    'token',
+    'url',
+    'username'
+  },
+  'GetAllExternalFeedsResponseFeedsItemHeadersItem': {'name', 'value'},
+  'GetAssociatedRecordsResponse': {'has_more', 'items', 'offset'},
+  'GetAssociatedRecordsResponseItemsItem': {'object', 'type'},
+  'GetAssociatedRecordsResponseItemsItemObject': {
+    'attributes',
+    'created_at',
+    'ext_id',
+    'id',
+    'updated_at'
+  },
+  'GetAttributesResponse': {'attributes'},
+  'GetAttributesResponseAttributesItem': {
+    'calculatedValue',
+    'category',
+    'enumeration',
+    'multiCategoryOptions',
+    'name',
+    'type'
+  },
+  'GetAttributesResponseAttributesItemEnumerationItem': {
+    'label',
+    'value',
+    'valueStr'
+  },
+  'GetBalanceDefinitionListResponseUndefined': {'items', 'code', 'message'},
+  'GetBlockedDomainsResponse': {'domains'},
+  'GetCampaignRecipients': {
+    'excludedSegments',
+    'exclusionLists',
+    'lists',
+    'segments'
+  },
+  'GetCampaignStats': {
+    'appleMppOpens',
+    'clickers',
+    'complaints',
+    'deferred',
+    'delivered',
+    'estimatedViews',
+    'hardBounces',
+    'listId',
+    'opensRate',
+    'returnBounce',
+    'sent',
+    'softBounces',
+    'trackableViews',
+    'trackableViewsRate',
+    'uniqueClicks',
+    'uniqueViews',
+    'unsubscriptions',
+    'viewed'
+  },
+  'GetCategoriesResponse': {'categories', 'count'},
+  'GetCategoryDetails': {
+    'createdAt',
+    'id',
+    'isDeleted',
+    'modifiedAt',
+    'name',
+    'url'
+  },
+  'GetCodeCountResponse': {'count'},
+  'GetCompaniesResponse': {'items'},
+  'GetContactBalancesResponse': {
+    'balanceDefinitionId',
+    'balances',
+    'count',
+    'loyaltyProgramId'
+  },
+  'GetContactBalancesResponseBalancesItem': {
+    'contactId',
+    'loyaltySubscriptionId',
+    'updatedAt',
+    'value'
+  },
+  'GetContactDetails': {
+    'attributes',
+    'consentGroups',
+    'createdAt',
+    'email',
+    'emailBlacklisted',
+    'id',
+    'listIds',
+    'listUnsubscribed',
+    'modifiedAt',
+    'smsBlacklisted',
+    'whatsappBlacklisted'
+  },
+  'GetContactInfoResponse': {
+    'attributes',
+    'consentGroups',
+    'createdAt',
+    'email',
+    'emailBlacklisted',
+    'id',
+    'listIds',
+    'listUnsubscribed',
+    'modifiedAt',
+    'smsBlacklisted',
+    'whatsappBlacklisted',
+    'statistics'
+  },
+  'GetContactInfoResponseStatistics': {
+    'clicked',
+    'complaints',
+    'delivered',
+    'hardBounces',
+    'messagesSent',
+    'opened',
+    'softBounces',
+    'transacAttributes',
+    'unsubscriptions'
+  },
+  'GetContactInfoResponseStatisticsClickedItem': {'campaignId', 'links'},
+  'GetContactInfoResponseStatisticsClickedItemLinksItem': {
+    'count',
+    'eventTime',
+    'ip',
+    'url'
+  },
+  'GetContactInfoResponseStatisticsComplaintsItem': {'campaignId', 'eventTime'},
+  'GetContactInfoResponseStatisticsDeliveredItem': {'campaignId', 'eventTime'},
+  'GetContactInfoResponseStatisticsHardBouncesItem': {
+    'campaignId',
+    'eventTime'
+  },
+  'GetContactInfoResponseStatisticsMessagesSentItem': {
+    'campaignId',
+    'eventTime'
+  },
+  'GetContactInfoResponseStatisticsOpenedItem': {
+    'campaignId',
+    'count',
+    'eventTime',
+    'ip'
+  },
+  'GetContactInfoResponseStatisticsSoftBouncesItem': {
+    'campaignId',
+    'eventTime'
+  },
+  'GetContactInfoResponseStatisticsUnsubscriptions': {
+    'adminUnsubscription',
+    'userUnsubscription'
+  },
+  'GetContactInfoResponseStatisticsUnsubscriptionsAdminUnsubscriptionItem': {
+    'eventTime',
+    'ip'
+  },
+  'GetContactInfoResponseStatisticsUnsubscriptionsUserUnsubscriptionItem': {
+    'campaignId',
+    'eventTime',
+    'ip'
+  },
+  'GetContactStatsResponse': {
+    'clicked',
+    'complaints',
+    'delivered',
+    'hardBounces',
+    'messagesSent',
+    'opened',
+    'softBounces',
+    'transacAttributes',
+    'unsubscriptions'
+  },
+  'GetContactStatsResponseClickedItem': {'campaignId', 'links'},
+  'GetContactStatsResponseClickedItemLinksItem': {
+    'count',
+    'eventTime',
+    'ip',
+    'url'
+  },
+  'GetContactStatsResponseComplaintsItem': {'campaignId', 'eventTime'},
+  'GetContactStatsResponseDeliveredItem': {'campaignId', 'eventTime'},
+  'GetContactStatsResponseHardBouncesItem': {'campaignId', 'eventTime'},
+  'GetContactStatsResponseMessagesSentItem': {'campaignId', 'eventTime'},
+  'GetContactStatsResponseOpenedItem': {
+    'campaignId',
+    'count',
+    'eventTime',
+    'ip'
+  },
+  'GetContactStatsResponseSoftBouncesItem': {'campaignId', 'eventTime'},
+  'GetContactStatsResponseTransacAttributesItem': {
+    'orderDate',
+    'orderId',
+    'orderPrice'
+  },
+  'GetContactStatsResponseUnsubscriptions': {
+    'adminUnsubscription',
+    'userUnsubscription'
+  },
+  'GetContactStatsResponseUnsubscriptionsAdminUnsubscriptionItem': {
+    'eventTime',
+    'ip'
+  },
+  'GetContactStatsResponseUnsubscriptionsUserUnsubscriptionItem': {
+    'campaignId',
+    'eventTime',
+    'ip'
+  },
+  'GetContacts': {'contacts', 'count'},
+  'GetCorporateGroupIdResponse': {'group', 'sub-accounts', 'users'},
+  'GetCorporateGroupIdResponseGroup': {'createdAt', 'groupName', 'id'},
+  'GetCorporateGroupIdResponseSubAccountsItem': {
+    'companyName',
+    'createdAt',
+    'id'
+  },
+  'GetCorporateGroupIdResponseUsersItem': {'email', 'firstName', 'lastName'},
+  'GetCorporateInvitedUsersListResponse': {'users'},
+  'GetCorporateInvitedUsersListResponseUsersItem': {
+    'email',
+    'feature_access',
+    'groups',
+    'is_owner',
+    'status'
+  },
+  'GetCorporateInvitedUsersListResponseUsersItemFeatureAccess': {
+    'analytics',
+    'api_keys',
+    'apps_management',
+    'create_sub_organizations',
+    'manage_sub_organizations',
+    'my_plan',
+    'sub_organization_groups',
+    'user_management'
+  },
+  'GetCorporateInvitedUsersListResponseUsersItemGroups': {'id', 'name'},
+  'GetCorporateIpResponseItem': {'domain', 'ip', 'transactional'},
+  'GetCorporateMasterAccountResponse': {
+    'billingInfo',
+    'companyName',
+    'currencyCode',
+    'email',
+    'id',
+    'planInfo',
+    'timezone'
+  },
+  'GetCorporateMasterAccountResponseBillingInfo': {
+    'address',
+    'companyName',
+    'email',
+    'name'
+  },
+  'GetCorporateMasterAccountResponseBillingInfoAddress': {
+    'countryCode',
+    'locality',
+    'postalCode',
+    'stateCode',
+    'streetAddress'
+  },
+  'GetCorporateMasterAccountResponseBillingInfoName': {
+    'familyName',
+    'givenName'
+  },
+  'GetCorporateMasterAccountResponsePlanInfo': {
+    'currencyCode',
+    'features',
+    'nextBillingAt',
+    'planPeriod',
+    'price',
+    'subAccounts'
+  },
+  'GetCorporateMasterAccountResponsePlanInfoFeaturesItem': {
+    'name',
+    'quantity',
+    'quantityWithOverages',
+    'remaining',
+    'unitValue',
+    'used',
+    'usedOverages'
+  },
+  'GetCorporateSubAccountIdResponse': {
+    'companyName',
+    'email',
+    'groups',
+    'name',
+    'planInfo'
+  },
+  'GetCorporateSubAccountIdResponseGroupsItem': {'id', 'name'},
+  'GetCorporateSubAccountIdResponsePlanInfo': {
+    'credits',
+    'features',
+    'planType'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoCredits': {
+    'emails',
+    'externalFeeds',
+    'sms',
+    'whatsapp',
+    'wpSubscribers'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoCreditsEmails': {
+    'quantity',
+    'remaining'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoCreditsExternalFeeds': {
+    'quantity',
+    'remaining'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoCreditsSms': {
+    'quantity',
+    'remaining'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoCreditsWhatsapp': {
+    'quantity',
+    'remaining'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoCreditsWpSubscribers': {
+    'quantity',
+    'remaining'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoFeatures': {
+    'inbox',
+    'landingPage',
+    'salesUsers',
+    'users'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoFeaturesInbox': {
+    'quantity',
+    'remaining'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoFeaturesLandingPage': {
+    'quantity',
+    'remaining'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoFeaturesSalesUsers': {
+    'quantity',
+    'remaining'
+  },
+  'GetCorporateSubAccountIdResponsePlanInfoFeaturesUsers': {
+    'quantity',
+    'remaining'
+  },
+  'GetCorporateSubAccountResponse': {'count', 'subAccounts'},
+  'GetCorporateSubAccountResponseSubAccountsItem': {
+    'active',
+    'companyName',
+    'createdAt',
+    'groups',
+    'id'
+  },
+  'GetCorporateSubAccountResponseSubAccountsItemGroupsItem': {'id', 'name'},
+  'GetCorporateUserPermissionResponse': {
+    'email',
+    'feature_access',
+    'groups',
+    'status'
+  },
+  'GetCorporateUserPermissionResponseFeatureAccess': {
+    'analytics',
+    'api_keys',
+    'apps_management',
+    'create_sub_organizations',
+    'manage_sub_organizations',
+    'my_plan',
+    'sub_organization_groups',
+    'user_management'
+  },
+  'GetCorporateUserPermissionResponseGroupsItem': {'id', 'name'},
+  'GetCouponCollection': {
+    'createdAt',
+    'defaultCoupon',
+    'expirationDate',
+    'id',
+    'name',
+    'remainingCoupons',
+    'remainingCouponsAlert',
+    'remainingDaysAlert',
+    'totalCoupons'
+  },
+  'GetCrmAttributesCompaniesResponseItem': {
+    'attributeOptions',
+    'attributeTypeName',
+    'internalName',
+    'isRequired',
+    'isValueReadonly',
+    'label'
+  },
+  'GetCrmAttributesCompaniesResponseItemAttributeOptionsItem': {'key', 'value'},
+  'GetCrmAttributesDealsResponseItem': {
+    'attributeOptions',
+    'attributeTypeName',
+    'internalName',
+    'isRequired',
+    'isValueReadonly',
+    'label'
+  },
+  'GetCrmAttributesDealsResponseItemAttributeOptionsItem': {'key', 'value'},
+  'GetCrmDealsResponse': {'items'},
+  'GetCrmFilesIdResponse': {'fileUrl'},
+  'GetCrmTasksResponse': {'items'},
+  'GetCrmTasktypesResponseItem': {'id', 'title'},
+  'GetDeviceBrowserStats': {
+    'clickers',
+    'uniqueClicks',
+    'uniqueViews',
+    'viewed'
+  },
+  'GetDomainConfigurationResponse': {
+    'authenticated',
+    'dns_records',
+    'domain',
+    'verified'
+  },
+  'GetDomainConfigurationResponseDnsRecords': {
+    'brevo_code',
+    'dkim_record',
+    'dmarc_record'
+  },
+  'GetDomainConfigurationResponseDnsRecordsBrevoCode': {
+    'host_name',
+    'status',
+    'type',
+    'value'
+  },
+  'GetDomainConfigurationResponseDnsRecordsDkimRecord': {
+    'host_name',
+    'status',
+    'type',
+    'value'
+  },
+  'GetDomainConfigurationResponseDnsRecordsDmarcRecord': {
+    'host_name',
+    'status',
+    'type',
+    'value'
+  },
+  'GetDomainsResponse': {'count', 'current_page', 'domains', 'total_pages'},
+  'GetDomainsResponseDomainsItem': {
+    'authenticated',
+    'creator',
+    'domain_name',
+    'id',
+    'ip',
+    'provider',
+    'verified'
+  },
+  'GetDomainsResponseDomainsItemCreator': {'creationDate', 'email', 'id'},
+  'GetEcommerceAttributionMetricsConversionSourceConversionSourceIdResponse': {
+    'averageBasket',
+    'conversionSource',
+    'id',
+    'ordersCount',
+    'revenue',
+    'newCustomersCount'
+  },
+  'GetEcommerceAttributionMetricsResponse': {'results', 'totals'},
+  'GetEcommerceAttributionMetricsResponseTotals': {
+    'averageBasket',
+    'ordersCount',
+    'revenue'
+  },
+  'GetEcommerceAttributionProductsConversionSourceConversionSourceIdResponse': {
+    'products'
+  },
+  'GetEcommerceAttributionProductsConversionSourceConversionSourceIdResponseProductsItem':
+      {
+    'id',
+    'imageUrl',
+    'name',
+    'ordersCount',
+    'price',
+    'revenue',
+    'sku',
+    'url'
+  },
+  'GetEcommerceConfigDisplayCurrencyResponse': {'code'},
+  'GetEmailCampaignResponse': {
+    'abTesting',
+    'attachmentFile',
+    'id',
+    'name',
+    'previewText',
+    'scheduledAt',
+    'sendAtBestTime',
+    'splitRule',
+    'status',
+    'subject',
+    'subjectA',
+    'subjectB',
+    'type',
+    'winnerCriteria',
+    'winnerDelay',
+    'attachmentUrl',
+    'createdAt',
+    'emailExpirationDate',
+    'footer',
+    'header',
+    'htmlContent',
+    'inlineImageActivation',
+    'mirrorActive',
+    'modifiedAt',
+    'recurring',
+    'replyTo',
+    'returnBounce',
+    'sender',
+    'sentDate',
+    'shareLink',
+    'tag',
+    'tags',
+    'testSent',
+    'toField',
+    'utmCampaignValue',
+    'utmContent',
+    'utmID',
+    'utmMedium',
+    'utmSource',
+    'utmTerm',
+    'recipients',
+    'statistics'
+  },
+  'GetEmailCampaignResponseEmailExpirationDate': {'duration', 'unit'},
+  'GetEmailCampaignResponseSender': {'email', 'id', 'name'},
+  'GetEmailCampaignsResponse': {'campaigns', 'count'},
+  'GetEmailCampaignsResponseCampaignsItem': {
+    'abTesting',
+    'attachmentFile',
+    'id',
+    'name',
+    'previewText',
+    'scheduledAt',
+    'sendAtBestTime',
+    'splitRule',
+    'status',
+    'subject',
+    'subjectA',
+    'subjectB',
+    'type',
+    'winnerCriteria',
+    'winnerDelay',
+    'attachmentUrl',
+    'createdAt',
+    'emailExpirationDate',
+    'footer',
+    'header',
+    'htmlContent',
+    'inlineImageActivation',
+    'mirrorActive',
+    'modifiedAt',
+    'recurring',
+    'replyTo',
+    'returnBounce',
+    'sender',
+    'sentDate',
+    'shareLink',
+    'tag',
+    'tags',
+    'testSent',
+    'toField',
+    'utmCampaignValue',
+    'utmContent',
+    'utmID',
+    'utmMedium',
+    'utmSource',
+    'utmTerm',
+    'recipients',
+    'statistics'
+  },
+  'GetEmailCampaignsResponseCampaignsItemEmailExpirationDate': {
+    'duration',
+    'unit'
+  },
+  'GetEmailCampaignsResponseCampaignsItemSender': {'email', 'id', 'name'},
+  'GetEmailEventReportResponse': {'events'},
+  'GetEmailEventReportResponseEventsItem': {
+    'date',
+    'email',
+    'event',
+    'from',
+    'ip',
+    'link',
+    'messageId',
+    'reason',
+    'subject',
+    'tag',
+    'templateId'
+  },
+  'GetEventsList': {'count', 'events'},
+  'GetEventsListEventsItem': {
+    'contact_id',
+    'contact_properties',
+    'event_date',
+    'event_filter_id',
+    'event_name',
+    'event_properties',
+    'object_type'
+  },
+  'GetExtendedCampaignOverview': {
+    'abTesting',
+    'attachmentFile',
+    'id',
+    'name',
+    'previewText',
+    'scheduledAt',
+    'sendAtBestTime',
+    'splitRule',
+    'status',
+    'subject',
+    'subjectA',
+    'subjectB',
+    'type',
+    'winnerCriteria',
+    'winnerDelay',
+    'attachmentUrl',
+    'createdAt',
+    'emailExpirationDate',
+    'footer',
+    'header',
+    'htmlContent',
+    'inlineImageActivation',
+    'mirrorActive',
+    'modifiedAt',
+    'recurring',
+    'replyTo',
+    'returnBounce',
+    'sender',
+    'sentDate',
+    'shareLink',
+    'tag',
+    'tags',
+    'testSent',
+    'toField',
+    'utmCampaignValue',
+    'utmContent',
+    'utmID',
+    'utmMedium',
+    'utmSource',
+    'utmTerm'
+  },
+  'GetExtendedCampaignOverviewEmailExpirationDate': {'duration', 'unit'},
+  'GetExtendedCampaignOverviewSender': {'email', 'id', 'name'},
+  'GetExtendedCampaignStats': {
+    'campaignStats',
+    'globalStats',
+    'linksStats',
+    'mirrorClick',
+    'remaining',
+    'statsByBrowser',
+    'statsByDevice',
+    'statsByDomain'
+  },
+  'GetExtendedCampaignStatsStatsByDevice': {
+    'desktop',
+    'mobile',
+    'tablet',
+    'unknown'
+  },
+  'GetExternalFeedByUuidResponse': {
+    'authType',
+    'cache',
+    'createdAt',
+    'headers',
+    'id',
+    'maxRetries',
+    'modifiedAt',
+    'name',
+    'password',
+    'token',
+    'url',
+    'username'
+  },
+  'GetExternalFeedByUuidResponseHeadersItem': {'name', 'value'},
+  'GetFolder': {
+    'id',
+    'name',
+    'totalBlacklisted',
+    'totalSubscribers',
+    'uniqueSubscribers'
+  },
+  'GetFolderListsResponse': {'count', 'lists'},
+  'GetFoldersResponse': {'count', 'folders'},
+  'GetInboundEmailEventsByUuidResponse': {
+    'attachments',
+    'deliveredAt',
+    'logs',
+    'messageId',
+    'receivedAt',
+    'recipient',
+    'sender',
+    'subject'
+  },
+  'GetInboundEmailEventsByUuidResponseAttachmentsItem': {
+    'contentId',
+    'contentLength',
+    'contentType',
+    'name'
+  },
+  'GetInboundEmailEventsByUuidResponseLogsItem': {'date', 'type'},
+  'GetInboundEmailEventsResponse': {'events'},
+  'GetInboundEmailEventsResponseEventsItem': {
+    'date',
+    'recipient',
+    'sender',
+    'uuid'
+  },
+  'GetInvitedUsersListResponse': {'users'},
+  'GetInvitedUsersListResponseUsersItem': {
+    'email',
+    'feature_access',
+    'is_owner',
+    'status'
+  },
+  'GetInvitedUsersListResponseUsersItemFeatureAccess': {
+    'conversations',
+    'crm',
+    'marketing'
+  },
+  'GetIpsFromSenderResponse': {'ips'},
+  'GetIpsFromSenderResponseIpsItem': {'domain', 'id', 'ip', 'weight'},
+  'GetIpsResponse': {'ips'},
+  'GetIpsResponseIpsItem': {'active', 'domain', 'id', 'ip'},
+  'GetList': {
+    'id',
+    'name',
+    'totalBlacklisted',
+    'totalSubscribers',
+    'uniqueSubscribers'
+  },
+  'GetListOfTierGroupsResponse': {'items'},
+  'GetListResponse': {
+    'id',
+    'name',
+    'totalBlacklisted',
+    'totalSubscribers',
+    'uniqueSubscribers',
+    'campaignStats',
+    'createdAt',
+    'dynamicList',
+    'folderId'
+  },
+  'GetListResponseCampaignStatsItem': {'campaignId', 'stats'},
+  'GetListsResponse': {'count', 'lists'},
+  'GetListsResponseListsItem': {
+    'id',
+    'name',
+    'totalBlacklisted',
+    'totalSubscribers',
+    'uniqueSubscribers',
+    'folderId'
+  },
+  'GetLoyaltyBalanceProgramsPidActiveBalanceResponse': {
+    'activeBalances',
+    'balanceDefinitionId',
+    'contactId',
+    'count',
+    'loyaltyProgramId'
+  },
+  'GetLoyaltyBalanceProgramsPidActiveBalanceResponseActiveBalancesItem': {
+    'amount',
+    'createdAt',
+    'expiresAt',
+    'id'
+  },
+  'GetLoyaltyBalanceProgramsPidTransactionHistoryResponse': {
+    'balanceDefinitionId',
+    'contactId',
+    'count',
+    'loyaltyProgramId',
+    'transactionHistory'
+  },
+  'GetLoyaltyBalanceProgramsPidTransactionHistoryResponseTransactionHistoryItem':
+      {
+    'amount',
+    'balanceExpirationDate',
+    'cancelledAt',
+    'completedAt',
+    'createdAt',
+    'id',
+    'meta',
+    'rejectReason',
+    'rejectedAt',
+    'status',
+    'transactionType'
+  },
+  'GetLoyaltyOfferProgramsPidOffersResponse': {'items', 'totalCount'},
+  'GetLoyaltyOfferProgramsPidOffersResponseItemsItem': {
+    'createdAt',
+    'endDate',
+    'id',
+    'loyaltyProgramId',
+    'name',
+    'publicImage',
+    'startDate',
+    'state',
+    'updatedAt'
+  },
+  'GetLoyaltyOfferProgramsPidRewardsRidResponse': {
+    'attributionPerConsumer',
+    'balanceDefinitionId',
+    'code',
+    'codeCount',
+    'codeGeneratorId',
+    'codePoolId',
+    'config',
+    'createdAt',
+    'disabledAt',
+    'endDate',
+    'expirationDate',
+    'expirationModifier',
+    'expirationUnit',
+    'expirationValue',
+    'generator',
+    'id',
+    'limits',
+    'loyaltyProgramId',
+    'meta',
+    'name',
+    'products',
+    'publicDescription',
+    'publicImage',
+    'publicName',
+    'redeemPerConsumer',
+    'redeemRules',
+    'rewardConfigs',
+    'rule',
+    'startDate',
+    'subtractBalanceDefinitionId',
+    'subtractBalanceStrategy',
+    'subtractBalanceValue',
+    'subtractTotalBalance',
+    'totalAttribution',
+    'totalRedeem',
+    'triggerId',
+    'unit',
+    'updatedAt',
+    'value',
+    'valueType'
+  },
+  'GetLoyaltyOfferProgramsPidRewardsRidResponseGenerator': {
+    'createdAt',
+    'description',
+    'id',
+    'name',
+    'pattern',
+    'updatedAt'
+  },
+  'GetLoyaltyOfferProgramsPidRewardsRidResponseLimitsItem': {
+    'createdAt',
+    'durationUnit',
+    'durationValue',
+    'limitValue',
+    'rewardLimitId',
+    'slidingSchedule',
+    'type',
+    'updatedAt'
+  },
+  'GetLoyaltyOfferProgramsPidRewardsRidResponseProductsItem': {
+    'createdAt',
+    'imageRef',
+    'productId',
+    'value'
+  },
+  'GetLoyaltyOfferProgramsPidRewardsRidResponseRewardConfigs': {
+    'attribution',
+    'code',
+    'value'
+  },
+  'GetLoyaltyOfferProgramsPidRewardsRidResponseRule': {
+    'condition',
+    'createdAt',
+    'description',
+    'event',
+    'isInternal',
+    'loyaltyProgramId',
+    'loyaltyVersionId',
+    'meta',
+    'name',
+    'results',
+    'ruleId',
+    'ruleType',
+    'updatedAt'
+  },
+  'GetLoyaltyOfferProgramsPidRewardsRidResponseRuleEvent': {'name', 'source'},
+  'GetLoyaltyOfferProgramsPidRewardsRidResponseRuleResultsItem': {
+    'action',
+    'parameters',
+    'service'
+  },
+  'GetLoyaltyOfferProgramsPidRewardsRidResponseRuleResultsItemParametersItem': {
+    'name',
+    'value'
+  },
+  'GetLoyaltyOfferProgramsPidVouchersResponse': {
+    'contactId',
+    'contactRewards',
+    'count',
+    'loyaltyProgramId',
+    'loyaltySubscriptionId'
+  },
+  'GetLoyaltyOfferProgramsPidVouchersResponseContactRewardsItem': {
+    'code',
+    'consumedAt',
+    'createdAt',
+    'expirationDate',
+    'id',
+    'meta',
+    'rewardId',
+    'unit',
+    'updatedAt',
+    'validFrom',
+    'value'
+  },
+  'GetLoyaltyProgramTierResponse': {'items'},
+  'GetLpListResponse': {'items'},
+  'GetParameterSubscriptionInfoResponse': {
+    'balance',
+    'loyaltyProgramName',
+    'members',
+    'membership',
+    'reward',
+    'tier'
+  },
+  'GetParameterSubscriptionInfoResponseBalance': {
+    'balances',
+    'contactId',
+    'loyaltyProgramId'
+  },
+  'GetParameterSubscriptionInfoResponseBalanceBalancesItem': {
+    'balanceDefinitionId',
+    'balanceDefinitionName',
+    'value'
+  },
+  'GetParameterSubscriptionInfoResponseMembersItem': {
+    'createdAt',
+    'memberContactId',
+    'updatedAt'
+  },
+  'GetParameterSubscriptionInfoResponseMembership': {
+    'createdAt',
+    'loyaltySubscriptionId',
+    'updatedAt'
+  },
+  'GetParameterSubscriptionInfoResponseRewardItem': {
+    'code',
+    'contactId',
+    'createdAt',
+    'expirationDate',
+    'id',
+    'loyaltyProgramId',
+    'meta',
+    'publicDescription',
+    'rewardId',
+    'rewardName',
+    'unit',
+    'updatedAt',
+    'validFrom',
+    'value'
+  },
+  'GetParameterSubscriptionInfoResponseTierItem': {
+    'contactId',
+    'createdAt',
+    'groupId',
+    'groupName',
+    'loyaltyProgramId',
+    'meta',
+    'tierId',
+    'tierName',
+    'updatedAt'
+  },
+  'GetPaymentRequestResponse': {
+    'cart',
+    'configuration',
+    'contactId',
+    'notification',
+    'numberOfRemindersSent',
+    'reference',
+    'status'
+  },
+  'GetProcessResponse': {'export_url', 'id', 'info', 'name', 'status'},
+  'GetProcessResponseInfo': {'import'},
+  'GetProcessResponseInfoImport': {
+    'duplicate_contact_id',
+    'duplicate_email_id',
+    'duplicate_ext_id',
+    'duplicate_landline_number_id',
+    'duplicate_phone_id',
+    'duplicate_whatsapp_id',
+    'invalid_emails'
+  },
+  'GetProcessesResponse': {'count', 'processes'},
+  'GetProcessesResponseProcessesItem': {
+    'export_url',
+    'id',
+    'info',
+    'name',
+    'status'
+  },
+  'GetProcessesResponseProcessesItemInfo': {'import'},
+  'GetProcessesResponseProcessesItemInfoImport': {
+    'duplicate_contact_id',
+    'duplicate_email_id',
+    'duplicate_ext_id',
+    'duplicate_landline_number_id',
+    'duplicate_phone_id',
+    'duplicate_whatsapp_id',
+    'invalid_emails'
+  },
+  'GetProductDetails': {
+    'alternativePrice',
+    'brand',
+    'categories',
+    'createdAt',
+    'description',
+    'id',
+    'imageUrl',
+    'isDeleted',
+    'metaInfo',
+    'modifiedAt',
+    'name',
+    'parentId',
+    'price',
+    's3Original',
+    's3ThumbAnalytics',
+    's3ThumbEditor',
+    'sku',
+    'stock',
+    'url'
+  },
+  'GetProductsResponse': {'count', 'products'},
+  'GetScheduledEmailByIdResponse': {
+    'batches',
+    'count',
+    'createdAt',
+    'scheduledAt',
+    'status'
+  },
+  'GetScheduledEmailByIdResponseBatchesItem': {
+    'createdAt',
+    'scheduledAt',
+    'status'
+  },
+  'GetSegmentsResponse': {'count', 'segments'},
+  'GetSegmentsResponseSegmentsItem': {
+    'categoryName',
+    'id',
+    'segmentName',
+    'updatedAt'
+  },
+  'GetSendersResponse': {'senders'},
+  'GetSendersResponseSendersItem': {'active', 'email', 'id', 'ips', 'name'},
+  'GetSendersResponseSendersItemIpsItem': {'domain', 'ip', 'weight'},
+  'GetSharedTemplateUrlResponse': {'sharedUrl'},
+  'GetSmsCampaignOverview': {
+    'content',
+    'createdAt',
+    'id',
+    'modifiedAt',
+    'name',
+    'organisationPrefix',
+    'scheduledAt',
+    'sender',
+    'sentDate',
+    'status',
+    'unsubscribeInstruction'
+  },
+  'GetSmsCampaignResponse': {
+    'content',
+    'createdAt',
+    'id',
+    'modifiedAt',
+    'name',
+    'organisationPrefix',
+    'scheduledAt',
+    'sender',
+    'sentDate',
+    'status',
+    'unsubscribeInstruction',
+    'recipients',
+    'statistics',
+    'tags'
+  },
+  'GetSmsCampaignResponseRecipients': {'exclusionLists', 'lists'},
+  'GetSmsCampaignResponseRecipientsExclusionListsItem': {'id', 'name'},
+  'GetSmsCampaignResponseRecipientsListsItem': {'id', 'name'},
+  'GetSmsCampaignStats': {
+    'answered',
+    'delivered',
+    'hardBounces',
+    'processing',
+    'sent',
+    'softBounces',
+    'unsubscriptions'
+  },
+  'GetSmsCampaignsResponse': {'campaigns', 'count'},
+  'GetSmsCampaignsResponseCampaignsItem': {
+    'content',
+    'createdAt',
+    'id',
+    'modifiedAt',
+    'name',
+    'organisationPrefix',
+    'scheduledAt',
+    'sender',
+    'sentDate',
+    'status',
+    'unsubscribeInstruction',
+    'recipients',
+    'statistics'
+  },
+  'GetSmsEventsResponse': {'events'},
+  'GetSmsEventsResponseEventsItem': {
+    'date',
+    'event',
+    'messageId',
+    'phoneNumber',
+    'reason',
+    'reply',
+    'tag'
+  },
+  'GetSmsTemplatesResponse': {'count', 'templates'},
+  'GetSmsTemplatesResponseTemplatesItem': {
+    'compliance',
+    'createdAt',
+    'encryption',
+    'id',
+    'media_file',
+    'media_file_size',
+    'media_url',
+    'message',
+    'name',
+    'short_url_enabled',
+    'unicode_sms',
+    'updatedAt'
+  },
+  'GetSmsTemplatesResponseTemplatesItemCompliance': {
+    'compliance_toggle',
+    'organisation_prefix',
+    'stop_keyword'
+  },
+  'GetSmtpReportResponse': {'reports'},
+  'GetSmtpReportResponseReportsItem': {
+    'blocked',
+    'clicks',
+    'date',
+    'delivered',
+    'hardBounces',
+    'invalid',
+    'opens',
+    'requests',
+    'softBounces',
+    'spamReports',
+    'uniqueClicks',
+    'uniqueOpens',
+    'unsubscribed'
+  },
+  'GetSmtpTemplateOverview': {
+    'createdAt',
+    'customTemplateId',
+    'doiTemplate',
+    'htmlContent',
+    'id',
+    'isActive',
+    'modifiedAt',
+    'name',
+    'replyTo',
+    'sender',
+    'subject',
+    'tag',
+    'testSent',
+    'toField'
+  },
+  'GetSmtpTemplateOverviewSender': {'email', 'id', 'name'},
+  'GetSmtpTemplatesResponse': {'count', 'templates'},
+  'GetSsoToken': {'token'},
+  'GetSubAccountGroupsResponseItem': {'groupName', 'id'},
+  'GetSubscriptionBalancesResponse': {
+    'balance',
+    'contactId',
+    'loyaltyProgramId'
+  },
+  'GetSubscriptionBalancesResponseBalanceItem': {
+    'balanceDefinitionId',
+    'value'
+  },
+  'GetTransacAggregatedSmsReportResponse': {
+    'accepted',
+    'blocked',
+    'delivered',
+    'hardBounces',
+    'range',
+    'rejected',
+    'replied',
+    'requests',
+    'skipped',
+    'softBounces',
+    'unsubscribed'
+  },
+  'GetTransacBlockedContactsResponse': {'contacts', 'count'},
+  'GetTransacBlockedContactsResponseContactsItem': {
+    'blockedAt',
+    'email',
+    'reason',
+    'senderEmail'
+  },
+  'GetTransacBlockedContactsResponseContactsItemReason': {'code', 'message'},
+  'GetTransacEmailContentResponse': {
+    'attachmentCount',
+    'body',
+    'date',
+    'email',
+    'events',
+    'subject',
+    'templateId'
+  },
+  'GetTransacEmailContentResponseEventsItem': {'name', 'time'},
+  'GetTransacEmailsListResponse': {'count', 'transactionalEmails'},
+  'GetTransacEmailsListResponseTransactionalEmailsItem': {
+    'date',
+    'email',
+    'from',
+    'messageId',
+    'subject',
+    'tags',
+    'templateId',
+    'uuid'
+  },
+  'GetTransacSmsReportResponse': {'reports'},
+  'GetTransacSmsReportResponseReportsItem': {
+    'accepted',
+    'blocked',
+    'date',
+    'delivered',
+    'hardBounces',
+    'rejected',
+    'replied',
+    'requests',
+    'skipped',
+    'softBounces',
+    'unsubscribed'
+  },
+  'GetUserPermissionResponse': {'email', 'privileges', 'status'},
+  'GetUserPermissionResponsePrivilegesItem': {'feature', 'permissions'},
+  'GetWebhook': {
+    'auth',
+    'batched',
+    'createdAt',
+    'description',
+    'domain',
+    'events',
+    'headers',
+    'id',
+    'modifiedAt',
+    'type',
+    'url'
+  },
+  'GetWebhooksResponse': {'webhooks'},
+  'GetWhatsAppCampaignResponse': {
+    'campaignName',
+    'campaignStatus',
+    'createdAt',
+    'id',
+    'modifiedAt',
+    'recipients',
+    'scheduledAt',
+    'senderNumber',
+    'stats',
+    'template'
+  },
+  'GetWhatsAppCampaignResponseRecipients': {
+    'excludedLists',
+    'includedLists',
+    'segments',
+    'type'
+  },
+  'GetWhatsAppCampaignResponseTemplate': {
+    'body_variables',
+    'button_type',
+    'category',
+    'components',
+    'contains_button',
+    'display_header',
+    'header_type',
+    'header_variables',
+    'hide_footer',
+    'language',
+    'name'
+  },
+  'GetWhatsAppCampaignResponseTemplateComponentsItem': {'text', 'type'},
+  'GetWhatsAppCampaignsResponse': {'campaigns', 'count'},
+  'GetWhatsAppCampaignsResponseCampaignsItem': {
+    'campaignName',
+    'campaignStatus',
+    'createdAt',
+    'errorReason',
+    'id',
+    'invalidatedContacts',
+    'modifiedAt',
+    'readPercentage',
+    'scheduledAt',
+    'stats',
+    'templateId'
+  },
+  'GetWhatsAppConfigResponse': {
+    'businessStatus',
+    'phoneNumberNameStatus',
+    'phoneNumberQuality',
+    'sendingLimit',
+    'whatsappBusinessAccountId',
+    'whatsappBusinessAccountStatus'
+  },
+  'GetWhatsAppTemplatesResponse': {'count', 'templates'},
+  'GetWhatsAppTemplatesResponseTemplatesItem': {
+    'category',
+    'createdAt',
+    'errorReason',
+    'id',
+    'language',
+    'modifiedAt',
+    'name',
+    'status',
+    'type'
+  },
+  'GetWhatsappEventReportResponse': {'events'},
+  'GetWhatsappEventReportResponseEventsItem': {
+    'body',
+    'contactNumber',
+    'date',
+    'event',
+    'mediaUrl',
+    'messageId',
+    'reason',
+    'senderNumber'
+  },
+  'GetrecordsResponse': {'count', 'records'},
+  'GetrecordsResponseRecordsItem': {
+    'associations',
+    'attributes',
+    'createdAt',
+    'identifiers',
+    'updatedAt'
+  },
+  'GetrecordsResponseRecordsItemAssociationsItem': {'object_type', 'records'},
+  'GetrecordsResponseRecordsItemAssociationsItemRecordsItem': {'identifiers'},
+  'GetrecordsResponseRecordsItemAssociationsItemRecordsItemIdentifiers': {'id'},
+  'GetrecordsResponseRecordsItemIdentifiers': {'ext_id', 'id'},
+  'ImportContactsRequest': {
+    'consentGroupIds',
+    'disableNotification',
+    'emailBlacklist',
+    'emptyContactsAttributes',
+    'fileBody',
+    'fileUrl',
+    'jsonBody',
+    'listIds',
+    'newList',
+    'notifyUrl',
+    'smsBlacklist',
+    'updateExistingContacts'
+  },
+  'ImportContactsRequestJsonBodyItem': {'attributes', 'email'},
+  'ImportContactsRequestNewList': {'folderId', 'listName'},
+  'InviteAdminUserRequest': {
+    'all_features_access',
+    'email',
+    'groupIds',
+    'privileges'
+  },
+  'InviteAdminUserRequestPrivilegesItem': {'feature', 'permissions'},
+  'InviteAdminUserResponse': {'id'},
+  'Inviteuser': {'all_features_access', 'email', 'privileges'},
+  'InviteuserPrivilegesItem': {'feature', 'permissions'},
+  'InviteuserResponse': {'invoice_id', 'status'},
+  'LoyaltyProgram': {
+    'birthdayAttribute',
+    'codeCount',
+    'createdAt',
+    'description',
+    'documentId',
+    'id',
+    'meta',
+    'name',
+    'pattern',
+    'state',
+    'subscriptionGeneratorId',
+    'subscriptionPoolId',
+    'updatedAt'
+  },
+  'NodeResponse': {
+    'args',
+    'array',
+    'boolean',
+    'description',
+    'float',
+    'int',
+    'op',
+    'string'
+  },
+  'Note': {
+    'authorId',
+    'companyIds',
+    'contactIds',
+    'createdAt',
+    'dealIds',
+    'id',
+    'text',
+    'updatedAt'
+  },
+  'NoteData': {'companyIds', 'contactIds', 'dealIds', 'text'},
+  'Notification': {'channel', 'text'},
+  'Order': {
+    'amount',
+    'billing',
+    'coupons',
+    'createdAt',
+    'id',
+    'identifiers',
+    'metaInfo',
+    'products',
+    'status',
+    'storeId',
+    'updatedAt'
+  },
+  'OrderBilling': {
+    'address',
+    'city',
+    'country',
+    'countryCode',
+    'paymentMethod',
+    'phone',
+    'postCode',
+    'region'
+  },
+  'OrderIdentifiers': {
+    'email_id',
+    'ext_id',
+    'loyalty_subscription_id',
+    'phone_id'
+  },
+  'OrderProductsItem': {
+    'price',
+    'productId',
+    'quantity',
+    'quantityFloat',
+    'variantId'
+  },
+  'PartiallyUpdateLoyaltyProgramRequest': {'description', 'meta', 'name'},
+  'PatchCompaniesIdRequest': {
+    'attributes',
+    'countryCode',
+    'linkedContactsIds',
+    'linkedDealsIds',
+    'name'
+  },
+  'PatchCompaniesLinkUnlinkIdRequest': {
+    'linkContactIds',
+    'linkDealsIds',
+    'unlinkContactIds',
+    'unlinkDealsIds'
+  },
+  'PatchCrmAttributesIdRequest': {'label', 'objectType', 'optionsLabels'},
+  'PatchCrmAttributesIdRequestOptionsLabelsItem': {'key', 'value'},
+  'PatchCrmDealsIdRequest': {
+    'attributes',
+    'linkedCompaniesIds',
+    'linkedContactsIds',
+    'name'
+  },
+  'PatchCrmDealsLinkUnlinkIdRequest': {
+    'linkCompanyIds',
+    'linkContactIds',
+    'unlinkCompanyIds',
+    'unlinkContactIds'
+  },
+  'PatchCrmTasksIdRequest': {
+    'assignToId',
+    'companiesIds',
+    'contactsIds',
+    'date',
+    'dealsIds',
+    'done',
+    'duration',
+    'name',
+    'notes',
+    'reminder',
+    'taskTypeId'
+  },
+  'Pipeline': {'pipeline', 'pipeline_name', 'stages'},
+  'PipelineStagesItem': {'id', 'name'},
+  'PostCompaniesImportResponse': {'processId'},
+  'PostCompaniesRequest': {
+    'attributes',
+    'countryCode',
+    'linkedContactsIds',
+    'linkedDealsIds',
+    'name'
+  },
+  'PostCompaniesResponse': {'id'},
+  'PostContactInfo': {'contacts'},
+  'PostContactInfoContacts': {'failure', 'processId', 'success', 'total'},
+  'PostConversationsAgentOnlinePingRequest': {
+    'agentEmail',
+    'agentId',
+    'agentName',
+    'receivedFrom'
+  },
+  'PostConversationsMessagesRequest': {
+    'agentEmail',
+    'agentId',
+    'agentName',
+    'receivedFrom',
+    'text',
+    'visitorId'
+  },
+  'PostConversationsPushedMessagesRequest': {
+    'agentId',
+    'groupId',
+    'text',
+    'visitorId'
+  },
+  'PostCorporateGroupRequest': {'groupName', 'subAccountIds'},
+  'PostCorporateGroupResponse': {'id'},
+  'PostCorporateSsoTokenRequest': {'email'},
+  'PostCorporateSubAccountIpAssociateRequest': {'ids', 'ip'},
+  'PostCorporateSubAccountKeyRequest': {'id', 'name'},
+  'PostCorporateSubAccountKeyResponse': {'key', 'status'},
+  'PostCorporateSubAccountRequest': {
+    'companyName',
+    'email',
+    'groupIds',
+    'language',
+    'timezone'
+  },
+  'PostCorporateSubAccountResponse': {'id'},
+  'PostCorporateSubAccountSsoTokenRequest': {'email', 'id', 'target', 'url'},
+  'PostCrmAttributesRequest': {
+    'attributeType',
+    'description',
+    'label',
+    'objectType',
+    'optionsLabels'
+  },
+  'PostCrmAttributesResponse': {'id'},
+  'PostCrmDealsImportResponse': {'processId'},
+  'PostCrmDealsRequest': {
+    'attributes',
+    'linkedCompaniesIds',
+    'linkedContactsIds',
+    'name'
+  },
+  'PostCrmDealsResponse': {'id'},
+  'PostCrmNotesResponse': {'id'},
+  'PostCrmTasksRequest': {
+    'assignToId',
+    'companiesIds',
+    'contactsIds',
+    'date',
+    'dealsIds',
+    'done',
+    'duration',
+    'name',
+    'notes',
+    'reminder',
+    'taskTypeId'
+  },
+  'PostCrmTasksResponse': {'id'},
+  'PostLoyaltyBalanceProgramsPidBalanceDefinitionsRequest': {
+    'balanceAvailabilityDurationModifier',
+    'balanceAvailabilityDurationUnit',
+    'balanceAvailabilityDurationValue',
+    'balanceExpirationDate',
+    'balanceOptionAmountOvertakingStrategy',
+    'balanceOptionCreditRounding',
+    'balanceOptionDebitRounding',
+    'description',
+    'imageRef',
+    'maxAmount',
+    'maxCreditAmountLimit',
+    'maxDebitAmountLimit',
+    'meta',
+    'minAmount',
+    'name',
+    'unit'
+  },
+  'PostLoyaltyBalanceProgramsPidBalanceDefinitionsRequestMeta': {'isInternal'},
+  'PostLoyaltyBalanceProgramsPidSubscriptionsCidBalancesRequest': {
+    'balanceDefinitionId'
+  },
+  'PostLoyaltyBalanceProgramsPidSubscriptionsCidBalancesResponse': {
+    'amount',
+    'balanceDefinitionId',
+    'consumedAt',
+    'contactId',
+    'createdAt',
+    'expiresAt',
+    'id',
+    'loyaltyProgramId',
+    'organizationId'
+  },
+  'PostPreviewSmtpEmailTemplatesRequest': {'email', 'params', 'templateId'},
+  'PostPreviewSmtpEmailTemplatesResponse': {
+    'fromEmail',
+    'fromName',
+    'html',
+    'previewText',
+    'subject',
+    'usedFeedNames'
+  },
+  'PostSendFailed': {
+    'blackListedEmails',
+    'code',
+    'message',
+    'unexistingEmails',
+    'withoutListEmails'
+  },
+  'PutConversationsMessagesIdRequest': {'text'},
+  'PutConversationsPushedMessagesIdRequest': {'text'},
+  'PutConversationsVisitorGroupRequest': {'groupId'},
+  'PutConversationsVisitorGroupResponse': {'groupId', 'visitorId'},
+  'PutCorporateGroupIdRequest': {'groupName', 'subAccountIds'},
+  'PutCorporateGroupUnlinkGroupIdSubAccountsRequest': {'subAccountIds'},
+  'PutCorporateSubAccountIdApplicationsToggleRequest': {
+    'automation',
+    'conversations',
+    'crm',
+    'email-campaigns',
+    'facebook-ads',
+    'inbox',
+    'landing-pages',
+    'meetings',
+    'sms-campaigns',
+    'transactional-emails',
+    'transactional-sms',
+    'web-push',
+    'whatsapp'
+  },
+  'PutCorporateSubAccountIdPlanRequest': {'credits', 'features'},
+  'PutCorporateSubAccountIdPlanRequestCredits': {
+    'email',
+    'externalFeeds',
+    'sms',
+    'whatsapp',
+    'wpSubscribers'
+  },
+  'PutCorporateSubAccountIdPlanRequestFeatures': {
+    'inbox',
+    'landingPage',
+    'salesUsers',
+    'users'
+  },
+  'PutCorporateSubAccountIpDissociateRequest': {'ids', 'ip'},
+  'PutCorporateSubAccountsPlanRequest': {
+    'credits',
+    'features',
+    'subAccountIds'
+  },
+  'PutCorporateSubAccountsPlanRequestCredits': {
+    'email',
+    'externalFeeds',
+    'sms',
+    'whatsapp',
+    'wpSubscribers'
+  },
+  'PutCorporateSubAccountsPlanRequestFeatures': {
+    'landingPage',
+    'salesUsers',
+    'users'
+  },
+  'PutCorporateUserEmailPermissionsRequest': {
+    'all_features_access',
+    'privileges'
+  },
+  'PutCorporateUserEmailPermissionsRequestPrivilegesItem': {
+    'feature',
+    'permissions'
+  },
+  'PutCorporateUserInvitationActionEmailResponse': {'message'},
+  'PutRevokeUserPermissionResponse': {'credit_notes', 'status'},
+  'PutresendcancelinvitationResponse': {'credit_notes', 'status'},
+  'RecordStringUnknown': {},
+  'Redeem': {
+    'cancelledAt',
+    'completedAt',
+    'contactId',
+    'createdAt',
+    'debitTransactionId',
+    'expiresAt',
+    'id',
+    'loyaltyProgramId',
+    'meta',
+    'rejectReason',
+    'rejectedAt',
+    'rewardAttributionId',
+    'status',
+    'updatedAt'
+  },
+  'RedeemVoucherRequest': {
+    'attributedRewardId',
+    'autoComplete',
+    'code',
+    'contactId',
+    'loyaltySubscriptionId',
+    'meta',
+    'order',
+    'rewardId',
+    'ttl'
+  },
+  'RedeemVoucherRequestOrder': {
+    'amount',
+    'billing',
+    'contact_id',
+    'coupons',
+    'createdAt',
+    'email',
+    'id',
+    'identifiers',
+    'products',
+    'status',
+    'storeId',
+    'updatedAt'
+  },
+  'RedeemVoucherRequestOrderBilling': {
+    'address',
+    'city',
+    'countryCode',
+    'paymentMethod',
+    'phone',
+    'postCode',
+    'region'
+  },
+  'RedeemVoucherRequestOrderIdentifiers': {'ext_id', 'loyalty_subscription_id'},
+  'RedeemVoucherRequestOrderProductsItem': {
+    'category',
+    'price',
+    'productId',
+    'quantity',
+    'variantId'
+  },
+  'RemoveContactFromListRequest': {'emails', 'ids', 'all', 'extIds'},
+  'RequestContactExportRequest': {
+    'customContactFilter',
+    'disableNotification',
+    'exportAttributes',
+    'exportDateInUTC',
+    'exportMandatoryAttributes',
+    'exportMetadata',
+    'exportSubscriptionStatus',
+    'notifyUrl'
+  },
+  'RequestContactExportRequestCustomContactFilter': {
+    'actionForContacts',
+    'actionForEmailCampaigns',
+    'actionForSmsCampaigns',
+    'emailCampaignId',
+    'listId',
+    'segmentId',
+    'smsCampaignId'
+  },
+  'RequestSmsRecipientExportRequest': {'notifyURL', 'recipientsType'},
+  'RuleConditionResponse': {'and', 'lhs', 'op', 'or', 'rhs'},
+  'SendAsyncTransactionalSmsResponse': {'messageId'},
+  'SendReport': {'email', 'language'},
+  'SendReportEmail': {'body', 'to'},
+  'SendTestEmail': {'emailTo'},
+  'SendTestSmsRequest': {'phoneNumber'},
+  'SendTransacEmailRequest': {
+    'attachment',
+    'batchId',
+    'bcc',
+    'cc',
+    'headers',
+    'htmlContent',
+    'messageVersions',
+    'params',
+    'replyTo',
+    'scheduledAt',
+    'sender',
+    'subject',
+    'tags',
+    'templateId',
+    'textContent',
+    'to'
+  },
+  'SendTransacEmailRequestAttachmentItem': {'content', 'name', 'url'},
+  'SendTransacEmailRequestBccItem': {
+    'contactPixelTrackingConsent',
+    'email',
+    'name'
+  },
+  'SendTransacEmailRequestCcItem': {
+    'contactPixelTrackingConsent',
+    'email',
+    'name'
+  },
+  'SendTransacEmailRequestMessageVersionsItem': {
+    'bcc',
+    'cc',
+    'htmlContent',
+    'params',
+    'replyTo',
+    'subject',
+    'textContent',
+    'to'
+  },
+  'SendTransacEmailRequestMessageVersionsItemBccItem': {
+    'contactPixelTrackingConsent',
+    'email',
+    'name'
+  },
+  'SendTransacEmailRequestMessageVersionsItemCcItem': {
+    'contactPixelTrackingConsent',
+    'email',
+    'name'
+  },
+  'SendTransacEmailRequestMessageVersionsItemReplyTo': {'email', 'name'},
+  'SendTransacEmailRequestMessageVersionsItemToItem': {
+    'contactPixelTrackingConsent',
+    'email',
+    'name'
+  },
+  'SendTransacEmailRequestReplyTo': {'email', 'name'},
+  'SendTransacEmailRequestSender': {'email', 'id', 'name'},
+  'SendTransacEmailRequestToItem': {
+    'contactPixelTrackingConsent',
+    'email',
+    'name'
+  },
+  'SendTransacEmailResponse': {'messageId', 'messageIds', 'batchId'},
+  'SendTransacSms': {
+    'organisationPrefix',
+    'params',
+    'recipient',
+    'sender',
+    'tag',
+    'type',
+    'unicodeEnabled',
+    'webUrl',
+    'content',
+    'templateId'
+  },
+  'SendTransacSmsResponse': {
+    'messageId',
+    'reference',
+    'remainingCredits',
+    'smsCount',
+    'usedCredits'
+  },
+  'SendWhatsappMessageRequest': {
+    'contactNumbers',
+    'params',
+    'senderNumber',
+    'templateId',
+    'text'
+  },
+  'SendWhatsappMessageResponse': {'messageId'},
+  'SetConfigDisplayCurrencyRequest': {'code'},
+  'SetConfigDisplayCurrencyResponse': {'code'},
+  'SubscribeMemberToASubscriptionRequest': {
+    'contactId',
+    'loyaltySubscriptionId',
+    'memberContactIds'
+  },
+  'SubscribeMemberToASubscriptionResponse': {
+    'createdAt',
+    'memberContactIds',
+    'organizationId',
+    'ownerContactId',
+    'updatedAt'
+  },
+  'SubscribeToLoyaltyProgramRequest': {
+    'contactId',
+    'creationDate',
+    'loyaltySubscriptionId',
+    'meta'
+  },
+  'SubscribeToLoyaltyProgramResponse': {
+    'contactId',
+    'createdAt',
+    'loyaltyProgramId',
+    'loyaltySubscriptionId',
+    'meta',
+    'organizationId',
+    'updatedAt',
+    'versionId'
+  },
+  'Task': {
+    'assignToId',
+    'companiesIds',
+    'contactsIds',
+    'createdAt',
+    'date',
+    'dealsIds',
+    'done',
+    'id',
+    'name',
+    'notes',
+    'taskTypeId',
+    'updatedAt'
+  },
+  'TaskReminder': {'types', 'unit', 'value'},
+  'Tier': {
+    'accessConditions',
+    'createdAt',
+    'groupId',
+    'imageRef',
+    'loyaltyProgramId',
+    'name',
+    'tierId',
+    'tierRewards',
+    'updatedAt'
+  },
+  'TierAccessConditionsItem': {
+    'balanceDefinitionId',
+    'createdAt',
+    'minimumValue',
+    'updatedAt'
+  },
+  'TierGroup': {
+    'createdAt',
+    'downgradeSchedule',
+    'downgradeStrategy',
+    'id',
+    'loyaltyProgramId',
+    'name',
+    'tierOrder',
+    'updatedAt',
+    'upgradeSchedule',
+    'upgradeStrategy'
+  },
+  'TierGroupDowngradeSchedule': {
+    'durationModifier',
+    'durationUnit',
+    'durationValue',
+    'scheduledDate',
+    'strategy'
+  },
+  'TierGroupUpgradeSchedule': {
+    'durationModifier',
+    'durationUnit',
+    'durationValue',
+    'scheduledDate',
+    'strategy'
+  },
+  'TierTierRewardsItem': {'createdAt', 'rewardId', 'updatedAt'},
+  'Transaction': {
+    'amount',
+    'balance',
+    'balanceDefinitionId',
+    'cancelledAt',
+    'completedAt',
+    'contactId',
+    'createdAt',
+    'eventTime',
+    'expirationDate',
+    'id',
+    'loyaltyProgramId',
+    'meta',
+    'rejectReason',
+    'rejectedAt',
+    'status',
+    'transactionType',
+    'updatedAt'
+  },
+  'UpdateAttributeRequest': {'enumeration', 'multiCategoryOptions', 'value'},
+  'UpdateAttributeRequestEnumerationItem': {'label', 'value'},
+  'UpdateBalanceDefinitionRequest': {
+    'balanceAvailabilityDurationModifier',
+    'balanceAvailabilityDurationUnit',
+    'balanceAvailabilityDurationValue',
+    'balanceExpirationDate',
+    'balanceOptionAmountOvertakingStrategy',
+    'balanceOptionCreditRounding',
+    'balanceOptionDebitRounding',
+    'description',
+    'imageRef',
+    'maxAmount',
+    'maxCreditAmountLimit',
+    'maxDebitAmountLimit',
+    'meta',
+    'minAmount',
+    'name',
+    'unit'
+  },
+  'UpdateBalanceDefinitionRequestMeta': {'isInternal'},
+  'UpdateBalanceLimitRequest': {
+    'constraintType',
+    'durationUnit',
+    'durationValue',
+    'slidingSchedule',
+    'transactionType',
+    'value'
+  },
+  'UpdateBatchContactsRequest': {'contacts'},
+  'UpdateBatchContactsRequestContactsItem': {
+    'attributes',
+    'email',
+    'emailBlacklisted',
+    'ext_id',
+    'id',
+    'listIds',
+    'sms',
+    'smsBlacklisted',
+    'smtpBlacklistSender',
+    'unlinkListIds'
+  },
+  'UpdateCampaignStatus': {'status'},
+  'UpdateConsentGroupRequest': {'description', 'name', 'signupMode'},
+  'UpdateContactRequest': {
+    'attributes',
+    'emailBlacklisted',
+    'ext_id',
+    'forceMerge',
+    'listIds',
+    'smsBlacklisted',
+    'smtpBlacklistSender',
+    'unlinkListIds'
+  },
+  'UpdateCouponCollectionRequest': {
+    'defaultCoupon',
+    'expirationDate',
+    'remainingCouponsAlert',
+    'remainingDaysAlert'
+  },
+  'UpdateCouponCollectionResponse': {'defaultCoupon', 'id', 'name'},
+  'UpdateEmailCampaignRequest': {
+    'abTesting',
+    'attachmentUrl',
+    'emailExpirationDate',
+    'footer',
+    'header',
+    'htmlContent',
+    'htmlUrl',
+    'increaseRate',
+    'initialQuota',
+    'inlineImageActivation',
+    'ipWarmupEnable',
+    'mirrorActive',
+    'name',
+    'params',
+    'previewText',
+    'recipients',
+    'recurring',
+    'replyTo',
+    'scheduledAt',
+    'sendAtBestTime',
+    'sender',
+    'splitRule',
+    'subject',
+    'subjectA',
+    'subjectB',
+    'tag',
+    'toField',
+    'unsubscriptionPageId',
+    'updateFormId',
+    'utmCampaign',
+    'utmContent',
+    'utmTerm',
+    'winnerCriteria',
+    'winnerDelay'
+  },
+  'UpdateEmailCampaignRequestEmailExpirationDate': {'duration', 'unit'},
+  'UpdateEmailCampaignRequestRecipients': {
+    'exclusionListIds',
+    'exclusionSegmentIds',
+    'listIds',
+    'segmentIds'
+  },
+  'UpdateEmailCampaignRequestSender': {'email', 'id', 'name'},
+  'UpdateExternalFeedRequest': {
+    'authType',
+    'cache',
+    'headers',
+    'maxRetries',
+    'name',
+    'password',
+    'token',
+    'url',
+    'username'
+  },
+  'UpdateExternalFeedRequestHeadersItem': {'name', 'value'},
+  'UpdateListRequest': {'folderId', 'name'},
+  'UpdateLoyaltyProgramRequest': {'description', 'meta', 'name'},
+  'UpdateSenderRequest': {'email', 'ips', 'name'},
+  'UpdateSenderRequestIpsItem': {'domain', 'ip', 'weight'},
+  'UpdateSmsCampaignRequest': {
+    'content',
+    'name',
+    'organisationPrefix',
+    'recipients',
+    'scheduledAt',
+    'sender',
+    'unicodeEnabled',
+    'unsubscribeInstruction'
+  },
+  'UpdateSmsCampaignRequestRecipients': {'exclusionListIds', 'listIds'},
+  'UpdateSmtpTemplateRequest': {
+    'attachmentUrl',
+    'htmlContent',
+    'htmlUrl',
+    'isActive',
+    'replyTo',
+    'sender',
+    'subject',
+    'tag',
+    'templateName',
+    'toField'
+  },
+  'UpdateSmtpTemplateRequestSender': {'email', 'id', 'name'},
+  'UpdateTierGroupRequest': {
+    'downgradeStrategy',
+    'meta',
+    'name',
+    'tierOrder',
+    'upgradeStrategy'
+  },
+  'UpdateTierGroupRequestMeta': {'isInternal'},
+  'UpdateTierRequest': {'accessConditions', 'imageRef', 'name', 'tierRewards'},
+  'UpdateTierRequestAccessConditionsItem': {
+    'balanceDefinitionId',
+    'minimumValue'
+  },
+  'UpdateTierRequestTierRewardsItem': {'rewardId'},
+  'UpdateWebhookRequest': {
+    'auth',
+    'batched',
+    'description',
+    'domain',
+    'events',
+    'headers',
+    'url'
+  },
+  'UpdateWebhookRequestAuth': {'token', 'type'},
+  'UpdateWebhookRequestHeadersItem': {'key', 'value'},
+  'UpdateWhatsAppCampaignRequest': {
+    'campaignName',
+    'campaignStatus',
+    'recipients',
+    'rescheduleFor'
+  },
+  'UpdateWhatsAppCampaignRequestRecipients': {
+    'excludedListIds',
+    'listIds',
+    'segments'
+  },
+  'UploadImageToGalleryRequest': {'imageUrl', 'name'},
+  'UploadImageToGalleryResponse': {'url'},
+  'UpsertrecordsRequest': {'records'},
+  'UpsertrecordsRequestRecordsItem': {
+    'associations',
+    'attributes',
+    'identifiers'
+  },
+  'UpsertrecordsRequestRecordsItemAssociationsItem': {
+    'action',
+    'object_type',
+    'records'
+  },
+  'UpsertrecordsRequestRecordsItemAssociationsItemRecordsItem': {'identifiers'},
+  'UpsertrecordsRequestRecordsItemAssociationsItemRecordsItemIdentifiers': {
+    'ext_id',
+    'id'
+  },
+  'UpsertrecordsRequestRecordsItemIdentifiers': {'ext_id', 'id'},
+  'UpsertrecordsResponse': {'message', 'processId'},
+  'ValidateRewardRequest': {
+    'attributedRewardId',
+    'code',
+    'contactId',
+    'loyaltySubscriptionId',
+    'pointOfSellId',
+    'rewardId'
+  },
+  'ValidateRewardResponse': {'authorize'},
+  'ValidateSenderByOtpRequest': {'otp'},
+  'ValueResponse': {
+    'array',
+    'boolean',
+    'contactProperty',
+    'date',
+    'eventProperty',
+    'expression',
+    'number',
+    'string'
+  },
+  'VariablesItems': {'datatype', 'default', 'name'},
+  'WalletPassInstallUrl': {'url'},
+  'WhatsappCampStats': {'delivered', 'notSent', 'read', 'sent', 'unsubscribe'},
 };
 
 const Map<String, Map<String, Object?>> _minimal = {
@@ -1630,16 +4505,28 @@ void main() {
       .cast<Map<String, Object?>>();
   for (final entry in _decoders.entries) {
     test('${entry.key} decodes a minimal payload', () {
-      final decoded = entry.value(_minimal[entry.key]!);
-      expect((decoded as dynamic).toJson(), isA<Map<String, Object?>>());
+      final payload = _minimal[entry.key]!;
+      final decoded = entry.value(payload);
+      expectJsonRoundTrip(
+        payload,
+        (decoded as dynamic).toJson() as Map<String, Object?>,
+        context: entry.key,
+        knownKeys: _known[entry.key]!,
+      );
     });
   }
   for (final example in examples) {
     final className = example['className']! as String;
     test('${example['operation']} example decodes as $className', () {
       final decoder = _decoders[className]!;
-      final decoded = decoder(example['body']! as Map<String, Object?>);
-      expect((decoded as dynamic).toJson(), isA<Map<String, Object?>>());
+      final payload = example['body']! as Map<String, Object?>;
+      final decoded = decoder(payload);
+      expectJsonRoundTrip(
+        payload,
+        (decoded as dynamic).toJson() as Map<String, Object?>,
+        context: '${example['operation']} as $className',
+        knownKeys: _known[className]!,
+      );
     });
   }
 }

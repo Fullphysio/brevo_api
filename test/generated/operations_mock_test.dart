@@ -9,6 +9,8 @@ import 'dart:typed_data';
 import 'package:brevo_api/brevo_api.dart';
 import 'package:test/test.dart';
 
+import '../_support/wiremock.dart';
+
 void main() {
   final host = Platform.environment['BREVO_MOCK_HOST'] ?? '';
   final client = BrevoClient(
@@ -26,44 +28,95 @@ void main() {
 
   group('account', () {
     test('getAccount (GET /account)', () async {
-      await client.account.getAccount();
+      final result = await client.account.getAccount();
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/account',
+        queryKeys: const <String>{},
+        context: 'account.getAccount',
+      );
     });
     test('getAccountActivity (GET /organization/activities)', () async {
-      await client.account.getAccountActivity();
+      final result = await client.account.getAccountActivity(
+          startDate: 'x', endDate: 'x', email: 'x', limit: 1, offset: 1);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/organization/activities',
+        queryKeys: {'startDate', 'endDate', 'email', 'limit', 'offset'},
+        context: 'account.getAccountActivity',
+      );
     });
   });
 
   group('balance', () {
     test('beginTransaction (POST /loyalty/balance/programs/{pid}/transactions)',
         () async {
-      await client.balance.beginTransaction(
+      final result = await client.balance.beginTransaction(
           BeginTransactionRequest(amount: 1.0, balanceDefinitionId: 'x'),
           pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/balance/programs/pid/transactions',
+        queryKeys: const <String>{},
+        context: 'balance.beginTransaction',
+      );
     });
     test(
         'cancelTransaction (POST /loyalty/balance/programs/{pid}/transactions/{tid}/cancel)',
         () async {
-      await client.balance.cancelTransaction(pid: 'pid', tid: 'tid');
+      final result =
+          await client.balance.cancelTransaction(pid: 'pid', tid: 'tid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/balance/programs/pid/transactions/tid/cancel',
+        queryKeys: const <String>{},
+        context: 'balance.cancelTransaction',
+      );
     });
     test(
         'completeTransaction (POST /loyalty/balance/programs/{pid}/transactions/{tid}/complete)',
         () async {
-      await client.balance.completeTransaction(pid: 'pid', tid: 'tid');
+      final result =
+          await client.balance.completeTransaction(pid: 'pid', tid: 'tid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/balance/programs/pid/transactions/tid/complete',
+        queryKeys: const <String>{},
+        context: 'balance.completeTransaction',
+      );
     });
     test(
         'createBalanceDefinition (POST /loyalty/balance/programs/{pid}/balance-definitions)',
         () async {
-      await client.balance.createBalanceDefinition(
+      final result = await client.balance.createBalanceDefinition(
           PostLoyaltyBalanceProgramsPidBalanceDefinitionsRequest(
               name: 'x',
               unit: PostLoyaltyBalanceProgramsPidBalanceDefinitionsRequestUnit
                   .points),
           pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/balance/programs/pid/balance-definitions',
+        queryKeys: const <String>{},
+        context: 'balance.createBalanceDefinition',
+      );
     });
     test(
         'createBalanceLimit (POST /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits)',
         () async {
-      await client.balance.createBalanceLimit(
+      final result = await client.balance.createBalanceLimit(
           CreateBalanceLimitRequest(
               constraintType:
                   CreateBalanceLimitRequestConstraintType.transaction,
@@ -73,11 +126,19 @@ void main() {
               valueValue: 1),
           pid: 'pid',
           bdid: 'bdid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/balance/programs/pid/balance-definitions/bdid/limits',
+        queryKeys: const <String>{},
+        context: 'balance.createBalanceLimit',
+      );
     });
     test(
         'createBalanceOrder (POST /loyalty/balance/programs/{pid}/create-order)',
         () async {
-      await client.balance.createBalanceOrder(
+      final result = await client.balance.createBalanceOrder(
           CreateBalanceOrderRequest(
               amount: 1.0,
               balanceDefinitionId: 'x',
@@ -85,83 +146,238 @@ void main() {
               dueAt: 'x',
               source: CreateBalanceOrderRequestSource.engine),
           pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/balance/programs/pid/create-order',
+        queryKeys: const <String>{},
+        context: 'balance.createBalanceOrder',
+      );
     });
     test(
         'createSubscriptionBalances (POST /loyalty/balance/programs/{pid}/subscriptions/{cid}/balances)',
         () async {
-      await client.balance.createSubscriptionBalances(
+      final result = await client.balance.createSubscriptionBalances(
           PostLoyaltyBalanceProgramsPidSubscriptionsCidBalancesRequest(
               balanceDefinitionId: 'x'),
           pid: 'pid',
           cid: 'cid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/balance/programs/pid/subscriptions/cid/balances',
+        queryKeys: const <String>{},
+        context: 'balance.createSubscriptionBalances',
+      );
     });
     test(
         'deleteBalanceDefinition (DELETE /loyalty/balance/programs/{pid}/balance-definitions/{bdid})',
         () async {
       await client.balance.deleteBalanceDefinition(pid: 'pid', bdid: 'bdid');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/loyalty/balance/programs/pid/balance-definitions/bdid',
+        queryKeys: const <String>{},
+        context: 'balance.deleteBalanceDefinition',
+      );
     });
     test(
         'deleteBalanceLimit (DELETE /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid})',
         () async {
       await client.balance
           .deleteBalanceLimit(pid: 'pid', bdid: 'bdid', blid: 'blid');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path:
+            '/loyalty/balance/programs/pid/balance-definitions/bdid/limits/blid',
+        queryKeys: const <String>{},
+        context: 'balance.deleteBalanceLimit',
+      );
     });
     test(
         'getActiveBalancesApi (GET /loyalty/balance/programs/{pid}/active-balance)',
         () async {
-      await client.balance.getActiveBalancesApi(
+      final result = await client.balance.getActiveBalancesApi(
           pid: 'pid',
+          limit: 1,
+          offset: 1,
+          sortField: 'x',
+          sort: GetLoyaltyBalanceProgramsPidActiveBalanceRequestSort.asc,
           contactId: 1000000,
-          balanceDefinitionId: 'balanceDefinitionId');
+          balanceDefinitionId: 'balanceDefinitionId',
+          includeInternal: true);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/balance/programs/pid/active-balance',
+        queryKeys: {
+          'limit',
+          'offset',
+          'sortField',
+          'sort',
+          'contactId',
+          'balanceDefinitionId',
+          'includeInternal'
+        },
+        context: 'balance.getActiveBalancesApi',
+      );
     });
     test(
         'getBalanceDefinition (GET /loyalty/balance/programs/{pid}/balance-definitions/{bdid})',
         () async {
-      await client.balance.getBalanceDefinition(pid: 'pid', bdid: 'bdid');
+      final result = await client.balance.getBalanceDefinition(
+          pid: 'pid',
+          bdid: 'bdid',
+          version: GetBalanceDefinitionRequestVersion.active);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/balance/programs/pid/balance-definitions/bdid',
+        queryKeys: {'version'},
+        context: 'balance.getBalanceDefinition',
+      );
     });
     test(
         'getBalanceDefinitionList (GET /loyalty/balance/programs/{pid}/balance-definitions)',
         () async {
-      await client.balance.getBalanceDefinitionList(pid: 'pid');
+      final result = await client.balance.getBalanceDefinitionList(
+          pid: 'pid',
+          limit: 1,
+          offset: 1,
+          sortField: GetBalanceDefinitionListRequestSortField.name,
+          sort: GetBalanceDefinitionListRequestSort.asc,
+          version: GetBalanceDefinitionListRequestVersion.active);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/balance/programs/pid/balance-definitions',
+        queryKeys: {'limit', 'offset', 'sortField', 'sort', 'version'},
+        context: 'balance.getBalanceDefinitionList',
+      );
     });
     test(
         'getBalanceLimit (GET /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid})',
         () async {
-      await client.balance
-          .getBalanceLimit(pid: 'pid', bdid: 'bdid', blid: 'blid');
+      final result = await client.balance.getBalanceLimit(
+          pid: 'pid',
+          bdid: 'bdid',
+          blid: 'blid',
+          version: GetBalanceLimitRequestVersion.active);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path:
+            '/loyalty/balance/programs/pid/balance-definitions/bdid/limits/blid',
+        queryKeys: {'version'},
+        context: 'balance.getBalanceLimit',
+      );
     });
     test(
         'getContactBalances (GET /loyalty/balance/programs/{pid}/contact-balances)',
         () async {
-      await client.balance.getContactBalances(
-          pid: 'pid', balanceDefinitionId: 'balanceDefinitionId');
+      final result = await client.balance.getContactBalances(
+          pid: 'pid',
+          includeInternal: true,
+          limit: 1,
+          offset: 1,
+          sort: GetContactBalancesRequestSort.asc,
+          sortField: GetContactBalancesRequestSortField.updatedAt,
+          balanceDefinitionId: 'balanceDefinitionId');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/balance/programs/pid/contact-balances',
+        queryKeys: {
+          'includeInternal',
+          'limit',
+          'offset',
+          'sort',
+          'sortField',
+          'balanceDefinitionId'
+        },
+        context: 'balance.getContactBalances',
+      );
     });
     test(
         'getSubscriptionBalances (GET /loyalty/balance/programs/{pid}/subscriptions/{cid}/balances)',
         () async {
-      await client.balance.getSubscriptionBalances(pid: 'pid', cid: 'cid');
+      final result = await client.balance.getSubscriptionBalances(
+          pid: 'pid', cid: 'cid', includeInternal: true);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/balance/programs/pid/subscriptions/cid/balances',
+        queryKeys: {'includeInternal'},
+        context: 'balance.getSubscriptionBalances',
+      );
     });
     test(
         'getTransactionHistoryApi (GET /loyalty/balance/programs/{pid}/transaction-history)',
         () async {
-      await client.balance.getTransactionHistoryApi(
+      final result = await client.balance.getTransactionHistoryApi(
           pid: 'pid',
+          limit: 1,
+          offset: 1,
+          sortField: 'x',
+          sort: GetLoyaltyBalanceProgramsPidTransactionHistoryRequestSort.asc,
           contactId: 1000000,
-          balanceDefinitionId: 'balanceDefinitionId');
+          balanceDefinitionId: 'balanceDefinitionId',
+          status:
+              GetLoyaltyBalanceProgramsPidTransactionHistoryRequestStatus.draft,
+          transactionType:
+              GetLoyaltyBalanceProgramsPidTransactionHistoryRequestTransactionType
+                  .credit,
+          loyaltySubscriptionId: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/balance/programs/pid/transaction-history',
+        queryKeys: {
+          'limit',
+          'offset',
+          'sortField',
+          'sort',
+          'contactId',
+          'balanceDefinitionId',
+          'status',
+          'transactionType',
+          'loyaltySubscriptionId'
+        },
+        context: 'balance.getTransactionHistoryApi',
+      );
     });
     test(
         'updateBalanceDefinition (PUT /loyalty/balance/programs/{pid}/balance-definitions/{bdid})',
         () async {
-      await client.balance.updateBalanceDefinition(
+      final result = await client.balance.updateBalanceDefinition(
           UpdateBalanceDefinitionRequest(
               name: 'x', unit: UpdateBalanceDefinitionRequestUnit.points),
           pid: 'pid',
           bdid: 'bdid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/loyalty/balance/programs/pid/balance-definitions/bdid',
+        queryKeys: const <String>{},
+        context: 'balance.updateBalanceDefinition',
+      );
     });
     test(
         'updateBalanceLimit (PUT /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid})',
         () async {
-      await client.balance.updateBalanceLimit(
+      final result = await client.balance.updateBalanceLimit(
           UpdateBalanceLimitRequest(
               constraintType:
                   UpdateBalanceLimitRequestConstraintType.transaction,
@@ -172,39 +388,131 @@ void main() {
           pid: 'pid',
           bdid: 'bdid',
           blid: 'blid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path:
+            '/loyalty/balance/programs/pid/balance-definitions/bdid/limits/blid',
+        queryKeys: const <String>{},
+        context: 'balance.updateBalanceLimit',
+      );
     });
   });
 
   group('companies', () {
     test('createACompany (POST /companies)', () async {
-      await client.companies.createACompany(PostCompaniesRequest(name: 'x'));
+      final result = await client.companies
+          .createACompany(PostCompaniesRequest(name: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/companies',
+        queryKeys: const <String>{},
+        context: 'companies.createACompany',
+      );
     });
     test('createACompanyDealAttribute (POST /crm/attributes)', () async {
-      await client.companies.createACompanyDealAttribute(
+      final result = await client.companies.createACompanyDealAttribute(
           PostCrmAttributesRequest(
               attributeType: PostCrmAttributesRequestAttributeType.text,
               label: 'x',
               objectType: PostCrmAttributesRequestObjectType.companies));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/crm/attributes',
+        queryKeys: const <String>{},
+        context: 'companies.createACompanyDealAttribute',
+      );
     });
     test('deleteACompany (DELETE /companies/{id})', () async {
       await client.companies.deleteACompany(id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/companies/id',
+        queryKeys: const <String>{},
+        context: 'companies.deleteACompany',
+      );
     });
     test('deleteAnAttribute (DELETE /crm/attributes/{id})', () async {
       await client.companies.deleteAnAttribute(id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/crm/attributes/id',
+        queryKeys: const <String>{},
+        context: 'companies.deleteAnAttribute',
+      );
     });
     test('getACompany (GET /companies/{id})', () async {
-      await client.companies.getACompany(id: 'id');
+      final result = await client.companies.getACompany(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/companies/id',
+        queryKeys: const <String>{},
+        context: 'companies.getACompany',
+      );
     });
     test('getAllCompanies (GET /companies)', () async {
-      await client.companies.getAllCompanies();
+      final result = await client.companies.getAllCompanies(
+          filtersAttributesName: 'x',
+          linkedContactsIds: 1,
+          linkedDealsIds: 'x',
+          modifiedSince: 'x',
+          createdSince: 'x',
+          page: 1,
+          limit: 1,
+          sort: GetCompaniesRequestSort.asc,
+          sortBy: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/companies',
+        queryKeys: {
+          'filters[attributes.name]',
+          'linkedContactsIds',
+          'linkedDealsIds',
+          'modifiedSince',
+          'createdSince',
+          'page',
+          'limit',
+          'sort',
+          'sortBy'
+        },
+        context: 'companies.getAllCompanies',
+      );
     });
     test('getCompanyAttributes (GET /crm/attributes/companies)', () async {
-      await client.companies.getCompanyAttributes();
+      final result = await client.companies.getCompanyAttributes();
+      expect(result, isA<List<GetCrmAttributesCompaniesResponseItem>>());
+      expect(result.length, 1);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/attributes/companies',
+        queryKeys: const <String>{},
+        context: 'companies.getCompanyAttributes',
+      );
     });
     test('importCompaniesCreationAndUpdation (POST /companies/import)',
         () async {
-      await client.companies
+      final result = await client.companies
           .importCompaniesCreationAndUpdation(PostCompaniesImportRequest());
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/companies/import',
+        queryKeys: const <String>{},
+        context: 'companies.importCompaniesCreationAndUpdation',
+      );
     });
     test(
         'linkAndUnlinkCompanyWithContactAndDeal (PATCH /companies/link-unlink/{id})',
@@ -212,42 +520,118 @@ void main() {
       await client.companies.linkAndUnlinkCompanyWithContactAndDeal(
           PatchCompaniesLinkUnlinkIdRequest(),
           id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'PATCH',
+        path: '/companies/link-unlink/id',
+        queryKeys: const <String>{},
+        context: 'companies.linkAndUnlinkCompanyWithContactAndDeal',
+      );
     });
     test('updateACompany (PATCH /companies/{id})', () async {
-      await client.companies
+      final result = await client.companies
           .updateACompany(PatchCompaniesIdRequest(), id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PATCH',
+        path: '/companies/id',
+        queryKeys: const <String>{},
+        context: 'companies.updateACompany',
+      );
     });
     test('updateAnAttribute (PATCH /crm/attributes/{id})', () async {
       await client.companies
           .updateAnAttribute(PatchCrmAttributesIdRequest(), id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'PATCH',
+        path: '/crm/attributes/id',
+        queryKeys: const <String>{},
+        context: 'companies.updateAnAttribute',
+      );
     });
   });
 
   group('consentGroups', () {
     test('createConsentGroup (POST /contacts/consent-groups)', () async {
-      await client.consentGroups.createConsentGroup(CreateConsentGroupRequest(
-          name: 'x', signupMode: CreateConsentGroupRequestSignupMode.manual));
+      final result = await client.consentGroups.createConsentGroup(
+          CreateConsentGroupRequest(
+              name: 'x',
+              signupMode: CreateConsentGroupRequestSignupMode.manual));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts/consent-groups',
+        queryKeys: const <String>{},
+        context: 'consentGroups.createConsentGroup',
+      );
     });
     test('deleteConsentGroup (DELETE /contacts/consent-groups/{id})', () async {
       await client.consentGroups.deleteConsentGroup(id: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/contacts/consent-groups/1000000',
+        queryKeys: const <String>{},
+        context: 'consentGroups.deleteConsentGroup',
+      );
     });
     test('getConsentGroup (GET /contacts/consent-groups/{id})', () async {
-      await client.consentGroups.getConsentGroup(id: 1000000);
+      final result = await client.consentGroups.getConsentGroup(id: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/consent-groups/1000000',
+        queryKeys: const <String>{},
+        context: 'consentGroups.getConsentGroup',
+      );
     });
     test('getConsentGroups (GET /contacts/consent-groups)', () async {
-      await client.consentGroups.getConsentGroups();
+      final result = await client.consentGroups.getConsentGroups(
+          limit: 1,
+          offset: 1,
+          id: 1,
+          name: 'x',
+          signupMode: GetConsentGroupsRequestSignupMode.manual);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/consent-groups',
+        queryKeys: {'limit', 'offset', 'id', 'name', 'signupMode'},
+        context: 'consentGroups.getConsentGroups',
+      );
     });
     test('updateConsentGroup (PUT /contacts/consent-groups/{id})', () async {
-      await client.consentGroups
+      final result = await client.consentGroups
           .updateConsentGroup(UpdateConsentGroupRequest(), id: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/contacts/consent-groups/1000000',
+        queryKeys: const <String>{},
+        context: 'consentGroups.updateConsentGroup',
+      );
     });
   });
 
   group('contacts', () {
     test('addContactToList (POST /contacts/lists/{listId}/contacts/add)',
         () async {
-      await client.contacts
+      final result = await client.contacts
           .addContactToList(AddContactToListRequest(), listId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts/lists/1000000/contacts/add',
+        queryKeys: const <String>{},
+        context: 'contacts.addContactToList',
+      );
     });
     test(
         'createAttribute (POST /contacts/attributes/{attributeCategory}/{attributeName})',
@@ -256,20 +640,57 @@ void main() {
           attributeCategory:
               CreateAttributeRequestAttributeCategory.fromWire('normal'),
           attributeName: 'attributeName');
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts/attributes/normal/attributeName',
+        queryKeys: const <String>{},
+        context: 'contacts.createAttribute',
+      );
     });
     test('createContact (POST /contacts)', () async {
-      await client.contacts.createContact(CreateContactRequest());
+      final result =
+          await client.contacts.createContact(CreateContactRequest());
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts',
+        queryKeys: const <String>{},
+        context: 'contacts.createContact',
+      );
     });
     test('createDoiContact (POST /contacts/doubleOptinConfirmation)', () async {
       await client.contacts.createDoiContact(CreateDoiContactRequest(
           email: 'x', includeListIds: [1], redirectionUrl: 'x', templateId: 1));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts/doubleOptinConfirmation',
+        queryKeys: const <String>{},
+        context: 'contacts.createDoiContact',
+      );
     });
     test('createFolder (POST /contacts/folders)', () async {
       await client.contacts.createFolder(CreateUpdateFolder());
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts/folders',
+        queryKeys: const <String>{},
+        context: 'contacts.createFolder',
+      );
     });
     test('createList (POST /contacts/lists)', () async {
       await client.contacts
           .createList(CreateListRequest(folderId: 1, name: 'x'));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts/lists',
+        queryKeys: const <String>{},
+        context: 'contacts.createList',
+      );
     });
     test(
         'deleteAttribute (DELETE /contacts/attributes/{attributeCategory}/{attributeName})',
@@ -278,15 +699,45 @@ void main() {
           attributeCategory:
               DeleteAttributeRequestAttributeCategory.fromWire('normal'),
           attributeName: 'attributeName');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/contacts/attributes/normal/attributeName',
+        queryKeys: const <String>{},
+        context: 'contacts.deleteAttribute',
+      );
     });
     test('deleteContact (DELETE /contacts/{identifier})', () async {
-      await client.contacts.deleteContact(identifier: 'identifier');
+      await client.contacts.deleteContact(
+          identifier: 'identifier',
+          identifierType: DeleteContactRequestIdentifierType.emailId);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/contacts/identifier',
+        queryKeys: {'identifierType'},
+        context: 'contacts.deleteContact',
+      );
     });
     test('deleteFolder (DELETE /contacts/folders/{folderId})', () async {
       await client.contacts.deleteFolder(folderId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/contacts/folders/1000000',
+        queryKeys: const <String>{},
+        context: 'contacts.deleteFolder',
+      );
     });
     test('deleteList (DELETE /contacts/lists/{listId})', () async {
       await client.contacts.deleteList(listId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/contacts/lists/1000000',
+        queryKeys: const <String>{},
+        context: 'contacts.deleteList',
+      );
     });
     test(
         'deleteMultiAttributeOptions (DELETE /contacts/attributes/{attributeType}/{multipleChoiceAttribute}/{multipleChoiceAttributeOption})',
@@ -295,56 +746,211 @@ void main() {
           attributeType: 'multiple-choice',
           multipleChoiceAttribute: 'multipleChoiceAttribute',
           multipleChoiceAttributeOption: 'multipleChoiceAttributeOption');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path:
+            '/contacts/attributes/multiple-choice/multipleChoiceAttribute/multipleChoiceAttributeOption',
+        queryKeys: const <String>{},
+        context: 'contacts.deleteMultiAttributeOptions',
+      );
     });
     test('getAttributes (GET /contacts/attributes)', () async {
-      await client.contacts.getAttributes();
+      final result = await client.contacts.getAttributes();
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/attributes',
+        queryKeys: const <String>{},
+        context: 'contacts.getAttributes',
+      );
     });
     test('getContactInfo (GET /contacts/{identifier})', () async {
-      await client.contacts.getContactInfo(identifier: 'identifier');
+      final result = await client.contacts.getContactInfo(
+          identifier: 'identifier',
+          identifierType: GetContactInfoRequestIdentifierType.emailId,
+          startDate: 'x',
+          endDate: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/identifier',
+        queryKeys: {'identifierType', 'startDate', 'endDate'},
+        context: 'contacts.getContactInfo',
+      );
     });
     test('getContactStats (GET /contacts/{identifier}/campaignStats)',
         () async {
-      await client.contacts.getContactStats(identifier: 'identifier');
+      final result = await client.contacts.getContactStats(
+          identifier: 'identifier', startDate: 'x', endDate: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/identifier/campaignStats',
+        queryKeys: {'startDate', 'endDate'},
+        context: 'contacts.getContactStats',
+      );
     });
     test('getContacts (GET /contacts)', () async {
-      await client.contacts.getContacts();
+      final result = await client.contacts.getContacts(
+          limit: 1,
+          offset: 1,
+          modifiedSince: 'x',
+          createdSince: 'x',
+          sort: GetContactsRequestSort.asc,
+          ids: [1],
+          segmentId: 1,
+          listIds: [1],
+          filter: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts',
+        queryKeys: {
+          'limit',
+          'offset',
+          'modifiedSince',
+          'createdSince',
+          'sort',
+          'ids',
+          'segmentId',
+          'listIds',
+          'filter'
+        },
+        context: 'contacts.getContacts',
+      );
     });
     test('getContactsFromList (GET /contacts/lists/{listId}/contacts)',
         () async {
-      await client.contacts.getContactsFromList(listId: 1000000);
+      final result = await client.contacts.getContactsFromList(
+          listId: 1000000,
+          modifiedSince: 'x',
+          limit: 1,
+          offset: 1,
+          sort: GetContactsFromListRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/lists/1000000/contacts',
+        queryKeys: {'modifiedSince', 'limit', 'offset', 'sort'},
+        context: 'contacts.getContactsFromList',
+      );
     });
     test('getFolder (GET /contacts/folders/{folderId})', () async {
-      await client.contacts.getFolder(folderId: 1000000);
+      final result = await client.contacts.getFolder(folderId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/folders/1000000',
+        queryKeys: const <String>{},
+        context: 'contacts.getFolder',
+      );
     });
     test('getFolderLists (GET /contacts/folders/{folderId}/lists)', () async {
-      await client.contacts.getFolderLists(folderId: 1000000);
+      final result = await client.contacts.getFolderLists(
+          folderId: 1000000,
+          limit: 1,
+          offset: 1,
+          sort: GetFolderListsRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/folders/1000000/lists',
+        queryKeys: {'limit', 'offset', 'sort'},
+        context: 'contacts.getFolderLists',
+      );
     });
     test('getFolders (GET /contacts/folders)', () async {
-      await client.contacts.getFolders();
+      final result = await client.contacts
+          .getFolders(limit: 1, offset: 1, sort: GetFoldersRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/folders',
+        queryKeys: {'limit', 'offset', 'sort'},
+        context: 'contacts.getFolders',
+      );
     });
     test('getList (GET /contacts/lists/{listId})', () async {
-      await client.contacts.getList(listId: 1000000);
+      final result = await client.contacts
+          .getList(listId: 1000000, startDate: 'x', endDate: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/lists/1000000',
+        queryKeys: {'startDate', 'endDate'},
+        context: 'contacts.getList',
+      );
     });
     test('getLists (GET /contacts/lists)', () async {
-      await client.contacts.getLists();
+      final result = await client.contacts
+          .getLists(limit: 1, offset: 1, sort: GetListsRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/lists',
+        queryKeys: {'limit', 'offset', 'sort'},
+        context: 'contacts.getLists',
+      );
     });
     test('getSegments (GET /contacts/segments)', () async {
-      await client.contacts.getSegments();
+      final result = await client.contacts
+          .getSegments(limit: 1, offset: 1, sort: GetSegmentsRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/contacts/segments',
+        queryKeys: {'limit', 'offset', 'sort'},
+        context: 'contacts.getSegments',
+      );
     });
     test('importContacts (POST /contacts/import)', () async {
       await client.contacts.importContacts(ImportContactsRequest());
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts/import',
+        queryKeys: const <String>{},
+        context: 'contacts.importContacts',
+      );
     });
     test(
         'removeContactFromList (POST /contacts/lists/{listId}/contacts/remove)',
         () async {
-      await client.contacts.removeContactFromList(
+      final result = await client.contacts.removeContactFromList(
           RemoveContactFromListRequest(),
           listId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts/lists/1000000/contacts/remove',
+        queryKeys: const <String>{},
+        context: 'contacts.removeContactFromList',
+      );
     });
     test('requestContactExport (POST /contacts/export)', () async {
       await client.contacts.requestContactExport(RequestContactExportRequest(
           customContactFilter:
               RequestContactExportRequestCustomContactFilter()));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts/export',
+        queryKeys: const <String>{},
+        context: 'contacts.requestContactExport',
+      );
     });
     test(
         'updateAttribute (PUT /contacts/attributes/{attributeCategory}/{attributeName})',
@@ -353,20 +959,56 @@ void main() {
           attributeCategory:
               UpdateAttributeRequestAttributeCategory.fromWire('category'),
           attributeName: 'attributeName');
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/contacts/attributes/category/attributeName',
+        queryKeys: const <String>{},
+        context: 'contacts.updateAttribute',
+      );
     });
     test('updateBatchContacts (POST /contacts/batch)', () async {
       await client.contacts.updateBatchContacts(UpdateBatchContactsRequest());
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/contacts/batch',
+        queryKeys: const <String>{},
+        context: 'contacts.updateBatchContacts',
+      );
     });
     test('updateContact (PUT /contacts/{identifier})', () async {
-      await client.contacts
-          .updateContact(UpdateContactRequest(), identifier: 'identifier');
+      await client.contacts.updateContact(UpdateContactRequest(),
+          identifier: 'identifier',
+          identifierType: UpdateContactRequestIdentifierType.emailId);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/contacts/identifier',
+        queryKeys: {'identifierType'},
+        context: 'contacts.updateContact',
+      );
     });
     test('updateFolder (PUT /contacts/folders/{folderId})', () async {
       await client.contacts
           .updateFolder(CreateUpdateFolder(), folderId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/contacts/folders/1000000',
+        queryKeys: const <String>{},
+        context: 'contacts.updateFolder',
+      );
     });
     test('updateList (PUT /contacts/lists/{listId})', () async {
       await client.contacts.updateList(UpdateListRequest(), listId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/contacts/lists/1000000',
+        queryKeys: const <String>{},
+        context: 'contacts.updateList',
+      );
     });
   });
 
@@ -374,130 +1016,389 @@ void main() {
     test('deleteAMessageSentByAnAgent (DELETE /conversations/messages/{id})',
         () async {
       await client.conversations.deleteAMessageSentByAnAgent(id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/conversations/messages/id',
+        queryKeys: const <String>{},
+        context: 'conversations.deleteAMessageSentByAnAgent',
+      );
     });
     test('deleteAnAutomatedMessage (DELETE /conversations/pushedMessages/{id})',
         () async {
       await client.conversations.deleteAnAutomatedMessage(id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/conversations/pushedMessages/id',
+        queryKeys: const <String>{},
+        context: 'conversations.deleteAnAutomatedMessage',
+      );
     });
     test('getAMessage (GET /conversations/messages/{id})', () async {
-      await client.conversations.getAMessage(id: 'id');
+      final result = await client.conversations.getAMessage(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/conversations/messages/id',
+        queryKeys: const <String>{},
+        context: 'conversations.getAMessage',
+      );
     });
     test('getAnAutomatedMessage (GET /conversations/pushedMessages/{id})',
         () async {
-      await client.conversations.getAnAutomatedMessage(id: 'id');
+      final result = await client.conversations.getAnAutomatedMessage(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/conversations/pushedMessages/id',
+        queryKeys: const <String>{},
+        context: 'conversations.getAnAutomatedMessage',
+      );
     });
     test('sendAMessageAsAnAgent (POST /conversations/messages)', () async {
-      await client.conversations.sendAMessageAsAnAgent(
+      final result = await client.conversations.sendAMessageAsAnAgent(
           PostConversationsMessagesRequest(text: 'x', visitorId: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/conversations/messages',
+        queryKeys: const <String>{},
+        context: 'conversations.sendAMessageAsAnAgent',
+      );
     });
     test(
         'sendAnAutomatedMessageToAVisitor (POST /conversations/pushedMessages)',
         () async {
-      await client.conversations.sendAnAutomatedMessageToAVisitor(
-          PostConversationsPushedMessagesRequest(text: 'x', visitorId: 'x'));
+      final result = await client.conversations
+          .sendAnAutomatedMessageToAVisitor(
+              PostConversationsPushedMessagesRequest(
+                  text: 'x', visitorId: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/conversations/pushedMessages',
+        queryKeys: const <String>{},
+        context: 'conversations.sendAnAutomatedMessageToAVisitor',
+      );
     });
     test('setVisitorGroupAssignment (PUT /conversations/visitorGroup)',
         () async {
-      await client.conversations.setVisitorGroupAssignment(
+      final result = await client.conversations.setVisitorGroupAssignment(
           PutConversationsVisitorGroupRequest(groupId: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/conversations/visitorGroup',
+        queryKeys: const <String>{},
+        context: 'conversations.setVisitorGroupAssignment',
+      );
     });
     test(
         'setsAgentsStatusToOnlineFor23Minutes (POST /conversations/agentOnlinePing)',
         () async {
       await client.conversations.setsAgentsStatusToOnlineFor23Minutes(
           PostConversationsAgentOnlinePingRequest());
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/conversations/agentOnlinePing',
+        queryKeys: const <String>{},
+        context: 'conversations.setsAgentsStatusToOnlineFor23Minutes',
+      );
     });
     test('updateAMessageSentByAnAgent (PUT /conversations/messages/{id})',
         () async {
-      await client.conversations.updateAMessageSentByAnAgent(
+      final result = await client.conversations.updateAMessageSentByAnAgent(
           PutConversationsMessagesIdRequest(text: 'x'),
           id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/conversations/messages/id',
+        queryKeys: const <String>{},
+        context: 'conversations.updateAMessageSentByAnAgent',
+      );
     });
     test('updateAnAutomatedMessage (PUT /conversations/pushedMessages/{id})',
         () async {
-      await client.conversations.updateAnAutomatedMessage(
+      final result = await client.conversations.updateAnAutomatedMessage(
           PutConversationsPushedMessagesIdRequest(text: 'x'),
           id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/conversations/pushedMessages/id',
+        queryKeys: const <String>{},
+        context: 'conversations.updateAnAutomatedMessage',
+      );
     });
   });
 
   group('coupons', () {
     test('createCouponCollection (POST /couponCollections)', () async {
-      await client.coupons.createCouponCollection(
+      final result = await client.coupons.createCouponCollection(
           CreateCouponCollectionRequest(defaultCoupon: 'x', name: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/couponCollections',
+        queryKeys: const <String>{},
+        context: 'coupons.createCouponCollection',
+      );
     });
     test('createCoupons (POST /coupons)', () async {
       await client.coupons.createCoupons(
           CreateCouponsRequest(collectionId: 'x', coupons: ['x']));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/coupons',
+        queryKeys: const <String>{},
+        context: 'coupons.createCoupons',
+      );
     });
     test('getCouponCollection (GET /couponCollections/{id})', () async {
-      await client.coupons.getCouponCollection(id: 'id');
+      final result = await client.coupons.getCouponCollection(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/couponCollections/id',
+        queryKeys: const <String>{},
+        context: 'coupons.getCouponCollection',
+      );
     });
     test('getCouponCollections (GET /couponCollections)', () async {
-      await client.coupons.getCouponCollections();
+      final result = await client.coupons.getCouponCollections(
+          limit: 1,
+          offset: 1,
+          sort: GetCouponCollectionsRequestSort.asc,
+          sortBy: GetCouponCollectionsRequestSortBy.createdAt);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/couponCollections',
+        queryKeys: {'limit', 'offset', 'sort', 'sortBy'},
+        context: 'coupons.getCouponCollections',
+      );
     });
     test('updateCouponCollection (PATCH /couponCollections/{id})', () async {
-      await client.coupons
+      final result = await client.coupons
           .updateCouponCollection(UpdateCouponCollectionRequest(), id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PATCH',
+        path: '/couponCollections/id',
+        queryKeys: const <String>{},
+        context: 'coupons.updateCouponCollection',
+      );
     });
   });
 
   group('customObjects', () {
     test('batchDeleteObjectRecords (POST /objects/{object_type}/batch/delete)',
         () async {
-      await client.customObjects.batchDeleteObjectRecords(
+      final result = await client.customObjects.batchDeleteObjectRecords(
           BatchDeleteObjectRecordsRequest(),
           objectType: 'vehicle');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/objects/vehicle/batch/delete',
+        queryKeys: const <String>{},
+        context: 'customObjects.batchDeleteObjectRecords',
+      );
     });
     test('getAssociatedRecords (GET /objects/{object_type}/associated-records)',
         () async {
-      await client.customObjects.getAssociatedRecords(
+      final result = await client.customObjects.getAssociatedRecords(
           objectType: 'vehicle',
           id: 16789,
           extId: '507f1f77bc',
           email: 'jane.doe@example.com',
           sms: '33612345678',
+          type: ['x'],
           offset: 0);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/objects/vehicle/associated-records',
+        queryKeys: {'id', 'ext_id', 'email', 'sms', 'type', 'offset'},
+        context: 'customObjects.getAssociatedRecords',
+      );
     });
     test('getrecords (GET /objects/{object_type}/records)', () async {
-      await client.customObjects
-          .getrecords(objectType: 'vehicle', limit: 1000000, pageNum: 1000000);
+      final result = await client.customObjects.getrecords(
+          objectType: 'vehicle',
+          limit: 1000000,
+          pageNum: 1000000,
+          sort: GetrecordsRequestSort.asc,
+          association: GetrecordsRequestAssociation.trueValue);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/objects/vehicle/records',
+        queryKeys: {'limit', 'page_num', 'sort', 'association'},
+        context: 'customObjects.getrecords',
+      );
     });
     test('upsertrecords (POST /objects/{object_type}/batch/upsert)', () async {
-      await client.customObjects.upsertrecords(
+      final result = await client.customObjects.upsertrecords(
           UpsertrecordsRequest(records: [UpsertrecordsRequestRecordsItem()]),
           objectType: 'vehicle');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/objects/vehicle/batch/upsert',
+        queryKeys: const <String>{},
+        context: 'customObjects.upsertrecords',
+      );
     });
   });
 
   group('deals', () {
     test('createADeal (POST /crm/deals)', () async {
-      await client.deals.createADeal(PostCrmDealsRequest(name: 'x'));
+      final result =
+          await client.deals.createADeal(PostCrmDealsRequest(name: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/crm/deals',
+        queryKeys: const <String>{},
+        context: 'deals.createADeal',
+      );
     });
     test('deleteADeal (DELETE /crm/deals/{id})', () async {
       await client.deals.deleteADeal(id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/crm/deals/id',
+        queryKeys: const <String>{},
+        context: 'deals.deleteADeal',
+      );
     });
     test('getADeal (GET /crm/deals/{id})', () async {
-      await client.deals.getADeal(id: 'id');
+      final result = await client.deals.getADeal(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/deals/id',
+        queryKeys: const <String>{},
+        context: 'deals.getADeal',
+      );
     });
     test('getAPipeline (GET /crm/pipeline/details/{pipelineID})', () async {
-      await client.deals.getAPipeline(pipelineId: 'pipelineID');
+      final result = await client.deals.getAPipeline(pipelineId: 'pipelineID');
+      expect(result, isA<List<Pipeline>>());
+      expect(result.length, 1);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/pipeline/details/pipelineID',
+        queryKeys: const <String>{},
+        context: 'deals.getAPipeline',
+      );
     });
     test('getAllDeals (GET /crm/deals)', () async {
-      await client.deals.getAllDeals();
+      final result = await client.deals.getAllDeals(
+          filtersAttributesDealName: 'x',
+          filtersAttributesDealOwner: 'x',
+          filtersAttributesDealStage: 'x',
+          filtersAttributesPipeline: 'x',
+          filtersLinkedCompaniesIds: 'x',
+          filtersLinkedContactsIds: 'x',
+          modifiedSince: 'x',
+          createdSince: 'x',
+          offset: 1,
+          limit: 1,
+          sort: GetCrmDealsRequestSort.asc,
+          sortBy: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/deals',
+        queryKeys: {
+          'filters[attributes.deal_name]',
+          'filters[attributes.deal_owner]',
+          'filters[attributes.deal_stage]',
+          'filters[attributes.pipeline]',
+          'filters[linkedCompaniesIds]',
+          'filters[linkedContactsIds]',
+          'modifiedSince',
+          'createdSince',
+          'offset',
+          'limit',
+          'sort',
+          'sortBy'
+        },
+        context: 'deals.getAllDeals',
+      );
     });
     test('getAllPipelines (GET /crm/pipeline/details/all)', () async {
-      await client.deals.getAllPipelines();
+      final result = await client.deals.getAllPipelines();
+      expect(result, isA<List<Pipeline>>());
+      expect(result.length, 1);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/pipeline/details/all',
+        queryKeys: const <String>{},
+        context: 'deals.getAllPipelines',
+      );
     });
     test('getDealAttributes (GET /crm/attributes/deals)', () async {
-      await client.deals.getDealAttributes();
+      final result = await client.deals.getDealAttributes();
+      expect(result, isA<List<GetCrmAttributesDealsResponseItem>>());
+      expect(result.length, 1);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/attributes/deals',
+        queryKeys: const <String>{},
+        context: 'deals.getDealAttributes',
+      );
     });
     test('getPipelineStages (GET /crm/pipeline/details)', () async {
-      await client.deals.getPipelineStages();
+      final result = await client.deals.getPipelineStages();
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/pipeline/details',
+        queryKeys: const <String>{},
+        context: 'deals.getPipelineStages',
+      );
     });
     test('importDealsCreationAndUpdation (POST /crm/deals/import)', () async {
-      await client.deals
+      final result = await client.deals
           .importDealsCreationAndUpdation(PostCrmDealsImportRequest());
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/crm/deals/import',
+        queryKeys: const <String>{},
+        context: 'deals.importDealsCreationAndUpdation',
+      );
     });
     test(
         'linkAndUnlinkADealWithContactsAndCompanies (PATCH /crm/deals/link-unlink/{id})',
@@ -505,38 +1406,102 @@ void main() {
       await client.deals.linkAndUnlinkADealWithContactsAndCompanies(
           PatchCrmDealsLinkUnlinkIdRequest(),
           id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'PATCH',
+        path: '/crm/deals/link-unlink/id',
+        queryKeys: const <String>{},
+        context: 'deals.linkAndUnlinkADealWithContactsAndCompanies',
+      );
     });
     test('updateADeal (PATCH /crm/deals/{id})', () async {
       await client.deals.updateADeal(PatchCrmDealsIdRequest(), id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'PATCH',
+        path: '/crm/deals/id',
+        queryKeys: const <String>{},
+        context: 'deals.updateADeal',
+      );
     });
   });
 
   group('domains', () {
     test('authenticateDomain (PUT /senders/domains/{domainName}/authenticate)',
         () async {
-      await client.domains.authenticateDomain(domainName: 'domainName');
+      final result =
+          await client.domains.authenticateDomain(domainName: 'domainName');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/senders/domains/domainName/authenticate',
+        queryKeys: const <String>{},
+        context: 'domains.authenticateDomain',
+      );
     });
     test('createDomain (POST /senders/domains)', () async {
-      await client.domains.createDomain(CreateDomainRequest(name: 'x'));
+      final result =
+          await client.domains.createDomain(CreateDomainRequest(name: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/senders/domains',
+        queryKeys: const <String>{},
+        context: 'domains.createDomain',
+      );
     });
     test('deleteDomain (DELETE /senders/domains/{domainName})', () async {
       await client.domains.deleteDomain(domainName: 'domainName');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/senders/domains/domainName',
+        queryKeys: const <String>{},
+        context: 'domains.deleteDomain',
+      );
     });
     test('getDomainConfiguration (GET /senders/domains/{domainName})',
         () async {
-      await client.domains.getDomainConfiguration(domainName: 'domainName');
+      final result =
+          await client.domains.getDomainConfiguration(domainName: 'domainName');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/senders/domains/domainName',
+        queryKeys: const <String>{},
+        context: 'domains.getDomainConfiguration',
+      );
     });
     test('getDomains (GET /senders/domains)', () async {
-      await client.domains.getDomains();
+      final result = await client.domains.getDomains();
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/senders/domains',
+        queryKeys: const <String>{},
+        context: 'domains.getDomains',
+      );
     });
   });
 
   group('ecommerce', () {
     test('activateTheECommerceApp (POST /ecommerce/activate)', () async {
       await client.ecommerce.activateTheECommerceApp();
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/ecommerce/activate',
+        queryKeys: const <String>{},
+        context: 'ecommerce.activateTheECommerceApp',
+      );
     });
     test('createBatchOrder (POST /orders/status/batch)', () async {
-      await client.ecommerce.createBatchOrder(CreateBatchOrderRequest(orders: [
+      final result = await client.ecommerce
+          .createBatchOrder(CreateBatchOrderRequest(orders: [
         Order(
             amount: 1.0,
             createdAt: 'x',
@@ -545,6 +1510,14 @@ void main() {
             status: 'x',
             updatedAt: 'x')
       ]));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/orders/status/batch',
+        queryKeys: const <String>{},
+        context: 'ecommerce.createBatchOrder',
+      );
     });
     test('createOrder (POST /orders/status)', () async {
       await client.ecommerce.createOrder(Order(
@@ -554,84 +1527,293 @@ void main() {
           products: [OrderProductsItem(price: 1.0, productId: 'x')],
           status: 'x',
           updatedAt: 'x'));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/orders/status',
+        queryKeys: const <String>{},
+        context: 'ecommerce.createOrder',
+      );
     });
     test('createProductAlert (POST /products/{id}/alerts/{type})', () async {
       await client.ecommerce.createProductAlert(CreateProductAlertRequest(),
           id: 'id', type: 'back_in_stock');
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/products/id/alerts/back_in_stock',
+        queryKeys: const <String>{},
+        context: 'ecommerce.createProductAlert',
+      );
     });
     test('createUpdateBatchCategory (POST /categories/batch)', () async {
-      await client.ecommerce.createUpdateBatchCategory(
+      final result = await client.ecommerce.createUpdateBatchCategory(
           CreateUpdateBatchCategoryRequest(categories: [
         CreateUpdateBatchCategoryRequestCategoriesItem(id: 'x')
       ]));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/categories/batch',
+        queryKeys: const <String>{},
+        context: 'ecommerce.createUpdateBatchCategory',
+      );
     });
     test('createUpdateBatchProducts (POST /products/batch)', () async {
-      await client.ecommerce.createUpdateBatchProducts(
+      final result = await client.ecommerce.createUpdateBatchProducts(
           CreateUpdateBatchProductsRequest(products: [
         CreateUpdateBatchProductsRequestProductsItem(id: 'x', name: 'x')
       ]));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/products/batch',
+        queryKeys: const <String>{},
+        context: 'ecommerce.createUpdateBatchProducts',
+      );
     });
     test('createUpdateCategory (POST /categories)', () async {
-      await client.ecommerce
+      final result = await client.ecommerce
           .createUpdateCategory(CreateUpdateCategoryRequest(id: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/categories',
+        queryKeys: const <String>{},
+        context: 'ecommerce.createUpdateCategory',
+      );
     });
     test('createUpdateProduct (POST /products)', () async {
-      await client.ecommerce
+      final result = await client.ecommerce
           .createUpdateProduct(CreateUpdateProductRequest(id: 'x', name: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/products',
+        queryKeys: const <String>{},
+        context: 'ecommerce.createUpdateProduct',
+      );
     });
     test(
         'getAttributedProductSalesForASingleBrevoCampaignOrWorkflow (GET /ecommerce/attribution/products/{conversionSource}/{conversionSourceId})',
         () async {
-      await client.ecommerce
+      final result = await client.ecommerce
           .getAttributedProductSalesForASingleBrevoCampaignOrWorkflow(
               conversionSource:
                   GetEcommerceAttributionProductsConversionSourceConversionSourceIdRequestConversionSource
                       .fromWire('email_campaign'),
               conversionSourceId: 'sale');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/ecommerce/attribution/products/email_campaign/sale',
+        queryKeys: const <String>{},
+        context:
+            'ecommerce.getAttributedProductSalesForASingleBrevoCampaignOrWorkflow',
+      );
     });
     test(
         'getAttributionMetricsForOneOrMoreBrevoCampaignsOrWorkflows (GET /ecommerce/attribution/metrics)',
         () async {
-      await client.ecommerce
+      final result = await client.ecommerce
           .getAttributionMetricsForOneOrMoreBrevoCampaignsOrWorkflows(
               periodFrom: '2022-01-02T00:00:00Z',
-              periodTo: '2022-01-03T00:00:00Z');
+              periodTo: '2022-01-03T00:00:00Z',
+              emailCampaignId: ['x'],
+              smsCampaignId: ['x'],
+              automationWorkflowEmailId: ['x'],
+              automationWorkflowSmsId: ['x']);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/ecommerce/attribution/metrics',
+        queryKeys: {
+          'periodFrom',
+          'periodTo',
+          'emailCampaignId[]',
+          'smsCampaignId[]',
+          'automationWorkflowEmailId[]',
+          'automationWorkflowSmsId[]'
+        },
+        context:
+            'ecommerce.getAttributionMetricsForOneOrMoreBrevoCampaignsOrWorkflows',
+      );
     });
     test('getCategories (GET /categories)', () async {
-      await client.ecommerce.getCategories();
+      final result = await client.ecommerce.getCategories(
+          limit: 1,
+          offset: 1,
+          sort: GetCategoriesRequestSort.asc,
+          ids: ['x'],
+          name: 'x',
+          modifiedSince: 'x',
+          createdSince: 'x',
+          isDeleted: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/categories',
+        queryKeys: {
+          'limit',
+          'offset',
+          'sort',
+          'ids',
+          'name',
+          'modifiedSince',
+          'createdSince',
+          'isDeleted'
+        },
+        context: 'ecommerce.getCategories',
+      );
     });
     test('getCategoryInfo (GET /categories/{id})', () async {
-      await client.ecommerce.getCategoryInfo(id: 'id');
+      final result = await client.ecommerce.getCategoryInfo(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/categories/id',
+        queryKeys: const <String>{},
+        context: 'ecommerce.getCategoryInfo',
+      );
     });
     test(
         'getDetailedAttributionMetricsForASingleBrevoCampaignOrWorkflow (GET /ecommerce/attribution/metrics/{conversionSource}/{conversionSourceId})',
         () async {
-      await client.ecommerce
+      final result = await client.ecommerce
           .getDetailedAttributionMetricsForASingleBrevoCampaignOrWorkflow(
               conversionSource:
                   GetEcommerceAttributionMetricsConversionSourceConversionSourceIdRequestConversionSource
                       .fromWire('email_campaign'),
               conversionSourceId: 'sale');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/ecommerce/attribution/metrics/email_campaign/sale',
+        queryKeys: const <String>{},
+        context:
+            'ecommerce.getDetailedAttributionMetricsForASingleBrevoCampaignOrWorkflow',
+      );
     });
     test('getOrders (GET /orders)', () async {
-      await client.ecommerce.getOrders();
+      await client.ecommerce.getOrders(
+          limit: 1,
+          offset: 1,
+          sort: GetOrdersRequestSort.asc,
+          modifiedSince: 'x',
+          createdSince: 'x');
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/orders',
+        queryKeys: {'limit', 'offset', 'sort', 'modifiedSince', 'createdSince'},
+        context: 'ecommerce.getOrders',
+      );
     });
     test('getProductInfo (GET /products/{id})', () async {
-      await client.ecommerce.getProductInfo(id: 'id');
+      final result = await client.ecommerce.getProductInfo(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/products/id',
+        queryKeys: const <String>{},
+        context: 'ecommerce.getProductInfo',
+      );
     });
     test('getProducts (GET /products)', () async {
-      await client.ecommerce.getProducts();
+      final result = await client.ecommerce.getProducts(
+          limit: 1,
+          offset: 1,
+          sort: GetProductsRequestSort.asc,
+          ids: ['x'],
+          search: 'x',
+          name: 'x',
+          priceLte: 1.0,
+          priceGte: 1.0,
+          priceLt: 1.0,
+          priceGt: 1.0,
+          priceEq: 1.0,
+          priceNe: 1.0,
+          alternativePriceLte: 1.0,
+          alternativePriceGte: 1.0,
+          alternativePriceLt: 1.0,
+          alternativePriceGt: 1.0,
+          alternativePriceEq: 1.0,
+          alternativePriceNe: 1.0,
+          categories: ['x'],
+          modifiedSince: 'x',
+          createdSince: 'x',
+          sortByField: GetProductsRequestSortByField.createdAt,
+          isDeleted: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/products',
+        queryKeys: {
+          'limit',
+          'offset',
+          'sort',
+          'ids',
+          'search',
+          'name',
+          'price[lte]',
+          'price[gte]',
+          'price[lt]',
+          'price[gt]',
+          'price[eq]',
+          'price[ne]',
+          'alternativePrice[lte]',
+          'alternativePrice[gte]',
+          'alternativePrice[lt]',
+          'alternativePrice[gt]',
+          'alternativePrice[eq]',
+          'alternativePrice[ne]',
+          'categories',
+          'modifiedSince',
+          'createdSince',
+          'sortByField',
+          'isDeleted'
+        },
+        context: 'ecommerce.getProducts',
+      );
     });
     test(
         'getTheIso4217CompliantDisplayCurrencyCodeForYourBrevoAccount (GET /ecommerce/config/displayCurrency)',
         () async {
-      await client.ecommerce
+      final result = await client.ecommerce
           .getTheIso4217CompliantDisplayCurrencyCodeForYourBrevoAccount();
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/ecommerce/config/displayCurrency',
+        queryKeys: const <String>{},
+        context:
+            'ecommerce.getTheIso4217CompliantDisplayCurrencyCodeForYourBrevoAccount',
+      );
     });
     test('setConfigDisplayCurrency (POST /ecommerce/config/displayCurrency)',
         () async {
-      await client.ecommerce
+      final result = await client.ecommerce
           .setConfigDisplayCurrency(SetConfigDisplayCurrencyRequest(code: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/ecommerce/config/displayCurrency',
+        queryKeys: const <String>{},
+        context: 'ecommerce.setConfigDisplayCurrency',
+      );
     });
   });
 
@@ -640,9 +1822,23 @@ void main() {
       await client.emailCampaigns.createEmailCampaign(
           CreateEmailCampaignRequest(
               name: 'x', sender: CreateEmailCampaignRequestSender()));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/emailCampaigns',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.createEmailCampaign',
+      );
     });
     test('deleteEmailCampaign (DELETE /emailCampaigns/{campaignId})', () async {
       await client.emailCampaigns.deleteEmailCampaign(campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/emailCampaigns/1000000',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.deleteEmailCampaign',
+      );
     });
     test(
         'emailExportRecipients (POST /emailCampaigns/{campaignId}/exportRecipients)',
@@ -651,49 +1847,157 @@ void main() {
           EmailExportRecipientsRequest(
               recipientsType: EmailExportRecipientsRequestRecipientsType.all),
           campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/emailCampaigns/1000000/exportRecipients',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.emailExportRecipients',
+      );
     });
     test(
         'getAbTestCampaignResult (GET /emailCampaigns/{campaignId}/abTestCampaignResult)',
         () async {
-      await client.emailCampaigns.getAbTestCampaignResult(campaignId: 1000000);
+      final result = await client.emailCampaigns
+          .getAbTestCampaignResult(campaignId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/emailCampaigns/1000000/abTestCampaignResult',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.getAbTestCampaignResult',
+      );
     });
     test('getEmailCampaign (GET /emailCampaigns/{campaignId})', () async {
-      await client.emailCampaigns.getEmailCampaign(campaignId: 1000000);
+      final result = await client.emailCampaigns.getEmailCampaign(
+          campaignId: 1000000,
+          statistics: GetEmailCampaignRequestStatistics.globalStats,
+          excludeHtmlContent: true);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/emailCampaigns/1000000',
+        queryKeys: {'statistics', 'excludeHtmlContent'},
+        context: 'emailCampaigns.getEmailCampaign',
+      );
     });
     test('getEmailCampaigns (GET /emailCampaigns)', () async {
-      await client.emailCampaigns.getEmailCampaigns();
+      final result = await client.emailCampaigns.getEmailCampaigns(
+          type: GetEmailCampaignsRequestType.classic,
+          status: GetEmailCampaignsRequestStatus.suspended,
+          statistics: GetEmailCampaignsRequestStatistics.globalStats,
+          startDate: 'x',
+          endDate: 'x',
+          limit: 1,
+          offset: 1,
+          sort: GetEmailCampaignsRequestSort.asc,
+          excludeHtmlContent: true,
+          excludePdfAttachment: true);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/emailCampaigns',
+        queryKeys: {
+          'type',
+          'status',
+          'statistics',
+          'startDate',
+          'endDate',
+          'limit',
+          'offset',
+          'sort',
+          'excludeHtmlContent',
+          'excludePdfAttachment'
+        },
+        context: 'emailCampaigns.getEmailCampaigns',
+      );
     });
     test('getSharedTemplateUrl (GET /emailCampaigns/{campaignId}/sharedUrl)',
         () async {
-      await client.emailCampaigns.getSharedTemplateUrl(campaignId: 1000000);
+      final result =
+          await client.emailCampaigns.getSharedTemplateUrl(campaignId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/emailCampaigns/1000000/sharedUrl',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.getSharedTemplateUrl',
+      );
     });
     test('sendEmailCampaignNow (POST /emailCampaigns/{campaignId}/sendNow)',
         () async {
       await client.emailCampaigns.sendEmailCampaignNow(campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/emailCampaigns/1000000/sendNow',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.sendEmailCampaignNow',
+      );
     });
     test('sendReport (POST /emailCampaigns/{campaignId}/sendReport)', () async {
       await client.emailCampaigns.sendReport(
           SendReport(email: SendReportEmail(body: 'x', to: ['x'])),
           campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/emailCampaigns/1000000/sendReport',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.sendReport',
+      );
     });
     test('sendTestEmail (POST /emailCampaigns/{campaignId}/sendTest)',
         () async {
       await client.emailCampaigns
           .sendTestEmail(SendTestEmail(), campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/emailCampaigns/1000000/sendTest',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.sendTestEmail',
+      );
     });
     test('updateCampaignStatus (PUT /emailCampaigns/{campaignId}/status)',
         () async {
       await client.emailCampaigns
           .updateCampaignStatus(UpdateCampaignStatus(), campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/emailCampaigns/1000000/status',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.updateCampaignStatus',
+      );
     });
     test('updateEmailCampaign (PUT /emailCampaigns/{campaignId})', () async {
       await client.emailCampaigns.updateEmailCampaign(
           UpdateEmailCampaignRequest(),
           campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/emailCampaigns/1000000',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.updateEmailCampaign',
+      );
     });
     test('uploadImageToGallery (POST /emailCampaigns/images)', () async {
-      await client.emailCampaigns
+      final result = await client.emailCampaigns
           .uploadImageToGallery(UploadImageToGalleryRequest(imageUrl: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/emailCampaigns/images',
+        queryKeys: const <String>{},
+        context: 'emailCampaigns.uploadImageToGallery',
+      );
     });
   });
 
@@ -704,77 +2008,267 @@ void main() {
             eventName: 'x',
             identifiers: CreateBatchEventsRequestEventsItemIdentifiers())
       ]));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/events/batch',
+        queryKeys: const <String>{},
+        context: 'event.createBatchEvents',
+      );
     });
     test('createEvent (POST /events)', () async {
       await client.event.createEvent(CreateEventRequest(
           eventName: 'x', identifiers: CreateEventRequestIdentifiers()));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/events',
+        queryKeys: const <String>{},
+        context: 'event.createEvent',
+      );
     });
     test('getEvents (GET /events)', () async {
-      await client.event.getEvents();
+      final result = await client.event.getEvents(
+          contactId: [1],
+          eventName: ['x'],
+          objectType: ['x'],
+          startDate: 'x',
+          endDate: 'x',
+          limit: 1,
+          offset: 1);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/events',
+        queryKeys: {
+          'contact_id',
+          'event_name',
+          'object_type',
+          'startDate',
+          'endDate',
+          'limit',
+          'offset'
+        },
+        context: 'event.getEvents',
+      );
     });
   });
 
   group('externalFeeds', () {
     test('createExternalFeed (POST /feeds)', () async {
-      await client.externalFeeds
+      final result = await client.externalFeeds
           .createExternalFeed(CreateExternalFeedRequest(name: 'x', url: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/feeds',
+        queryKeys: const <String>{},
+        context: 'externalFeeds.createExternalFeed',
+      );
     });
     test('deleteExternalFeed (DELETE /feeds/{uuid})', () async {
       await client.externalFeeds
           .deleteExternalFeed(uuid: 'b1c2d3e4-f5a6-47b8-89c0-d1e2f3a4b5c6');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/feeds/b1c2d3e4-f5a6-47b8-89c0-d1e2f3a4b5c6',
+        queryKeys: const <String>{},
+        context: 'externalFeeds.deleteExternalFeed',
+      );
     });
     test('getAllExternalFeeds (GET /feeds)', () async {
-      await client.externalFeeds.getAllExternalFeeds(
-          search: 'product', startDate: '2024-01-01', endDate: '2024-01-31');
+      final result = await client.externalFeeds.getAllExternalFeeds(
+          search: 'product',
+          startDate: '2024-01-01',
+          endDate: '2024-01-31',
+          sort: GetAllExternalFeedsRequestSort.asc,
+          authType: GetAllExternalFeedsRequestAuthType.basic,
+          limit: 1,
+          offset: 1);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/feeds',
+        queryKeys: {
+          'search',
+          'startDate',
+          'endDate',
+          'sort',
+          'authType',
+          'limit',
+          'offset'
+        },
+        context: 'externalFeeds.getAllExternalFeeds',
+      );
     });
     test('getExternalFeedByUuid (GET /feeds/{uuid})', () async {
-      await client.externalFeeds
+      final result = await client.externalFeeds
           .getExternalFeedByUuid(uuid: 'b1c2d3e4-f5a6-47b8-89c0-d1e2f3a4b5c6');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/feeds/b1c2d3e4-f5a6-47b8-89c0-d1e2f3a4b5c6',
+        queryKeys: const <String>{},
+        context: 'externalFeeds.getExternalFeedByUuid',
+      );
     });
     test('updateExternalFeed (PUT /feeds/{uuid})', () async {
       await client.externalFeeds.updateExternalFeed(UpdateExternalFeedRequest(),
           uuid: 'b1c2d3e4-f5a6-47b8-89c0-d1e2f3a4b5c6');
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/feeds/b1c2d3e4-f5a6-47b8-89c0-d1e2f3a4b5c6',
+        queryKeys: const <String>{},
+        context: 'externalFeeds.updateExternalFeed',
+      );
     });
   });
 
   group('files', () {
     test('deleteAFile (DELETE /crm/files/{id})', () async {
       await client.files.deleteAFile(id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/crm/files/id',
+        queryKeys: const <String>{},
+        context: 'files.deleteAFile',
+      );
     });
     test('downloadAFile (GET /crm/files/{id})', () async {
-      await client.files.downloadAFile(id: 'id');
+      final result = await client.files.downloadAFile(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/files/id',
+        queryKeys: const <String>{},
+        context: 'files.downloadAFile',
+      );
     });
     test('getAllFiles (GET /crm/files)', () async {
-      await client.files.getAllFiles();
+      final result = await client.files.getAllFiles(
+          entity: GetCrmFilesRequestEntity.companies,
+          entityIds: 'x',
+          dateFrom: 1,
+          dateTo: 1,
+          offset: 1,
+          limit: 1,
+          sort: GetCrmFilesRequestSort.asc);
+      expect(result, isA<List<FileData>>());
+      expect(result.length, 1);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/files',
+        queryKeys: {
+          'entity',
+          'entityIds',
+          'dateFrom',
+          'dateTo',
+          'offset',
+          'limit',
+          'sort'
+        },
+        context: 'files.getAllFiles',
+      );
     });
     test('getFileDetails (GET /crm/files/{id}/data)', () async {
-      await client.files.getFileDetails(id: 'id');
+      final result = await client.files.getFileDetails(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/files/id/data',
+        queryKeys: const <String>{},
+        context: 'files.getFileDetails',
+      );
     });
     test('uploadAFile (POST /crm/files)', () async {
-      await client.files.uploadAFile(PostCrmFilesRequest(
+      final result = await client.files.uploadAFile(PostCrmFilesRequest(
           file: BrevoFile(bytes: Uint8List(0), filename: 'x')));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/crm/files',
+        queryKeys: const <String>{},
+        context: 'files.uploadAFile',
+      );
     });
   });
 
   group('inboundParsing', () {
     test('getInboundEmailAttachment (GET /inbound/attachments/{downloadToken})',
         () async {
-      await client.inboundParsing
+      final result = await client.inboundParsing
           .getInboundEmailAttachment(downloadToken: 'downloadToken');
+      expect(result, isA<Uint8List>());
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/inbound/attachments/downloadToken',
+        queryKeys: const <String>{},
+        context: 'inboundParsing.getInboundEmailAttachment',
+      );
     });
     test('getInboundEmailEvents (GET /inbound/events)', () async {
-      await client.inboundParsing.getInboundEmailEvents();
+      final result = await client.inboundParsing.getInboundEmailEvents(
+          sender: 'x',
+          startDate: 'x',
+          endDate: 'x',
+          limit: 1,
+          offset: 1,
+          sort: GetInboundEmailEventsRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/inbound/events',
+        queryKeys: {
+          'sender',
+          'startDate',
+          'endDate',
+          'limit',
+          'offset',
+          'sort'
+        },
+        context: 'inboundParsing.getInboundEmailEvents',
+      );
     });
     test('getInboundEmailEventsByUuid (GET /inbound/events/{uuid})', () async {
-      await client.inboundParsing.getInboundEmailEventsByUuid(uuid: 'uuid');
+      final result =
+          await client.inboundParsing.getInboundEmailEventsByUuid(uuid: 'uuid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/inbound/events/uuid',
+        queryKeys: const <String>{},
+        context: 'inboundParsing.getInboundEmailEventsByUuid',
+      );
     });
   });
 
   group('masterAccount', () {
     test('associateAnIpToSubAccounts (POST /corporate/subAccount/ip/associate)',
         () async {
-      await client.masterAccount.associateAnIpToSubAccounts(
+      final result = await client.masterAccount.associateAnIpToSubAccounts(
           PostCorporateSubAccountIpAssociateRequest(ids: [1], ip: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/corporate/subAccount/ip/associate',
+        queryKeys: const <String>{},
+        context: 'masterAccount.associateAnIpToSubAccounts',
+      );
     });
     test('changeAdminUserPermissions (PUT /corporate/user/{email}/permissions)',
         () async {
@@ -785,26 +2279,72 @@ void main() {
                 PutCorporateUserEmailPermissionsRequestPrivilegesItem()
               ]),
           email: 'email');
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/corporate/user/email/permissions',
+        queryKeys: const <String>{},
+        context: 'masterAccount.changeAdminUserPermissions',
+      );
     });
     test('createANewGroupOfSubAccounts (POST /corporate/group)', () async {
-      await client.masterAccount.createANewGroupOfSubAccounts(
+      final result = await client.masterAccount.createANewGroupOfSubAccounts(
           PostCorporateGroupRequest(groupName: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/corporate/group',
+        queryKeys: const <String>{},
+        context: 'masterAccount.createANewGroupOfSubAccounts',
+      );
     });
     test('createANewSubAccountUnderAMasterAccount (POST /corporate/subAccount)',
         () async {
-      await client.masterAccount.createANewSubAccountUnderAMasterAccount(
-          PostCorporateSubAccountRequest(companyName: 'x', email: 'x'));
+      final result = await client.masterAccount
+          .createANewSubAccountUnderAMasterAccount(
+              PostCorporateSubAccountRequest(companyName: 'x', email: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/corporate/subAccount',
+        queryKeys: const <String>{},
+        context: 'masterAccount.createANewSubAccountUnderAMasterAccount',
+      );
     });
     test('createAnApiKeyForASubAccount (POST /corporate/subAccount/key)',
         () async {
-      await client.masterAccount.createAnApiKeyForASubAccount(
+      final result = await client.masterAccount.createAnApiKeyForASubAccount(
           PostCorporateSubAccountKeyRequest(id: 1, name: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/corporate/subAccount/key',
+        queryKeys: const <String>{},
+        context: 'masterAccount.createAnApiKeyForASubAccount',
+      );
     });
     test('deleteAGroup (DELETE /corporate/group/{id})', () async {
       await client.masterAccount.deleteAGroup(id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/corporate/group/id',
+        queryKeys: const <String>{},
+        context: 'masterAccount.deleteAGroup',
+      );
     });
     test('deleteASubAccount (DELETE /corporate/subAccount/{id})', () async {
       await client.masterAccount.deleteASubAccount(id: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/corporate/subAccount/1000000',
+        queryKeys: const <String>{},
+        context: 'masterAccount.deleteASubAccount',
+      );
     });
     test(
         'deleteSubAccountFromGroup (PUT /corporate/group/unlink/{groupId}/subAccounts)',
@@ -812,12 +2352,26 @@ void main() {
       await client.masterAccount.deleteSubAccountFromGroup(
           PutCorporateGroupUnlinkGroupIdSubAccountsRequest(subAccountIds: [1]),
           groupId: 'groupId');
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/corporate/group/unlink/groupId/subAccounts',
+        queryKeys: const <String>{},
+        context: 'masterAccount.deleteSubAccountFromGroup',
+      );
     });
     test(
         'dissociateAnIpToSubAccounts (PUT /corporate/subAccount/ip/dissociate)',
         () async {
       await client.masterAccount.dissociateAnIpToSubAccounts(
           PutCorporateSubAccountIpDissociateRequest(ids: [1], ip: 'x'));
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/corporate/subAccount/ip/dissociate',
+        queryKeys: const <String>{},
+        context: 'masterAccount.dissociateAnIpToSubAccounts',
+      );
     });
     test(
         'enableDisableSubAccountApplicationS (PUT /corporate/subAccount/{id}/applications/toggle)',
@@ -825,182 +2379,525 @@ void main() {
       await client.masterAccount.enableDisableSubAccountApplicationS(
           PutCorporateSubAccountIdApplicationsToggleRequest(),
           id: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/corporate/subAccount/1000000/applications/toggle',
+        queryKeys: const <String>{},
+        context: 'masterAccount.enableDisableSubAccountApplicationS',
+      );
     });
     test('generateSsoTokenToAccessAdminAccount (POST /corporate/ssoToken)',
         () async {
-      await client.masterAccount.generateSsoTokenToAccessAdminAccount(
-          PostCorporateSsoTokenRequest(email: 'x'));
+      final result = await client.masterAccount
+          .generateSsoTokenToAccessAdminAccount(
+              PostCorporateSsoTokenRequest(email: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/corporate/ssoToken',
+        queryKeys: const <String>{},
+        context: 'masterAccount.generateSsoTokenToAccessAdminAccount',
+      );
     });
     test(
         'generateSsoTokenToAccessSubAccount (POST /corporate/subAccount/ssoToken)',
         () async {
-      await client.masterAccount.generateSsoTokenToAccessSubAccount(
-          PostCorporateSubAccountSsoTokenRequest(id: 1));
+      final result = await client.masterAccount
+          .generateSsoTokenToAccessSubAccount(
+              PostCorporateSubAccountSsoTokenRequest(id: 1));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/corporate/subAccount/ssoToken',
+        queryKeys: const <String>{},
+        context: 'masterAccount.generateSsoTokenToAccessSubAccount',
+      );
     });
     test('getAGroupDetails (GET /corporate/group/{id})', () async {
-      await client.masterAccount.getAGroupDetails(id: 'id');
+      final result = await client.masterAccount.getAGroupDetails(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/corporate/group/id',
+        queryKeys: const <String>{},
+        context: 'masterAccount.getAGroupDetails',
+      );
     });
     test('getCorporateInvitedUsersList (GET /corporate/invited/users)',
         () async {
-      await client.masterAccount.getCorporateInvitedUsersList();
+      final result = await client.masterAccount
+          .getCorporateInvitedUsersList(type: 'x', offset: 1, limit: 1);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/corporate/invited/users',
+        queryKeys: {'type', 'offset', 'limit'},
+        context: 'masterAccount.getCorporateInvitedUsersList',
+      );
     });
     test('getCorporateUserPermission (GET /corporate/user/{email}/permissions)',
         () async {
-      await client.masterAccount.getCorporateUserPermission(email: 'email');
+      final result =
+          await client.masterAccount.getCorporateUserPermission(email: 'email');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/corporate/user/email/permissions',
+        queryKeys: const <String>{},
+        context: 'masterAccount.getCorporateUserPermission',
+      );
     });
     test('getSubAccountDetails (GET /corporate/subAccount/{id})', () async {
-      await client.masterAccount.getSubAccountDetails(id: 1000000);
+      final result =
+          await client.masterAccount.getSubAccountDetails(id: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/corporate/subAccount/1000000',
+        queryKeys: const <String>{},
+        context: 'masterAccount.getSubAccountDetails',
+      );
     });
     test('getSubAccountGroups (GET /corporate/groups)', () async {
-      await client.masterAccount.getSubAccountGroups();
+      final result = await client.masterAccount.getSubAccountGroups();
+      expect(result, isA<List<GetSubAccountGroupsResponseItem>>());
+      expect(result.length, 3);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/corporate/groups',
+        queryKeys: const <String>{},
+        context: 'masterAccount.getSubAccountGroups',
+      );
     });
     test('getTheDetailsOfRequestedMasterAccount (GET /corporate/masterAccount)',
         () async {
-      await client.masterAccount.getTheDetailsOfRequestedMasterAccount();
+      final result =
+          await client.masterAccount.getTheDetailsOfRequestedMasterAccount();
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/corporate/masterAccount',
+        queryKeys: const <String>{},
+        context: 'masterAccount.getTheDetailsOfRequestedMasterAccount',
+      );
     });
     test(
         'getTheListOfAllTheSubAccountsOfTheMasterAccount (GET /corporate/subAccount)',
         () async {
-      await client.masterAccount
+      final result = await client.masterAccount
           .getTheListOfAllTheSubAccountsOfTheMasterAccount(offset: 1, limit: 1);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/corporate/subAccount',
+        queryKeys: {'offset', 'limit'},
+        context:
+            'masterAccount.getTheListOfAllTheSubAccountsOfTheMasterAccount',
+      );
     });
     test('inviteAdminUser (POST /corporate/user/invitation/send)', () async {
-      await client.masterAccount.inviteAdminUser(InviteAdminUserRequest(
-          allFeaturesAccess: true,
-          email: 'x',
-          privileges: [InviteAdminUserRequestPrivilegesItem()]));
+      final result = await client.masterAccount.inviteAdminUser(
+          InviteAdminUserRequest(
+              allFeaturesAccess: true,
+              email: 'x',
+              privileges: [InviteAdminUserRequestPrivilegesItem()]));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/corporate/user/invitation/send',
+        queryKeys: const <String>{},
+        context: 'masterAccount.inviteAdminUser',
+      );
     });
     test('listOfAllIPs (GET /corporate/ip)', () async {
-      await client.masterAccount.listOfAllIPs();
+      final result = await client.masterAccount.listOfAllIPs();
+      expect(result, isA<List<GetCorporateIpResponseItem>>());
+      expect(result.length, 2);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/corporate/ip',
+        queryKeys: const <String>{},
+        context: 'masterAccount.listOfAllIPs',
+      );
     });
     test(
         'resendCancelAdminUserInvitation (PUT /corporate/user/invitation/{action}/{email})',
         () async {
-      await client.masterAccount.resendCancelAdminUserInvitation(
+      final result = await client.masterAccount.resendCancelAdminUserInvitation(
           action: PutCorporateUserInvitationActionEmailRequestAction.fromWire(
               'resend'),
           email: 'email');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/corporate/user/invitation/resend/email',
+        queryKeys: const <String>{},
+        context: 'masterAccount.resendCancelAdminUserInvitation',
+      );
     });
     test('revokeAnAdminUser (DELETE /corporate/user/revoke/{email})', () async {
       await client.masterAccount.revokeAnAdminUser(email: 'email');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/corporate/user/revoke/email',
+        queryKeys: const <String>{},
+        context: 'masterAccount.revokeAnAdminUser',
+      );
     });
     test('updateAGroupOfSubAccounts (PUT /corporate/group/{id})', () async {
       await client.masterAccount
           .updateAGroupOfSubAccounts(PutCorporateGroupIdRequest(), id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/corporate/group/id',
+        queryKeys: const <String>{},
+        context: 'masterAccount.updateAGroupOfSubAccounts',
+      );
     });
     test('updateSubAccountPlan (PUT /corporate/subAccount/{id}/plan)',
         () async {
       await client.masterAccount.updateSubAccountPlan(
           PutCorporateSubAccountIdPlanRequest(),
           id: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/corporate/subAccount/1000000/plan',
+        queryKeys: const <String>{},
+        context: 'masterAccount.updateSubAccountPlan',
+      );
     });
     test('updateSubAccountsPlan (PUT /corporate/subAccounts/plan)', () async {
       await client.masterAccount
           .updateSubAccountsPlan(PutCorporateSubAccountsPlanRequest());
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/corporate/subAccounts/plan',
+        queryKeys: const <String>{},
+        context: 'masterAccount.updateSubAccountsPlan',
+      );
     });
   });
 
   group('notes', () {
     test('createANote (POST /crm/notes)', () async {
-      await client.notes.createANote(NoteData(text: 'x'));
+      final result = await client.notes.createANote(NoteData(text: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/crm/notes',
+        queryKeys: const <String>{},
+        context: 'notes.createANote',
+      );
     });
     test('deleteANote (DELETE /crm/notes/{id})', () async {
       await client.notes.deleteANote(id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/crm/notes/id',
+        queryKeys: const <String>{},
+        context: 'notes.deleteANote',
+      );
     });
     test('getANote (GET /crm/notes/{id})', () async {
-      await client.notes.getANote(id: 'id');
+      final result = await client.notes.getANote(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/notes/id',
+        queryKeys: const <String>{},
+        context: 'notes.getANote',
+      );
     });
     test('getAllNotes (GET /crm/notes)', () async {
-      await client.notes.getAllNotes();
+      final result = await client.notes.getAllNotes(
+          entity: GetCrmNotesRequestEntity.companies,
+          entityIds: 'x',
+          dateFrom: 1,
+          dateTo: 1,
+          offset: 1,
+          limit: 1,
+          sort: GetCrmNotesRequestSort.asc);
+      expect(result, isA<List<Note>>());
+      expect(result.length, 1);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/notes',
+        queryKeys: {
+          'entity',
+          'entityIds',
+          'dateFrom',
+          'dateTo',
+          'offset',
+          'limit',
+          'sort'
+        },
+        context: 'notes.getAllNotes',
+      );
     });
     test('updateANote (PATCH /crm/notes/{id})', () async {
       await client.notes.updateANote(NoteData(text: 'x'), id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'PATCH',
+        path: '/crm/notes/id',
+        queryKeys: const <String>{},
+        context: 'notes.updateANote',
+      );
     });
   });
 
   group('payments', () {
     test('createPaymentRequest (POST /payments/requests)', () async {
-      await client.payments.createPaymentRequest(CreatePaymentRequestRequest(
-          cart: Cart(), contactId: 1, reference: 'x'));
+      final result = await client.payments.createPaymentRequest(
+          CreatePaymentRequestRequest(
+              cart: Cart(), contactId: 1, reference: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/payments/requests',
+        queryKeys: const <String>{},
+        context: 'payments.createPaymentRequest',
+      );
     });
     test('deletePaymentRequest (DELETE /payments/requests/{id})', () async {
       await client.payments
           .deletePaymentRequest(id: '9ae7d68a-565c-4695-9381-d8fb3e3a14cc');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/payments/requests/9ae7d68a-565c-4695-9381-d8fb3e3a14cc',
+        queryKeys: const <String>{},
+        context: 'payments.deletePaymentRequest',
+      );
     });
     test('getPaymentRequest (GET /payments/requests/{id})', () async {
-      await client.payments
+      final result = await client.payments
           .getPaymentRequest(id: '050db7b0-9bb7-4c1e-9c68-5a8dace8c1dc');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/payments/requests/050db7b0-9bb7-4c1e-9c68-5a8dace8c1dc',
+        queryKeys: const <String>{},
+        context: 'payments.getPaymentRequest',
+      );
     });
   });
 
   group('process', () {
     test('getProcess (GET /processes/{processId})', () async {
-      await client.process.getProcess(processId: 1000000);
+      final result = await client.process.getProcess(processId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/processes/1000000',
+        queryKeys: const <String>{},
+        context: 'process.getProcess',
+      );
     });
     test('getProcesses (GET /processes)', () async {
-      await client.process.getProcesses();
+      final result = await client.process
+          .getProcesses(limit: 1, offset: 1, sort: GetProcessesRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/processes',
+        queryKeys: {'limit', 'offset', 'sort'},
+        context: 'process.getProcesses',
+      );
     });
   });
 
   group('program', () {
     test('createNewLp (POST /loyalty/config/programs)', () async {
-      await client.program.createNewLp(CreateNewLpRequest(name: 'x'));
+      final result =
+          await client.program.createNewLp(CreateNewLpRequest(name: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/config/programs',
+        queryKeys: const <String>{},
+        context: 'program.createNewLp',
+      );
     });
     test(
         'deleteContactMembers (DELETE /loyalty/config/programs/{pid}/subscription-members)',
         () async {
       await client.program.deleteContactMembers(
           pid: 'pid', memberContactIds: 'memberContactIds');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/loyalty/config/programs/pid/subscription-members',
+        queryKeys: {'memberContactIds'},
+        context: 'program.deleteContactMembers',
+      );
     });
     test(
         'deleteContactSubscription (DELETE /loyalty/config/programs/{pid}/contact/{cid})',
         () async {
       await client.program.deleteContactSubscription(pid: 'pid', cid: 1);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/loyalty/config/programs/pid/contact/1',
+        queryKeys: const <String>{},
+        context: 'program.deleteContactSubscription',
+      );
     });
     test('deleteLoyaltyProgram (DELETE /loyalty/config/programs/{pid})',
         () async {
       await client.program.deleteLoyaltyProgram(pid: 'pid');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/loyalty/config/programs/pid',
+        queryKeys: const <String>{},
+        context: 'program.deleteLoyaltyProgram',
+      );
     });
     test('getLoyaltyProgramInfo (GET /loyalty/config/programs/{pid})',
         () async {
-      await client.program.getLoyaltyProgramInfo(pid: 'pid');
+      final result = await client.program.getLoyaltyProgramInfo(pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/config/programs/pid',
+        queryKeys: const <String>{},
+        context: 'program.getLoyaltyProgramInfo',
+      );
     });
     test('getLpList (GET /loyalty/config/programs)', () async {
-      await client.program.getLpList();
+      final result = await client.program.getLpList(
+          limit: 1,
+          offset: 1,
+          sortField: GetLpListRequestSortField.name,
+          sort: GetLpListRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/config/programs',
+        queryKeys: {'limit', 'offset', 'sort_field', 'sort'},
+        context: 'program.getLpList',
+      );
     });
     test(
         'getParameterSubscriptionInfo (GET /loyalty/config/programs/{pid}/account-info)',
         () async {
-      await client.program.getParameterSubscriptionInfo(pid: 'pid');
+      final result = await client.program.getParameterSubscriptionInfo(
+          pid: 'pid',
+          contactId: 'x',
+          params: 'x',
+          loyaltySubscriptionId: 'x',
+          includeInternal: true);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/config/programs/pid/account-info',
+        queryKeys: {
+          'contactId',
+          'params',
+          'loyaltySubscriptionId',
+          'includeInternal'
+        },
+        context: 'program.getParameterSubscriptionInfo',
+      );
     });
     test('partiallyUpdateLoyaltyProgram (PATCH /loyalty/config/programs/{pid})',
         () async {
-      await client.program.partiallyUpdateLoyaltyProgram(
+      final result = await client.program.partiallyUpdateLoyaltyProgram(
           PartiallyUpdateLoyaltyProgramRequest(),
           pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PATCH',
+        path: '/loyalty/config/programs/pid',
+        queryKeys: const <String>{},
+        context: 'program.partiallyUpdateLoyaltyProgram',
+      );
     });
     test('publishLoyaltyProgram (POST /loyalty/config/programs/{pid}/publish)',
         () async {
       await client.program.publishLoyaltyProgram(pid: 'pid');
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/config/programs/pid/publish',
+        queryKeys: const <String>{},
+        context: 'program.publishLoyaltyProgram',
+      );
     });
     test(
         'subscribeMemberToASubscription (POST /loyalty/config/programs/{pid}/subscription-members)',
         () async {
-      await client.program.subscribeMemberToASubscription(
+      final result = await client.program.subscribeMemberToASubscription(
           SubscribeMemberToASubscriptionRequest(memberContactIds: [1]),
           pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/config/programs/pid/subscription-members',
+        queryKeys: const <String>{},
+        context: 'program.subscribeMemberToASubscription',
+      );
     });
     test(
         'subscribeToLoyaltyProgram (POST /loyalty/config/programs/{pid}/subscriptions)',
         () async {
-      await client.program.subscribeToLoyaltyProgram(
+      final result = await client.program.subscribeToLoyaltyProgram(
           SubscribeToLoyaltyProgramRequest(contactId: 1),
           pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/config/programs/pid/subscriptions',
+        queryKeys: const <String>{},
+        context: 'program.subscribeToLoyaltyProgram',
+      );
     });
     test('updateLoyaltyProgram (PUT /loyalty/config/programs/{pid})', () async {
-      await client.program.updateLoyaltyProgram(
+      final result = await client.program.updateLoyaltyProgram(
           UpdateLoyaltyProgramRequest(name: 'x'),
           pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/loyalty/config/programs/pid',
+        queryKeys: const <String>{},
+        context: 'program.updateLoyaltyProgram',
+      );
     });
   });
 
@@ -1008,74 +2905,234 @@ void main() {
     test(
         'completeRedeemTransaction (POST /loyalty/offer/programs/{pid}/rewards/redeem/{tid}/complete)',
         () async {
-      await client.reward.completeRedeemTransaction(pid: 'pid', tid: 'tid');
+      final result =
+          await client.reward.completeRedeemTransaction(pid: 'pid', tid: 'tid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/offer/programs/pid/rewards/redeem/tid/complete',
+        queryKeys: const <String>{},
+        context: 'reward.completeRedeemTransaction',
+      );
     });
     test('createReward (POST /loyalty/offer/programs/{pid}/offers)', () async {
-      await client.reward
+      final result = await client.reward
           .createReward(CreateRewardRequest(name: 'x'), pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/offer/programs/pid/offers',
+        queryKeys: const <String>{},
+        context: 'reward.createReward',
+      );
     });
     test('createVoucher (POST /loyalty/offer/programs/{pid}/rewards/attribute)',
         () async {
-      await client.reward
+      final result = await client.reward
           .createVoucher(CreateVoucherRequest(rewardId: 'x'), pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/offer/programs/pid/rewards/attribute',
+        queryKeys: const <String>{},
+        context: 'reward.createVoucher',
+      );
     });
     test(
         'getCodeCount (GET /loyalty/offer/programs/{pid}/code-pools/{cpid}/codes-count)',
         () async {
-      await client.reward.getCodeCount(pid: 'pid', cpid: 'cpid');
+      final result = await client.reward.getCodeCount(pid: 'pid', cpid: 'cpid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/offer/programs/pid/code-pools/cpid/codes-count',
+        queryKeys: const <String>{},
+        context: 'reward.getCodeCount',
+      );
     });
     test(
         'getRewardInformation (GET /loyalty/offer/programs/{pid}/rewards/{rid})',
         () async {
-      await client.reward.getRewardInformation(pid: 'pid', rid: 'rid');
+      final result = await client.reward.getRewardInformation(
+          pid: 'pid',
+          rid: 'rid',
+          version: GetLoyaltyOfferProgramsPidRewardsRidRequestVersion.active);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/offer/programs/pid/rewards/rid',
+        queryKeys: {'version'},
+        context: 'reward.getRewardInformation',
+      );
     });
     test('getRewardPageApi (GET /loyalty/offer/programs/{pid}/offers)',
         () async {
-      await client.reward.getRewardPageApi(pid: 'pid');
+      final result = await client.reward.getRewardPageApi(
+          pid: 'pid',
+          limit: 1,
+          offset: 1,
+          state: 'x',
+          version: GetLoyaltyOfferProgramsPidOffersRequestVersion.active);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/offer/programs/pid/offers',
+        queryKeys: {'limit', 'offset', 'state', 'version'},
+        context: 'reward.getRewardPageApi',
+      );
     });
     test('getVoucherForAContact (GET /loyalty/offer/programs/{pid}/vouchers)',
         () async {
-      await client.reward.getVoucherForAContact(pid: 'pid', contactId: 1);
+      final result = await client.reward.getVoucherForAContact(
+          pid: 'pid',
+          limit: 1,
+          offset: 1,
+          sort: GetLoyaltyOfferProgramsPidVouchersRequestSort.asc,
+          sortField:
+              GetLoyaltyOfferProgramsPidVouchersRequestSortField.updatedAt,
+          contactId: 1,
+          metadataKeyValue: 'x',
+          rewardId: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/offer/programs/pid/vouchers',
+        queryKeys: {
+          'limit',
+          'offset',
+          'sort',
+          'sortField',
+          'contactId',
+          'metadata_key_value',
+          'rewardId'
+        },
+        context: 'reward.getVoucherForAContact',
+      );
     });
     test('redeemVoucher (POST /loyalty/offer/programs/{pid}/rewards/redeem)',
         () async {
-      await client.reward.redeemVoucher(RedeemVoucherRequest(), pid: 'pid');
+      final result =
+          await client.reward.redeemVoucher(RedeemVoucherRequest(), pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/offer/programs/pid/rewards/redeem',
+        queryKeys: const <String>{},
+        context: 'reward.redeemVoucher',
+      );
     });
     test('revokeVouchers (DELETE /loyalty/offer/programs/{pid}/rewards/revoke)',
         () async {
-      await client.reward.revokeVouchers(pid: 'pid');
+      await client.reward.revokeVouchers(pid: 'pid', attributedRewardIds: 'x');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/loyalty/offer/programs/pid/rewards/revoke',
+        queryKeys: {'attributedRewardIds'},
+        context: 'reward.revokeVouchers',
+      );
     });
     test('validateReward (POST /loyalty/offer/programs/{pid}/rewards/validate)',
         () async {
-      await client.reward.validateReward(ValidateRewardRequest(), pid: 'pid');
+      final result = await client.reward
+          .validateReward(ValidateRewardRequest(), pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/offer/programs/pid/rewards/validate',
+        queryKeys: const <String>{},
+        context: 'reward.validateReward',
+      );
     });
   });
 
   group('senders', () {
     test('createSender (POST /senders)', () async {
-      await client.senders
+      final result = await client.senders
           .createSender(CreateSenderRequest(email: 'x', name: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/senders',
+        queryKeys: const <String>{},
+        context: 'senders.createSender',
+      );
     });
     test('deleteSender (DELETE /senders/{senderId})', () async {
       await client.senders.deleteSender(senderId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/senders/1000000',
+        queryKeys: const <String>{},
+        context: 'senders.deleteSender',
+      );
     });
     test('getIps (GET /senders/ips)', () async {
-      await client.senders.getIps();
+      final result = await client.senders.getIps();
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/senders/ips',
+        queryKeys: const <String>{},
+        context: 'senders.getIps',
+      );
     });
     test('getIpsFromSender (GET /senders/{senderId}/ips)', () async {
-      await client.senders.getIpsFromSender(senderId: 1000000);
+      final result = await client.senders.getIpsFromSender(senderId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/senders/1000000/ips',
+        queryKeys: const <String>{},
+        context: 'senders.getIpsFromSender',
+      );
     });
     test('getSenders (GET /senders)', () async {
-      await client.senders.getSenders();
+      final result = await client.senders.getSenders(ip: 'x', domain: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/senders',
+        queryKeys: {'ip', 'domain'},
+        context: 'senders.getSenders',
+      );
     });
     test('updateSender (PUT /senders/{senderId})', () async {
       await client.senders
           .updateSender(UpdateSenderRequest(), senderId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/senders/1000000',
+        queryKeys: const <String>{},
+        context: 'senders.updateSender',
+      );
     });
     test('validateSenderByOtp (PUT /senders/{senderId}/validate)', () async {
       await client.senders.validateSenderByOtp(
           ValidateSenderByOtpRequest(otp: 1),
           senderId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/senders/1000000/validate',
+        queryKeys: const <String>{},
+        context: 'senders.validateSenderByOtp',
+      );
     });
   });
 
@@ -1083,15 +3140,59 @@ void main() {
     test('createSmsCampaign (POST /smsCampaigns)', () async {
       await client.smsCampaigns.createSmsCampaign(
           CreateSmsCampaignRequest(content: 'x', name: 'x', sender: 'x'));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smsCampaigns',
+        queryKeys: const <String>{},
+        context: 'smsCampaigns.createSmsCampaign',
+      );
     });
     test('deleteSmsCampaign (DELETE /smsCampaigns/{campaignId})', () async {
       await client.smsCampaigns.deleteSmsCampaign(campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/smsCampaigns/1000000',
+        queryKeys: const <String>{},
+        context: 'smsCampaigns.deleteSmsCampaign',
+      );
     });
     test('getSmsCampaign (GET /smsCampaigns/{campaignId})', () async {
-      await client.smsCampaigns.getSmsCampaign(campaignId: 1000000);
+      final result =
+          await client.smsCampaigns.getSmsCampaign(campaignId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smsCampaigns/1000000',
+        queryKeys: const <String>{},
+        context: 'smsCampaigns.getSmsCampaign',
+      );
     });
     test('getSmsCampaigns (GET /smsCampaigns)', () async {
-      await client.smsCampaigns.getSmsCampaigns();
+      final result = await client.smsCampaigns.getSmsCampaigns(
+          status: GetSmsCampaignsRequestStatus.suspended,
+          startDate: 'x',
+          endDate: 'x',
+          limit: 1,
+          offset: 1,
+          sort: GetSmsCampaignsRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smsCampaigns',
+        queryKeys: {
+          'status',
+          'startDate',
+          'endDate',
+          'limit',
+          'offset',
+          'sort'
+        },
+        context: 'smsCampaigns.getSmsCampaigns',
+      );
     });
     test(
         'requestSmsRecipientExport (POST /smsCampaigns/{campaignId}/exportRecipients)',
@@ -1101,57 +3202,182 @@ void main() {
               recipientsType:
                   RequestSmsRecipientExportRequestRecipientsType.all),
           campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smsCampaigns/1000000/exportRecipients',
+        queryKeys: const <String>{},
+        context: 'smsCampaigns.requestSmsRecipientExport',
+      );
     });
     test('sendSmsCampaignNow (POST /smsCampaigns/{campaignId}/sendNow)',
         () async {
       await client.smsCampaigns.sendSmsCampaignNow(campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smsCampaigns/1000000/sendNow',
+        queryKeys: const <String>{},
+        context: 'smsCampaigns.sendSmsCampaignNow',
+      );
     });
     test('sendSmsReport (POST /smsCampaigns/{campaignId}/sendReport)',
         () async {
       await client.smsCampaigns.sendSmsReport(
           SendReport(email: SendReportEmail(body: 'x', to: ['x'])),
           campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smsCampaigns/1000000/sendReport',
+        queryKeys: const <String>{},
+        context: 'smsCampaigns.sendSmsReport',
+      );
     });
     test('sendTestSms (POST /smsCampaigns/{campaignId}/sendTest)', () async {
       await client.smsCampaigns
           .sendTestSms(SendTestSmsRequest(), campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smsCampaigns/1000000/sendTest',
+        queryKeys: const <String>{},
+        context: 'smsCampaigns.sendTestSms',
+      );
     });
     test('updateSmsCampaign (PUT /smsCampaigns/{campaignId})', () async {
       await client.smsCampaigns
           .updateSmsCampaign(UpdateSmsCampaignRequest(), campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/smsCampaigns/1000000',
+        queryKeys: const <String>{},
+        context: 'smsCampaigns.updateSmsCampaign',
+      );
     });
     test('updateSmsCampaignStatus (PUT /smsCampaigns/{campaignId}/status)',
         () async {
       await client.smsCampaigns
           .updateSmsCampaignStatus(UpdateCampaignStatus(), campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/smsCampaigns/1000000/status',
+        queryKeys: const <String>{},
+        context: 'smsCampaigns.updateSmsCampaignStatus',
+      );
     });
   });
 
   group('smsTemplates', () {
     test('getSmsTemplates (GET /transactionalSMS/templates)', () async {
-      await client.smsTemplates.getSmsTemplates();
+      final result = await client.smsTemplates.getSmsTemplates(
+          limit: 1, offset: 1, sort: GetSmsTemplatesRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/transactionalSMS/templates',
+        queryKeys: {'limit', 'offset', 'sort'},
+        context: 'smsTemplates.getSmsTemplates',
+      );
     });
   });
 
   group('tasks', () {
     test('createATask (POST /crm/tasks)', () async {
-      await client.tasks.createATask(
+      final result = await client.tasks.createATask(
           PostCrmTasksRequest(date: 'x', name: 'x', taskTypeId: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/crm/tasks',
+        queryKeys: const <String>{},
+        context: 'tasks.createATask',
+      );
     });
     test('deleteATask (DELETE /crm/tasks/{id})', () async {
       await client.tasks.deleteATask(id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/crm/tasks/id',
+        queryKeys: const <String>{},
+        context: 'tasks.deleteATask',
+      );
     });
     test('getATask (GET /crm/tasks/{id})', () async {
-      await client.tasks.getATask(id: 'id');
+      final result = await client.tasks.getATask(id: 'id');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/tasks/id',
+        queryKeys: const <String>{},
+        context: 'tasks.getATask',
+      );
     });
     test('getAllTaskTypes (GET /crm/tasktypes)', () async {
-      await client.tasks.getAllTaskTypes();
+      final result = await client.tasks.getAllTaskTypes();
+      expect(result, isA<List<GetCrmTasktypesResponseItem>>());
+      expect(result.length, 1);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/tasktypes',
+        queryKeys: const <String>{},
+        context: 'tasks.getAllTaskTypes',
+      );
     });
     test('getAllTasks (GET /crm/tasks)', () async {
-      await client.tasks.getAllTasks(sortBy: 'name');
+      final result = await client.tasks.getAllTasks(
+          filterType: 'x',
+          filterStatus: GetCrmTasksRequestFilterStatus.done,
+          filterDate: GetCrmTasksRequestFilterDate.overdue,
+          filterAssignTo: 'x',
+          filterContacts: 'x',
+          filterDeals: 'x',
+          filterCompanies: 'x',
+          dateFrom: 1,
+          dateTo: 1,
+          offset: 1,
+          limit: 1,
+          sort: GetCrmTasksRequestSort.asc,
+          sortBy: 'name');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/crm/tasks',
+        queryKeys: {
+          'filter[type]',
+          'filter[status]',
+          'filter[date]',
+          'filter[assignTo]',
+          'filter[contacts]',
+          'filter[deals]',
+          'filter[companies]',
+          'dateFrom',
+          'dateTo',
+          'offset',
+          'limit',
+          'sort',
+          'sortBy'
+        },
+        context: 'tasks.getAllTasks',
+      );
     });
     test('updateATask (PATCH /crm/tasks/{id})', () async {
       await client.tasks.updateATask(PatchCrmTasksIdRequest(), id: 'id');
+      await expectLastRequest(
+        host,
+        method: 'PATCH',
+        path: '/crm/tasks/id',
+        queryKeys: const <String>{},
+        context: 'tasks.updateATask',
+      );
     });
   });
 
@@ -1159,57 +3385,130 @@ void main() {
     test(
         'addSubscriptionToTier (POST /loyalty/tier/programs/{pid}/contacts/{cid}/tiers/{tid})',
         () async {
-      await client.tier
+      final result = await client.tier
           .addSubscriptionToTier(pid: 'pid', cid: 'cid', tid: 'tid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/tier/programs/pid/contacts/cid/tiers/tid',
+        queryKeys: const <String>{},
+        context: 'tier.addSubscriptionToTier',
+      );
     });
     test(
         'createTierForTierGroup (POST /loyalty/tier/programs/{pid}/tier-groups/{gid}/tiers)',
         () async {
-      await client.tier.createTierForTierGroup(
+      final result = await client.tier.createTierForTierGroup(
           CreateTierForTierGroupRequest(accessConditions: [
             CreateTierForTierGroupRequestAccessConditionsItem()
           ], name: 'x'),
           pid: 'pid',
           gid: 'gid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/tier/programs/pid/tier-groups/gid/tiers',
+        queryKeys: const <String>{},
+        context: 'tier.createTierForTierGroup',
+      );
     });
     test('createTierGroup (POST /loyalty/tier/programs/{pid}/tier-groups)',
         () async {
-      await client.tier
+      final result = await client.tier
           .createTierGroup(CreateTierGroupRequest(name: 'x'), pid: 'pid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/loyalty/tier/programs/pid/tier-groups',
+        queryKeys: const <String>{},
+        context: 'tier.createTierGroup',
+      );
     });
     test('deleteTier (DELETE /loyalty/tier/programs/{pid}/tiers/{tid})',
         () async {
       await client.tier.deleteTier(pid: 'pid', tid: 'tid');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/loyalty/tier/programs/pid/tiers/tid',
+        queryKeys: const <String>{},
+        context: 'tier.deleteTier',
+      );
     });
     test(
         'deleteTierGroup (DELETE /loyalty/tier/programs/{pid}/tier-groups/{gid})',
         () async {
       await client.tier.deleteTierGroup(pid: 'pid', gid: 'gid');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/loyalty/tier/programs/pid/tier-groups/gid',
+        queryKeys: const <String>{},
+        context: 'tier.deleteTierGroup',
+      );
     });
     test('getListOfTierGroups (GET /loyalty/tier/programs/{pid}/tier-groups)',
         () async {
-      await client.tier.getListOfTierGroups(pid: 'pid');
+      final result = await client.tier.getListOfTierGroups(
+          pid: 'pid', version: GetListOfTierGroupsRequestVersion.active);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/tier/programs/pid/tier-groups',
+        queryKeys: {'version'},
+        context: 'tier.getListOfTierGroups',
+      );
     });
     test('getLoyaltyProgramTier (GET /loyalty/tier/programs/{pid}/tiers)',
         () async {
-      await client.tier.getLoyaltyProgramTier(pid: 'pid');
+      final result = await client.tier.getLoyaltyProgramTier(
+          pid: 'pid', version: GetLoyaltyProgramTierRequestVersion.active);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/tier/programs/pid/tiers',
+        queryKeys: {'version'},
+        context: 'tier.getLoyaltyProgramTier',
+      );
     });
     test('getTierGroup (GET /loyalty/tier/programs/{pid}/tier-groups/{gid})',
         () async {
-      await client.tier.getTierGroup(pid: 'pid', gid: 'gid');
+      final result = await client.tier.getTierGroup(
+          pid: 'pid', gid: 'gid', version: GetTierGroupRequestVersion.active);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/loyalty/tier/programs/pid/tier-groups/gid',
+        queryKeys: {'version'},
+        context: 'tier.getTierGroup',
+      );
     });
     test('updateTier (PUT /loyalty/tier/programs/{pid}/tiers/{tid})', () async {
-      await client.tier.updateTier(
+      final result = await client.tier.updateTier(
           UpdateTierRequest(
               accessConditions: [UpdateTierRequestAccessConditionsItem()],
               name: 'x',
               tierRewards: [UpdateTierRequestTierRewardsItem()]),
           pid: 'pid',
           tid: 'tid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/loyalty/tier/programs/pid/tiers/tid',
+        queryKeys: const <String>{},
+        context: 'tier.updateTier',
+      );
     });
     test('updateTierGroup (PUT /loyalty/tier/programs/{pid}/tier-groups/{gid})',
         () async {
-      await client.tier.updateTierGroup(
+      final result = await client.tier.updateTierGroup(
           UpdateTierGroupRequest(
               downgradeStrategy:
                   UpdateTierGroupRequestDowngradeStrategy.realTime,
@@ -1218,6 +3517,14 @@ void main() {
               upgradeStrategy: UpdateTierGroupRequestUpgradeStrategy.realTime),
           pid: 'pid',
           gid: 'gid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/loyalty/tier/programs/pid/tier-groups/gid',
+        queryKeys: const <String>{},
+        context: 'tier.updateTierGroup',
+      );
     });
   });
 
@@ -1225,6 +3532,13 @@ void main() {
     test('blockNewDomain (POST /smtp/blockedDomains)', () async {
       await client.transactionalEmails
           .blockNewDomain(BlockNewDomainRequest(domain: 'x'));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smtp/blockedDomains',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.blockNewDomain',
+      );
     });
     test('createSmtpTemplate (POST /smtp/templates)', () async {
       await client.transactionalEmails.createSmtpTemplate(
@@ -1232,155 +3546,550 @@ void main() {
               sender: CreateSmtpTemplateRequestSender(),
               subject: 'x',
               templateName: 'x'));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smtp/templates',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.createSmtpTemplate',
+      );
     });
     test('deleteAnSmtpTransactionalLog (DELETE /smtp/log/{identifier})',
         () async {
-      await client.transactionalEmails
-          .deleteAnSmtpTransactionalLog(identifier: 'identifier');
+      await client.transactionalEmails.deleteAnSmtpTransactionalLog(
+          identifier: 'identifier', fromDate: 'x', toDate: 'x');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/smtp/log/identifier',
+        queryKeys: {'from_date', 'to_date'},
+        context: 'transactionalEmails.deleteAnSmtpTransactionalLog',
+      );
     });
     test('deleteBlockedDomain (DELETE /smtp/blockedDomains/{domain})',
         () async {
       await client.transactionalEmails.deleteBlockedDomain(domain: 'domain');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/smtp/blockedDomains/domain',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.deleteBlockedDomain',
+      );
     });
     test('deleteHardbounces (POST /smtp/deleteHardbounces)', () async {
       await client.transactionalEmails
           .deleteHardbounces(DeleteHardbouncesRequest());
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smtp/deleteHardbounces',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.deleteHardbounces',
+      );
     });
     test('deleteScheduledEmailById (DELETE /smtp/email/{identifier})',
         () async {
       await client.transactionalEmails.deleteScheduledEmailById(
           identifier: '4320f270-a4e3-4a2e-b591-edfe30a5e627');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/smtp/email/4320f270-a4e3-4a2e-b591-edfe30a5e627',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.deleteScheduledEmailById',
+      );
     });
     test('deleteSmtpTemplate (DELETE /smtp/templates/{templateId})', () async {
       await client.transactionalEmails.deleteSmtpTemplate(templateId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/smtp/templates/1000000',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.deleteSmtpTemplate',
+      );
     });
     test('getAggregatedSmtpReport (GET /smtp/statistics/aggregatedReport)',
         () async {
-      await client.transactionalEmails.getAggregatedSmtpReport();
+      final result = await client.transactionalEmails.getAggregatedSmtpReport(
+          startDate: 'x', endDate: 'x', days: 1, tag: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smtp/statistics/aggregatedReport',
+        queryKeys: {'startDate', 'endDate', 'days', 'tag'},
+        context: 'transactionalEmails.getAggregatedSmtpReport',
+      );
     });
     test('getBlockedDomains (GET /smtp/blockedDomains)', () async {
-      await client.transactionalEmails.getBlockedDomains();
+      final result = await client.transactionalEmails.getBlockedDomains();
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smtp/blockedDomains',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.getBlockedDomains',
+      );
     });
     test('getEmailEventReport (GET /smtp/statistics/events)', () async {
-      await client.transactionalEmails.getEmailEventReport();
+      final result = await client.transactionalEmails.getEmailEventReport(
+          limit: 1,
+          offset: 1,
+          startDate: 'x',
+          endDate: 'x',
+          days: 1,
+          email: 'x',
+          event: GetEmailEventReportRequestEvent.bounces,
+          tags: 'x',
+          messageId: 'x',
+          templateId: 1,
+          sort: GetEmailEventReportRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smtp/statistics/events',
+        queryKeys: {
+          'limit',
+          'offset',
+          'startDate',
+          'endDate',
+          'days',
+          'email',
+          'event',
+          'tags',
+          'messageId',
+          'templateId',
+          'sort'
+        },
+        context: 'transactionalEmails.getEmailEventReport',
+      );
     });
     test('getScheduledEmailById (GET /smtp/emailStatus/{identifier})',
         () async {
-      await client.transactionalEmails.getScheduledEmailById(
+      final result = await client.transactionalEmails.getScheduledEmailById(
           identifier: '4320f270-a4e3-4a2e-b591-edfe30a5e627',
           startDate: '2022-02-02',
-          endDate: '2022-03-02');
+          endDate: '2022-03-02',
+          sort: GetScheduledEmailByIdRequestSort.asc,
+          status: GetScheduledEmailByIdRequestStatus.processed,
+          limit: 1,
+          offset: 1);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smtp/emailStatus/4320f270-a4e3-4a2e-b591-edfe30a5e627',
+        queryKeys: {
+          'startDate',
+          'endDate',
+          'sort',
+          'status',
+          'limit',
+          'offset'
+        },
+        context: 'transactionalEmails.getScheduledEmailById',
+      );
     });
     test('getSmtpReport (GET /smtp/statistics/reports)', () async {
-      await client.transactionalEmails.getSmtpReport();
+      final result = await client.transactionalEmails.getSmtpReport(
+          limit: 1,
+          offset: 1,
+          startDate: 'x',
+          endDate: 'x',
+          days: 1,
+          tag: 'x',
+          sort: GetSmtpReportRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smtp/statistics/reports',
+        queryKeys: {
+          'limit',
+          'offset',
+          'startDate',
+          'endDate',
+          'days',
+          'tag',
+          'sort'
+        },
+        context: 'transactionalEmails.getSmtpReport',
+      );
     });
     test('getSmtpTemplate (GET /smtp/templates/{templateId})', () async {
-      await client.transactionalEmails.getSmtpTemplate(templateId: '1000000');
+      final result = await client.transactionalEmails
+          .getSmtpTemplate(templateId: '1000000');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smtp/templates/1000000',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.getSmtpTemplate',
+      );
     });
     test('getSmtpTemplates (GET /smtp/templates)', () async {
-      await client.transactionalEmails.getSmtpTemplates();
+      final result = await client.transactionalEmails.getSmtpTemplates(
+          templateStatus: true,
+          limit: 1,
+          offset: 1,
+          sort: GetSmtpTemplatesRequestSort.asc,
+          editorType: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smtp/templates',
+        queryKeys: {'templateStatus', 'limit', 'offset', 'sort', 'editorType'},
+        context: 'transactionalEmails.getSmtpTemplates',
+      );
     });
     test('getTransacBlockedContacts (GET /smtp/blockedContacts)', () async {
-      await client.transactionalEmails.getTransacBlockedContacts();
+      final result = await client.transactionalEmails.getTransacBlockedContacts(
+          startDate: 'x',
+          endDate: 'x',
+          limit: 1,
+          offset: 1,
+          senders: ['x'],
+          sort: GetTransacBlockedContactsRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smtp/blockedContacts',
+        queryKeys: {
+          'startDate',
+          'endDate',
+          'limit',
+          'offset',
+          'senders',
+          'sort'
+        },
+        context: 'transactionalEmails.getTransacBlockedContacts',
+      );
     });
     test('getTransacEmailContent (GET /smtp/emails/{uuid})', () async {
-      await client.transactionalEmails.getTransacEmailContent(uuid: 'uuid');
+      final result =
+          await client.transactionalEmails.getTransacEmailContent(uuid: 'uuid');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smtp/emails/uuid',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.getTransacEmailContent',
+      );
     });
     test('getTransacEmailsList (GET /smtp/emails)', () async {
-      await client.transactionalEmails.getTransacEmailsList();
+      final result = await client.transactionalEmails.getTransacEmailsList(
+          email: 'x',
+          templateId: 1,
+          messageId: 'x',
+          startDate: 'x',
+          endDate: 'x',
+          sort: GetTransacEmailsListRequestSort.asc,
+          limit: 1,
+          offset: 1);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/smtp/emails',
+        queryKeys: {
+          'email',
+          'templateId',
+          'messageId',
+          'startDate',
+          'endDate',
+          'sort',
+          'limit',
+          'offset'
+        },
+        context: 'transactionalEmails.getTransacEmailsList',
+      );
     });
     test('postPreviewSmtpEmailTemplates (POST /smtp/template/preview)',
         () async {
-      await client.transactionalEmails.postPreviewSmtpEmailTemplates(
-          PostPreviewSmtpEmailTemplatesRequest(templateId: 1));
+      final result = await client.transactionalEmails
+          .postPreviewSmtpEmailTemplates(
+              PostPreviewSmtpEmailTemplatesRequest(templateId: 1));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smtp/template/preview',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.postPreviewSmtpEmailTemplates',
+      );
     });
     test('sendTestTemplate (POST /smtp/templates/{templateId}/sendTest)',
         () async {
       await client.transactionalEmails
           .sendTestTemplate(SendTestEmail(), templateId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smtp/templates/1000000/sendTest',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.sendTestTemplate',
+      );
     });
     test('sendTransacEmail (POST /smtp/email)', () async {
-      await client.transactionalEmails
+      final result = await client.transactionalEmails
           .sendTransacEmail(SendTransacEmailRequest());
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/smtp/email',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.sendTransacEmail',
+      );
     });
     test(
         'unblockOrResubscribeATransactionalContact (DELETE /smtp/blockedContacts/{email})',
         () async {
       await client.transactionalEmails
           .unblockOrResubscribeATransactionalContact(email: 'email');
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/smtp/blockedContacts/email',
+        queryKeys: const <String>{},
+        context:
+            'transactionalEmails.unblockOrResubscribeATransactionalContact',
+      );
     });
     test('updateSmtpTemplate (PUT /smtp/templates/{templateId})', () async {
       await client.transactionalEmails.updateSmtpTemplate(
           UpdateSmtpTemplateRequest(),
           templateId: '1000000');
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/smtp/templates/1000000',
+        queryKeys: const <String>{},
+        context: 'transactionalEmails.updateSmtpTemplate',
+      );
     });
   });
 
   group('transactionalSms', () {
     test('getSmsEvents (GET /transactionalSMS/statistics/events)', () async {
-      await client.transactionalSms.getSmsEvents();
+      final result = await client.transactionalSms.getSmsEvents(
+          limit: 1,
+          startDate: 'x',
+          endDate: 'x',
+          offset: 1,
+          days: 1,
+          phoneNumber: 'x',
+          event: GetSmsEventsRequestEvent.bounces,
+          tags: 'x',
+          sort: GetSmsEventsRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/transactionalSMS/statistics/events',
+        queryKeys: {
+          'limit',
+          'startDate',
+          'endDate',
+          'offset',
+          'days',
+          'phoneNumber',
+          'event',
+          'tags',
+          'sort'
+        },
+        context: 'transactionalSms.getSmsEvents',
+      );
     });
     test(
         'getTransacAggregatedSmsReport (GET /transactionalSMS/statistics/aggregatedReport)',
         () async {
-      await client.transactionalSms.getTransacAggregatedSmsReport();
+      final result = await client.transactionalSms
+          .getTransacAggregatedSmsReport(
+              startDate: 'x', endDate: 'x', days: 1, tag: 'x');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/transactionalSMS/statistics/aggregatedReport',
+        queryKeys: {'startDate', 'endDate', 'days', 'tag'},
+        context: 'transactionalSms.getTransacAggregatedSmsReport',
+      );
     });
     test('getTransacSmsReport (GET /transactionalSMS/statistics/reports)',
         () async {
-      await client.transactionalSms.getTransacSmsReport();
+      final result = await client.transactionalSms.getTransacSmsReport(
+          startDate: 'x',
+          endDate: 'x',
+          days: 1,
+          tag: 'x',
+          sort: GetTransacSmsReportRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/transactionalSMS/statistics/reports',
+        queryKeys: {'startDate', 'endDate', 'days', 'tag', 'sort'},
+        context: 'transactionalSms.getTransacSmsReport',
+      );
     });
     test('sendAsyncTransactionalSms (POST /transactionalSMS/send)', () async {
-      await client.transactionalSms.sendAsyncTransactionalSms(
+      final result = await client.transactionalSms.sendAsyncTransactionalSms(
           SendTransacSms(recipient: 'x', sender: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/transactionalSMS/send',
+        queryKeys: const <String>{},
+        context: 'transactionalSms.sendAsyncTransactionalSms',
+      );
     });
     test('sendTransacSms (POST /transactionalSMS/sms)', () async {
-      await client.transactionalSms
+      final result = await client.transactionalSms
           .sendTransacSms(SendTransacSms(recipient: 'x', sender: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/transactionalSMS/sms',
+        queryKeys: const <String>{},
+        context: 'transactionalSms.sendTransacSms',
+      );
     });
   });
 
   group('transactionalWhatsApp', () {
     test('getWhatsappEventReport (GET /whatsapp/statistics/events)', () async {
-      await client.transactionalWhatsApp.getWhatsappEventReport();
+      final result = await client.transactionalWhatsApp.getWhatsappEventReport(
+          limit: 1,
+          offset: 1,
+          startDate: 'x',
+          endDate: 'x',
+          days: 1,
+          contactNumber: 'x',
+          event: GetWhatsappEventReportRequestEvent.sent,
+          sort: GetWhatsappEventReportRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/whatsapp/statistics/events',
+        queryKeys: {
+          'limit',
+          'offset',
+          'startDate',
+          'endDate',
+          'days',
+          'contactNumber',
+          'event',
+          'sort'
+        },
+        context: 'transactionalWhatsApp.getWhatsappEventReport',
+      );
     });
     test('sendWhatsappMessage (POST /whatsapp/sendMessage)', () async {
-      await client.transactionalWhatsApp.sendWhatsappMessage(
+      final result = await client.transactionalWhatsApp.sendWhatsappMessage(
           SendWhatsappMessageRequest(contactNumbers: ['x'], senderNumber: 'x'));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/whatsapp/sendMessage',
+        queryKeys: const <String>{},
+        context: 'transactionalWhatsApp.sendWhatsappMessage',
+      );
     });
   });
 
   group('user', () {
     test('editUserPermission (POST /organization/user/update/permissions)',
         () async {
-      await client.user.editUserPermission(Inviteuser(
+      final result = await client.user.editUserPermission(Inviteuser(
           allFeaturesAccess: true,
           email: 'x',
           privileges: [InviteuserPrivilegesItem()]));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/organization/user/update/permissions',
+        queryKeys: const <String>{},
+        context: 'user.editUserPermission',
+      );
     });
     test('getInvitedUsersList (GET /organization/invited/users)', () async {
-      await client.user.getInvitedUsersList();
+      final result = await client.user.getInvitedUsersList();
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/organization/invited/users',
+        queryKeys: const <String>{},
+        context: 'user.getInvitedUsersList',
+      );
     });
     test('getUserPermission (GET /organization/user/{email}/permissions)',
         () async {
-      await client.user.getUserPermission(email: 'email');
+      final result = await client.user.getUserPermission(email: 'email');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/organization/user/email/permissions',
+        queryKeys: const <String>{},
+        context: 'user.getUserPermission',
+      );
     });
     test('inviteuser (POST /organization/user/invitation/send)', () async {
-      await client.user.inviteuser(Inviteuser(
+      final result = await client.user.inviteuser(Inviteuser(
           allFeaturesAccess: true,
           email: 'x',
           privileges: [InviteuserPrivilegesItem()]));
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/organization/user/invitation/send',
+        queryKeys: const <String>{},
+        context: 'user.inviteuser',
+      );
     });
     test(
         'putRevokeUserPermission (PUT /organization/user/invitation/revoke/{email})',
         () async {
-      await client.user.putRevokeUserPermission(email: 'email');
+      final result = await client.user.putRevokeUserPermission(email: 'email');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/organization/user/invitation/revoke/email',
+        queryKeys: const <String>{},
+        context: 'user.putRevokeUserPermission',
+      );
     });
     test(
         'putresendcancelinvitation (PUT /organization/user/invitation/{action}/{email})',
         () async {
-      await client.user.putresendcancelinvitation(
+      final result = await client.user.putresendcancelinvitation(
           action: PutresendcancelinvitationRequestAction.fromWire('resend'),
           email: 'email');
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/organization/user/invitation/resend/email',
+        queryKeys: const <String>{},
+        context: 'user.putresendcancelinvitation',
+      );
     });
   });
 
@@ -1388,33 +4097,87 @@ void main() {
     test(
         'getWalletPassInstallUrl (GET /wallet/passes/{passId}/installUrl/{contactId})',
         () async {
-      await client.wallet
+      final result = await client.wallet
           .getWalletPassInstallUrl(passId: 'passId', contactId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/wallet/passes/passId/installUrl/1000000',
+        queryKeys: const <String>{},
+        context: 'wallet.getWalletPassInstallUrl',
+      );
     });
   });
 
   group('webhooks', () {
     test('createWebhook (POST /webhooks)', () async {
       await client.webhooks.createWebhook(CreateWebhookRequest(url: 'x'));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/webhooks',
+        queryKeys: const <String>{},
+        context: 'webhooks.createWebhook',
+      );
     });
     test('deleteWebhook (DELETE /webhooks/{webhookId})', () async {
       await client.webhooks.deleteWebhook(webhookId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/webhooks/1000000',
+        queryKeys: const <String>{},
+        context: 'webhooks.deleteWebhook',
+      );
     });
     test('exportWebhooksHistory (POST /webhooks/export)', () async {
       await client.webhooks.exportWebhooksHistory(ExportWebhooksHistoryRequest(
           event: ExportWebhooksHistoryRequestEvent.invalidParameter,
           notifyUrl: 'x',
           type: ExportWebhooksHistoryRequestType.transactional));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/webhooks/export',
+        queryKeys: const <String>{},
+        context: 'webhooks.exportWebhooksHistory',
+      );
     });
     test('getWebhook (GET /webhooks/{webhookId})', () async {
-      await client.webhooks.getWebhook(webhookId: 1000000);
+      final result = await client.webhooks.getWebhook(webhookId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/webhooks/1000000',
+        queryKeys: const <String>{},
+        context: 'webhooks.getWebhook',
+      );
     });
     test('getWebhooks (GET /webhooks)', () async {
-      await client.webhooks.getWebhooks();
+      final result = await client.webhooks.getWebhooks(
+          type: GetWebhooksRequestType.marketing,
+          sort: GetWebhooksRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/webhooks',
+        queryKeys: {'type', 'sort'},
+        context: 'webhooks.getWebhooks',
+      );
     });
     test('updateWebhook (PUT /webhooks/{webhookId})', () async {
       await client.webhooks
           .updateWebhook(UpdateWebhookRequest(), webhookId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/webhooks/1000000',
+        queryKeys: const <String>{},
+        context: 'webhooks.updateWebhook',
+      );
     });
   });
 
@@ -1426,6 +4189,13 @@ void main() {
               recipients: CreateWhatsAppCampaignRequestRecipients(),
               scheduledAt: 'x',
               templateId: 1));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/whatsappCampaigns',
+        queryKeys: const <String>{},
+        context: 'whatsAppCampaigns.createWhatsAppCampaign',
+      );
     });
     test('createWhatsAppTemplate (POST /whatsappCampaigns/template)', () async {
       await client.whatsAppCampaigns.createWhatsAppTemplate(
@@ -1434,36 +4204,115 @@ void main() {
               category: CreateWhatsAppTemplateRequestCategory.marketing,
               language: 'x',
               name: 'x'));
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/whatsappCampaigns/template',
+        queryKeys: const <String>{},
+        context: 'whatsAppCampaigns.createWhatsAppTemplate',
+      );
     });
     test('deleteWhatsAppCampaign (DELETE /whatsappCampaigns/{campaignId})',
         () async {
       await client.whatsAppCampaigns
           .deleteWhatsAppCampaign(campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'DELETE',
+        path: '/whatsappCampaigns/1000000',
+        queryKeys: const <String>{},
+        context: 'whatsAppCampaigns.deleteWhatsAppCampaign',
+      );
     });
     test('getWhatsAppCampaign (GET /whatsappCampaigns/{campaignId})', () async {
-      await client.whatsAppCampaigns.getWhatsAppCampaign(campaignId: 1000000);
+      final result = await client.whatsAppCampaigns
+          .getWhatsAppCampaign(campaignId: 1000000);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/whatsappCampaigns/1000000',
+        queryKeys: const <String>{},
+        context: 'whatsAppCampaigns.getWhatsAppCampaign',
+      );
     });
     test('getWhatsAppCampaigns (GET /whatsappCampaigns)', () async {
-      await client.whatsAppCampaigns.getWhatsAppCampaigns();
+      final result = await client.whatsAppCampaigns.getWhatsAppCampaigns(
+          startDate: 'x',
+          endDate: 'x',
+          limit: 1,
+          offset: 1,
+          sort: GetWhatsAppCampaignsRequestSort.asc);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/whatsappCampaigns',
+        queryKeys: {'startDate', 'endDate', 'limit', 'offset', 'sort'},
+        context: 'whatsAppCampaigns.getWhatsAppCampaigns',
+      );
     });
     test('getWhatsAppConfig (GET /whatsappCampaigns/config)', () async {
-      await client.whatsAppCampaigns.getWhatsAppConfig();
+      final result = await client.whatsAppCampaigns.getWhatsAppConfig();
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/whatsappCampaigns/config',
+        queryKeys: const <String>{},
+        context: 'whatsAppCampaigns.getWhatsAppConfig',
+      );
     });
     test('getWhatsAppTemplates (GET /whatsappCampaigns/template-list)',
         () async {
-      await client.whatsAppCampaigns.getWhatsAppTemplates();
+      final result = await client.whatsAppCampaigns.getWhatsAppTemplates(
+          startDate: 'x',
+          endDate: 'x',
+          limit: 1,
+          offset: 1,
+          sort: GetWhatsAppTemplatesRequestSort.asc,
+          source: GetWhatsAppTemplatesRequestSource.automation);
+      expect(result.raw, isNotEmpty);
+      await expectLastRequest(
+        host,
+        method: 'GET',
+        path: '/whatsappCampaigns/template-list',
+        queryKeys: {
+          'startDate',
+          'endDate',
+          'limit',
+          'offset',
+          'sort',
+          'source'
+        },
+        context: 'whatsAppCampaigns.getWhatsAppTemplates',
+      );
     });
     test(
         'sendWhatsAppTemplateApproval (POST /whatsappCampaigns/template/approval/{templateId})',
         () async {
       await client.whatsAppCampaigns
           .sendWhatsAppTemplateApproval(templateId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'POST',
+        path: '/whatsappCampaigns/template/approval/1000000',
+        queryKeys: const <String>{},
+        context: 'whatsAppCampaigns.sendWhatsAppTemplateApproval',
+      );
     });
     test('updateWhatsAppCampaign (PUT /whatsappCampaigns/{campaignId})',
         () async {
       await client.whatsAppCampaigns.updateWhatsAppCampaign(
           UpdateWhatsAppCampaignRequest(),
           campaignId: 1000000);
+      await expectLastRequest(
+        host,
+        method: 'PUT',
+        path: '/whatsappCampaigns/1000000',
+        queryKeys: const <String>{},
+        context: 'whatsAppCampaigns.updateWhatsAppCampaign',
+      );
     });
   });
 }

@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../operation_key.dart';
+
 /// Extracts the public API surface of a `getbrevo/brevo-node` release —
 /// namespaces, method names, request and response type names and query
 /// parameter order — and writes it to `tool/spec/resources.yaml`, keyed by
@@ -129,16 +131,14 @@ String _parseTag(List<String> arguments) {
   return tag;
 }
 
-const Set<String> _httpMethods = {'get', 'post', 'put', 'patch', 'delete'};
-
 /// Normalised key (`GET /contacts/{}`) → specification key
 /// (`GET /contacts/{identifier}`).
 Map<String, String> _specOperations(Map<String, Object?> spec) {
   final result = <String, String>{};
   for (final entry in (spec['paths']! as Map<String, Object?>).entries) {
     for (final method in (entry.value as Map<String, Object?>).keys) {
-      if (!_httpMethods.contains(method)) continue;
-      final key = '${method.toUpperCase()} ${_normalise(entry.key)}';
+      if (!httpMethods.contains(method)) continue;
+      final key = '${method.toUpperCase()} ${normalisePathTemplate(entry.key)}';
       if (result.containsKey(key)) {
         throw StateError('Two specification paths normalise to $key');
       }
@@ -146,12 +146,6 @@ Map<String, String> _specOperations(Map<String, Object?> spec) {
     }
   }
   return result;
-}
-
-String _normalise(String path) {
-  var normalised = path.replaceAll(RegExp(r'\{[^}]*\}'), '{}');
-  if (!normalised.startsWith('/')) normalised = '/$normalised';
-  return normalised;
 }
 
 final class _UpstreamOperation {
@@ -173,7 +167,7 @@ final class _UpstreamOperation {
   final String? responseType;
   final List<String> queryParams;
 
-  String get key => '$httpMethod ${_normalise(path)}';
+  String get key => '$httpMethod ${normalisePathTemplate(path)}';
   String get qualified => '$namespace.$method';
 }
 

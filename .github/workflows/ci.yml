@@ -9,6 +9,11 @@ on:
     # Weekly, to catch breakage from new SDK or dependency releases.
     - cron: '0 6 * * 1'
 
+# Least privilege: nothing in this workflow writes to the repository. The
+# coverage job raises its own read-only scope for the Coveralls upload.
+permissions:
+  contents: read
+
 env:
   PUB_ENVIRONMENT: bot.github
 
@@ -125,8 +130,12 @@ jobs:
           --lcov --in=coverage --out=coverage/lcov.info
           --report-on=lib --ignore-files='lib/src/generated/**' --check-ignore
       # The workflow's built-in token is enough for a public repository; no
-      # Coveralls secret is stored anywhere.
+      # Coveralls secret is stored anywhere. A pull request from a fork gets a
+      # read-only token that cannot post, so the upload is skipped there
+      # rather than failing CI on an outside contribution. The threshold below
+      # still runs, and still gates.
       - name: Report coverage to Coveralls
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

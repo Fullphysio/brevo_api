@@ -108,7 +108,7 @@ void main() {
     });
   });
 
-  group('transactionalEmails.deleteSmtpLogIdentifier', () {
+  group('transactionalEmails.deleteAnSmtpTransactionalLog', () {
     test('sends a bodyless DELETE with the encoded identifier', () async {
       http.Request? captured;
       final client = BrevoClient(

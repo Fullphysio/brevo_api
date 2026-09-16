@@ -639,12 +639,23 @@ final class Emitter {
     w.line("import 'package:brevo_api/brevo_api.dart';");
     w.line("import 'package:test/test.dart';");
     w.line();
+    w.line("import '../_support/round_trip.dart';");
+    w.line();
     w.block(
         'final Map<String, Object Function(Map<String, Object?>)> _decoders = {',
         () {
       for (final c in ir.classes.values) {
         if (c.multipart) continue;
         w.line('${dartStringLiteral(c.className)}: ${c.className}.fromJson,');
+      }
+    }, close: '};');
+    w.line();
+    w.block('const Map<String, Set<String>> _known = {', () {
+      for (final c in ir.classes.values) {
+        if (c.multipart) continue;
+        final names =
+            c.fields.map((f) => dartStringLiteral(f.wireName)).join(', ');
+        w.line('${dartStringLiteral(c.className)}: {$names},');
       }
     }, close: '};');
     w.line();
@@ -662,9 +673,14 @@ final class Emitter {
           "final examples = (jsonDecode(File('test/generated/response_examples.json').readAsStringSync()) as List<Object?>).cast<Map<String, Object?>>();");
       w.block('for (final entry in _decoders.entries) {', () {
         w.block("test('\${entry.key} decodes a minimal payload', () {", () {
-          w.line('final decoded = entry.value(_minimal[entry.key]!);');
-          w.line(
-              'expect((decoded as dynamic).toJson(), isA<Map<String, Object?>>());');
+          w.line('final payload = _minimal[entry.key]!;');
+          w.line('final decoded = entry.value(payload);');
+          w.block('expectJsonRoundTrip(', () {
+            w.line('payload,');
+            w.line('(decoded as dynamic).toJson() as Map<String, Object?>,');
+            w.line('context: entry.key,');
+            w.line('knownKeys: _known[entry.key]!,');
+          }, close: ');');
         }, close: '});');
       });
       w.block('for (final example in examples) {', () {
@@ -673,10 +689,14 @@ final class Emitter {
             "test('\${example['operation']} example decodes as \$className', () {",
             () {
           w.line('final decoder = _decoders[className]!;');
-          w.line(
-              "final decoded = decoder(example['body']! as Map<String, Object?>);");
-          w.line(
-              'expect((decoded as dynamic).toJson(), isA<Map<String, Object?>>());');
+          w.line("final payload = example['body']! as Map<String, Object?>;");
+          w.line('final decoded = decoder(payload);');
+          w.block('expectJsonRoundTrip(', () {
+            w.line('payload,');
+            w.line('(decoded as dynamic).toJson() as Map<String, Object?>,');
+            w.line("context: '\${example['operation']} as \$className',");
+            w.line('knownKeys: _known[className]!,');
+          }, close: ');');
         }, close: '});');
       });
     });
@@ -752,6 +772,8 @@ final class Emitter {
     w.line("import 'package:brevo_api/brevo_api.dart';");
     w.line("import 'package:test/test.dart';");
     w.line();
+    w.line("import '../_support/wiremock.dart';");
+    w.line();
     w.block('void main() {', () {
       w.line("final host = Platform.environment['BREVO_MOCK_HOST'] ?? '';");
       w.block('final client = BrevoClient(', () {
@@ -784,8 +806,7 @@ final class Emitter {
             w.block(
                 "test(${dartStringLiteral('${op.methodName} (${op.key})')}, () async {",
                 () {
-              w.line(
-                  'await client.${op.namespace}.${op.methodName}(${_mockArgs(op, mockCase).join(', ')});');
+              _emitMockCase(op, mockCase, w);
             }, close: '});');
           }
         }, close: '});');
@@ -793,6 +814,87 @@ final class Emitter {
     });
     return w.toString();
   }
+
+  /// Emits one mock-tier case: the call, what its result must look like, and
+  /// the request WireMock must have seen.
+  ///
+  /// The mappings answer an unrecognised path with a 404, so the call itself
+  /// already proves the path template; the assertions here cover what it does
+  /// not — that the response really decoded into something, and that the
+  /// query string carried exactly the parameters it should.
+  void _emitMockCase(OperationIr op, MockCaseIr mockCase, DartWriter w) {
+    final call =
+        'client.${op.namespace}.${op.methodName}(${_mockArgs(op, mockCase).join(', ')})';
+    switch (op.response) {
+      case VoidResponse():
+        w.line('await $call;');
+      case BytesResponse():
+        w.line('final result = await $call;');
+        w.line('expect(result, isA<Uint8List>());');
+      case ObjectResponse():
+        w.line('final result = await $call;');
+        if (_mockBody(mockCase) is Map<String, Object?>) {
+          w.line('expect(result.raw, isNotEmpty);');
+        } else {
+          w.line('expect(result, isNotNull);');
+        }
+      case ListResponse(:final element):
+        w.line('final result = await $call;');
+        w.line('expect(result, isA<List<${dartType(element)}>>());');
+        final body = _mockBody(mockCase);
+        if (body is List<Object?>) {
+          w.line('expect(result.length, ${body.length});');
+        }
+    }
+    w.block('await expectLastRequest(', () {
+      final keys = _mockQueryKeys(op, mockCase);
+      w
+        ..line('host,')
+        ..line('method: ${dartStringLiteral(op.httpMethod)},')
+        ..line('path: ${dartStringLiteral(_mockPath(op, mockCase))},')
+        ..line(keys.isEmpty
+            ? 'queryKeys: const <String>{},'
+            : 'queryKeys: {${keys.map(dartStringLiteral).join(', ')}},')
+        ..line(
+            'context: ${dartStringLiteral('${op.namespace}.${op.methodName}')},');
+    }, close: ');');
+  }
+
+  Object? _mockBody(MockCaseIr mockCase) {
+    final body = mockCase.responseBody;
+    if (body is! String) return null;
+    try {
+      return jsonDecode(body);
+    } on FormatException {
+      return null;
+    }
+  }
+
+  String _mockPath(OperationIr op, MockCaseIr mockCase) {
+    var path = op.pathTemplate;
+    for (final p in op.pathParams) {
+      final value = mockCase.pathParams[p.wireName]!;
+      path = path.replaceAll('{${p.wireName}}', value);
+    }
+    if (path.contains('{')) {
+      throw StateError('${op.key}: path template still holds a placeholder');
+    }
+    return path;
+  }
+
+  /// The query keys [_mockArgs] will actually put on the wire.
+  ///
+  /// Every declared parameter is passed — the mapping's value where it
+  /// constrains one, a stub otherwise — so that the mock tier exercises the
+  /// query encoding of all 291 operations and not just the twelve whose
+  /// mappings happen to match on a query string. A free-form map stubs to an
+  /// empty map, which the encoder drops by design, so it is the one shape
+  /// that never reaches the wire.
+  List<String> _mockQueryKeys(OperationIr op, MockCaseIr mockCase) => [
+        for (final q in op.queryParams)
+          if (mockCase.queryParams[q.wireName] != null || q.type is! IrJsonMap)
+            q.wireName,
+      ];
 
   List<String> _mockArgs(OperationIr op, MockCaseIr mockCase) {
     final args = <String>[];
@@ -806,13 +908,9 @@ final class Emitter {
     }
     for (final q in op.queryParams) {
       final value = mockCase.queryParams[q.wireName];
-      if (value == null) {
-        if (q.required) {
-          args.add('${q.dartName}: ${_stubDart(q.type, const {})}');
-        }
-        continue;
-      }
-      args.add('${q.dartName}: ${_mockValue(q, value)}');
+      args.add(value == null
+          ? '${q.dartName}: ${_stubDart(q.type, const {})}'
+          : '${q.dartName}: ${_mockValue(q, value)}');
     }
     return args;
   }

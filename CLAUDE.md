@@ -19,12 +19,14 @@ no-comments or 120-column rules.
   encoding, multipart file part, request options, the open-enum base.
   Generated code compiles against this and never changes it.
 - `lib/src/generated/` — **generated, committed**. Never edit by hand; change
-  the generator or `tool/spec/*.yaml` and regenerate. `models/`, `params/`,
-  `enums/`, `unions/`, `resources/`, plus the `generated.dart` barrel.
+  the generator or `tool/spec/resources.yaml` and regenerate. One directory
+  per Brevo namespace holding `models.dart`, `requests.dart`, `enums.dart`
+  and `resource.dart`, plus `shared/models.dart` for the types more than one
+  namespace uses, `client_resources.dart` (the `BrevoClient` extension that
+  hangs every namespace off the client) and the `generated.dart` barrel.
   `test/generated/` is generated too.
-- `tool/spec/` — the vendored OpenAPI spec, `resources.yaml` (operation →
-  namespace and method, extracted from `@getbrevo/brevo`) and
-  `union_names.yaml` (names for inline unions).
+- `tool/spec/` — the vendored OpenAPI spec and `resources.yaml` (operation →
+  namespace and method, extracted from `@getbrevo/brevo`).
 - `tool/upstream/` — the extractor that reads a `brevo-node` release and
   writes `resources.yaml`.
 - `tool/ir/` — spec loading, naming rules and the resolver that classifies
@@ -67,13 +69,23 @@ Three tiers:
   construction, regenerate the fixtures against the same reference version
   rather than editing them by hand, and bump the version recorded in
   `THIRD_PARTY_NOTICES` and the README if you move to a newer upstream.
+- **Generated decode** — part of the default run. Every model decodes a
+  minimal payload and every captured response example, then round-trips:
+  `expectJsonRoundTrip` (`test/_support/round_trip.dart`) asserts that
+  `toJson()` reproduces the payload it came from and that no known field was
+  dropped. Asserting merely that decoding did not throw would pass a model
+  that read the wrong key, so do not weaken it back to a type check.
 - **Mock server** (`--tags mock`) — WireMock, the stub server Brevo's own
   Python SDK tests against, loaded with Brevo's mappings file vendored under
-  `tool/mock/`. Started by `tool/mock/run_wiremock.sh` (Docker). It matches
-  path and query only — not request bodies — and validates nothing against
-  the spec; request bodies are pinned by the golden tier instead. Skipped by
-  tag unless `BREVO_MOCK_HOST` is set; `--run-skipped` with it empty fails
-  loudly instead of dialling nowhere.
+  `tool/mock/`. Started by `tool/mock/run_wiremock.sh` (Docker). The mappings
+  match on the path template only — every one of the 291 uses
+  `urlPathTemplate`, and none matches a request body — so each generated test
+  also reads WireMock's request journal back and asserts the method, path and
+  exact set of query keys it received (`test/_support/wiremock.dart`). Every
+  declared query parameter is passed, so the tier exercises query encoding
+  across all 291 operations. Request bodies are pinned by the golden tier
+  instead. Skipped by tag unless `BREVO_MOCK_HOST` is set; `--run-skipped`
+  with it empty fails loudly instead of dialling nowhere.
 - **Integration** (`test/integration/`, `--tags integration`) — hits the live
   Brevo API with `BREVO_TEST_API_KEY`, read-only unless
   `BREVO_TEST_ALLOW_WRITES=true`. Runs from `integration.yml` on `main`,
@@ -132,6 +144,11 @@ test name, not a code comment.
    ```
    git tag v1.2.3 && git push origin v1.2.3
    ```
+
+4. Approve the run in the `pub.dev` environment. `publish.yml` is gated on
+   it so that a tag alone cannot publish; the environment must exist under
+   Settings → Environments, with required reviewers, and be named in the
+   package's automated-publishing settings on pub.dev.
 
 Publishing is permanent: a version can be retracted within 7 days but never
 deleted, and the number is never reusable. The `description:` in

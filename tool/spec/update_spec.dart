@@ -5,6 +5,8 @@ import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
 
+import '../operation_key.dart';
+
 /// Vendors the Brevo OpenAPI specification into `tool/spec/`, recording its
 /// digest and the fetch date, and writes `CHANGELOG_SPEC.md` describing what
 /// changed since the previously vendored copy.
@@ -100,12 +102,10 @@ Object? _toJson(Object? node) {
   return node;
 }
 
-const Set<String> _httpMethods = {'get', 'post', 'put', 'patch', 'delete'};
-
 Set<String> _operations(Map<String, Object?> spec) => {
       for (final entry in (spec['paths']! as Map<String, Object?>).entries)
         for (final method in (entry.value as Map<String, Object?>).keys)
-          if (_httpMethods.contains(method))
+          if (httpMethods.contains(method))
             '${method.toUpperCase()} ${entry.key}',
     };
 
@@ -144,7 +144,7 @@ Map<String, List<String>> _enumValues(Map<String, Object?> spec) {
   }
   for (final pathEntry in (spec['paths']! as Map<String, Object?>).entries) {
     for (final opEntry in (pathEntry.value as Map<String, Object?>).entries) {
-      if (!_httpMethods.contains(opEntry.key)) continue;
+      if (!httpMethods.contains(opEntry.key)) continue;
       final op = opEntry.value as Map<String, Object?>;
       final label = '${opEntry.key.toUpperCase()} ${pathEntry.key}';
       final parameters = op['parameters'];

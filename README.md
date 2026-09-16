@@ -45,6 +45,11 @@ Path and query parameters are named arguments; a request body is a typed
 positional object. Every method takes an optional `options` argument for a
 per-call timeout, retry budget or extra headers.
 
+Resources hang off the client through an extension, so they are reachable
+wherever `package:brevo_api/brevo_api.dart` is imported. Re-exporting
+`BrevoClient` from your own façade means re-exporting this library with it,
+or `client.contacts` will not resolve at the call site.
+
 ```dart
 await brevo.contacts.updateContact(
   UpdateContactRequest(attributes: {'FIRSTNAME': 'Ada', 'PLAN': 'pro'}),
@@ -129,9 +134,14 @@ including details that are easy to get subtly wrong:
 - Error messages follow the `Status code: 400` / `Body: {…}` layout upstream
   prints, with the body decoded as JSON only under a JSON content type.
 
-Conformance is enforced by golden tests whose fixtures were captured from the
-real `@getbrevo/brevo`, not written by hand, and by a mock-server tier that
-calls every operation against WireMock loaded with Brevo's own mappings.
+Conformance is enforced by golden tests whose fixtures — request URLs and
+bodies, error messages, and which statuses are retried and how often — were
+captured from the real `@getbrevo/brevo` rather than written by hand. The
+length of each backoff is the exception: the captures pin the retry
+*decisions*, while the 60 s cap and the jitter are covered by unit tests
+written against upstream's implementation. A mock-server tier then calls all
+291 operations against WireMock loaded with Brevo's own mappings, checking
+each one's request against the server's journal.
 
 ## Scope
 

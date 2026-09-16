@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 
+import '../operation_key.dart';
+
 /// Vendors the WireMock mappings Brevo's Python SDK is tested against into
 /// `tool/mock/`, recording their digest and the release they came from, and
 /// checks that they cover exactly the operations of the vendored
@@ -38,8 +40,8 @@ Future<void> main(List<String> arguments) async {
   final specKeys = <String>{
     for (final entry in (spec['paths']! as Map<String, Object?>).entries)
       for (final method in (entry.value as Map<String, Object?>).keys)
-        if (const {'get', 'post', 'put', 'patch', 'delete'}.contains(method))
-          '${method.toUpperCase()} ${_normalise(entry.key)}',
+        if (httpMethods.contains(method))
+          '${method.toUpperCase()} ${normalisePathTemplate(entry.key)}',
   };
   final mappingKeys = <String>{};
   for (final mapping in mappings) {
@@ -48,7 +50,7 @@ Future<void> main(List<String> arguments) async {
     if (template is! String) {
       throw StateError('Mapping ${mapping['name']} has no urlPathTemplate.');
     }
-    final key = '${request['method']} ${_normalise(template)}';
+    final key = '${request['method']} ${normalisePathTemplate(template)}';
     if (!mappingKeys.add(key)) {
       throw StateError('Two mappings address $key.');
     }
@@ -87,7 +89,7 @@ String _parseTag(List<String> arguments) {
   return tag;
 }
 
-String _normalise(String path) {
+String normalisePathTemplate(String path) {
   var normalised = path.replaceAll(RegExp(r'\{[^}]*\}'), '{}');
   if (!normalised.startsWith('/')) normalised = '/$normalised';
   return normalised;

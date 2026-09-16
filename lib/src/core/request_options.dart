@@ -16,8 +16,8 @@ final class BrevoRequestOptions {
     this.headers = const {},
   });
 
-  /// The deadline for receiving response headers on each attempt of this
-  /// request.
+  /// The deadline for each attempt of this request, covering the request,
+  /// its response headers and its body.
   final Duration? timeout;
 
   /// How many times a failed attempt of this request is retried.

@@ -23,5 +23,11 @@ void main() {
       expect(() => brevoPathSegment('.'), throwsArgumentError);
       expect(() => brevoPathSegment('..'), throwsArgumentError);
     });
+
+    test('rejects a value that is neither a string nor a number', () {
+      expect(() => brevoPathSegment(DateTime(2026)), throwsArgumentError);
+      expect(() => brevoPathSegment(['1']), throwsArgumentError);
+      expect(() => brevoPathSegment({'id': 1}), throwsArgumentError);
+    });
   });
 }

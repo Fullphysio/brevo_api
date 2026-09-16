@@ -58,6 +58,16 @@ final class _LateClient extends http.BaseClient {
   Future<http.StreamedResponse> send(http.BaseRequest request) => _response;
 }
 
+/// Answers with response headers straight away and a body that never ends.
+final class _StallingBodyClient extends http.BaseClient {
+  _StallingBodyClient(this._body);
+  final Stream<List<int>> _body;
+
+  @override
+  Future<http.StreamedResponse> send(http.BaseRequest request) async =>
+      http.StreamedResponse(_body, 200);
+}
+
 String _substitutePath(Map<String, Object?> input) {
   var path = input['path']! as String;
   final params = input['pathParams'] as Map<String, Object?>?;
@@ -369,6 +379,21 @@ void main() {
 
       await expectLater(drained.future, completes);
     });
+
+    test('a body that stalls after the headers arrived still times out',
+        () async {
+      final body = StreamController<List<int>>();
+      addTearDown(body.close);
+      final transport = _transport(
+        _StallingBodyClient(body.stream),
+        timeout: const Duration(milliseconds: 20),
+      );
+
+      await expectLater(
+        transport.requestJson(method: 'GET', path: '/account'),
+        throwsA(isA<BrevoTimeoutException>()),
+      );
+    });
   });
 
   group('response decoding', () {
@@ -384,6 +409,18 @@ void main() {
     test('a non-JSON 2xx body is a decode failure, not silently null', () {
       final transport = _transport(
         MockClient((_) async => http.Response('<html>', 200)),
+      );
+      expect(
+        transport.requestJson(method: 'GET', path: '/account'),
+        throwsA(isA<BrevoDecodeException>()),
+      );
+    });
+
+    test('a body that is not valid UTF-8 is a decode failure too', () {
+      final transport = _transport(
+        MockClient(
+          (_) async => http.Response.bytes(const [0xff, 0xfe, 0xff], 200),
+        ),
       );
       expect(
         transport.requestJson(method: 'GET', path: '/account'),

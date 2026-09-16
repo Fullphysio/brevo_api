@@ -44,7 +44,8 @@ final class BrevoClient {
           defaultHeaders: defaultHeaders,
         );
 
-  /// The deadline for receiving response headers on each attempt.
+  /// The deadline for each attempt, covering the request, its response
+  /// headers and its body.
   final Duration timeout;
 
   /// How many times a failed attempt is retried on top of the first one.

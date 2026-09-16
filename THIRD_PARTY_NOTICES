@@ -18,4 +18,7 @@ The mock-server test tier replays `wiremock/wiremock-mappings.json` from the
 official Python client, `brevo-python` (https://github.com/getbrevo/brevo-python),
 vendored under `tool/mock/` with its SHA-256 recorded alongside. Those
 fixtures are used only to test this package and are not part of what it
-ships.
+ships (`.pubignore` excludes `tool/`). That repository, like `brevo-node`,
+carries no licence file; the file is machine-generated request-and-response
+metadata derived from the same Brevo specification named above, and
+`tool/mock/update_mock.dart` re-downloads it from source on demand.

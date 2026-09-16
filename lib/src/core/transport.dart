@@ -47,7 +47,8 @@ final class BrevoTransport {
         _sleep = sleep ?? _realSleep,
         _clock = clock ?? DateTime.now;
 
-  /// The deadline for receiving response headers on each attempt.
+  /// The deadline for each attempt, covering the request, its response
+  /// headers and its body.
   final Duration timeout;
 
   /// How many times a failed attempt is retried on top of the first one.
@@ -270,20 +271,26 @@ final class BrevoTransport {
     if (options != null) {
       headers.addAll(options.headers);
     }
+    // One deadline covers the whole exchange — sending the request, and
+    // receiving both its headers and its body — the way upstream's
+    // `AbortSignal` aborts the entire fetch. Timing the headers alone would
+    // leave a server that answers and then stalls mid-body able to hang the
+    // caller indefinitely: `package:http` applies no read timeout of its own.
     final pending = _httpClient.send(request);
-    final http.StreamedResponse streamed;
-    try {
-      streamed = await pending.timeout(attemptTimeout);
-    } on TimeoutException {
-      _drainLate(pending);
-      rethrow;
-    }
-    return http.Response.fromStream(streamed);
+    return pending.then(http.Response.fromStream).timeout(
+      attemptTimeout,
+      onTimeout: () {
+        _drainLate(pending);
+        throw TimeoutException('Request timed out', attemptTimeout);
+      },
+    );
   }
 
   /// `Future.timeout` abandons the request but cannot cancel it; when the
   /// response does arrive, its body is read to completion so the pooled
   /// connection is released instead of staying pinned by an unread stream.
+  /// A body already being read has been listened to, and draining it again
+  /// throws — which is why the failure is swallowed rather than reported.
   void _drainLate(Future<http.StreamedResponse> pending) {
     unawaited(
       pending
@@ -296,9 +303,8 @@ final class BrevoTransport {
     if (response.bodyBytes.isEmpty) {
       return null;
     }
-    final text = utf8.decode(response.bodyBytes);
     try {
-      return jsonDecode(text);
+      return jsonDecode(utf8.decode(response.bodyBytes, allowMalformed: true));
     } on FormatException catch (error) {
       throw BrevoDecodeException(
         '$method $path: response body is not JSON (${error.message})',
