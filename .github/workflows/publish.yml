@@ -10,10 +10,15 @@ jobs:
   publish:
     permissions:
       id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
     # Anyone who can push a `v*` tag would otherwise be able to publish to the
     # fullphysio.com publisher unreviewed. Requiring a GitHub environment puts
     # the release behind that environment's reviewers; create `pub.dev` under
     # Settings → Environments with required reviewers, and declare the same
     # name on pub.dev when enabling automated publishing.
-    environment: pub.dev
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    #
+    # `environment` is an input of the reusable workflow, which applies it to
+    # its own job. Setting it as a job key here instead is a config error that
+    # fails the run in 0s — which is how the release would have broken.
+    with:
+      environment: pub.dev
