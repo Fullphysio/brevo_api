@@ -1,0 +1,519 @@
+{
+  "capturedFrom": {
+    "package": "@getbrevo/brevo",
+    "version": "6.0.3"
+  },
+  "seam": "contacts.getContactInfo through the `fetch` client option with maxRetries: 0",
+  "cases": [
+    {
+      "name": "bad_request_400",
+      "input": {
+        "statusCode": 400,
+        "body": {
+          "code": "bad_request",
+          "message": "Message for 400"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BadRequestError",
+        "message": "BadRequestError\nStatus code: 400\nBody: {\n  \"code\": \"bad_request\",\n  \"message\": \"Message for 400\"\n}",
+        "statusCode": 400,
+        "body": {
+          "code": "bad_request",
+          "message": "Message for 400"
+        }
+      }
+    },
+    {
+      "name": "unauthorized_401",
+      "input": {
+        "statusCode": 401,
+        "body": {
+          "code": "unauthorized",
+          "message": "Message for 401"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 401\nBody: {\n  \"code\": \"unauthorized\",\n  \"message\": \"Message for 401\"\n}",
+        "statusCode": 401,
+        "body": {
+          "code": "unauthorized",
+          "message": "Message for 401"
+        }
+      }
+    },
+    {
+      "name": "payment_required_402",
+      "input": {
+        "statusCode": 402,
+        "body": {
+          "code": "payment_required",
+          "message": "Message for 402"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 402\nBody: {\n  \"code\": \"payment_required\",\n  \"message\": \"Message for 402\"\n}",
+        "statusCode": 402,
+        "body": {
+          "code": "payment_required",
+          "message": "Message for 402"
+        }
+      }
+    },
+    {
+      "name": "forbidden_403",
+      "input": {
+        "statusCode": 403,
+        "body": {
+          "code": "forbidden",
+          "message": "Message for 403"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 403\nBody: {\n  \"code\": \"forbidden\",\n  \"message\": \"Message for 403\"\n}",
+        "statusCode": 403,
+        "body": {
+          "code": "forbidden",
+          "message": "Message for 403"
+        }
+      }
+    },
+    {
+      "name": "not_found_404",
+      "input": {
+        "statusCode": 404,
+        "body": {
+          "code": "not_found",
+          "message": "Message for 404"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "NotFoundError",
+        "message": "NotFoundError\nStatus code: 404\nBody: {\n  \"code\": \"not_found\",\n  \"message\": \"Message for 404\"\n}",
+        "statusCode": 404,
+        "body": {
+          "code": "not_found",
+          "message": "Message for 404"
+        }
+      }
+    },
+    {
+      "name": "method_not_allowed_405",
+      "input": {
+        "statusCode": 405,
+        "body": {
+          "code": "method_not_allowed",
+          "message": "Message for 405"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 405\nBody: {\n  \"code\": \"method_not_allowed\",\n  \"message\": \"Message for 405\"\n}",
+        "statusCode": 405,
+        "body": {
+          "code": "method_not_allowed",
+          "message": "Message for 405"
+        }
+      }
+    },
+    {
+      "name": "conflict_409",
+      "input": {
+        "statusCode": 409,
+        "body": {
+          "code": "conflict",
+          "message": "Message for 409"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 409\nBody: {\n  \"code\": \"conflict\",\n  \"message\": \"Message for 409\"\n}",
+        "statusCode": 409,
+        "body": {
+          "code": "conflict",
+          "message": "Message for 409"
+        }
+      }
+    },
+    {
+      "name": "precondition_failed_412",
+      "input": {
+        "statusCode": 412,
+        "body": {
+          "code": "precondition_failed",
+          "message": "Message for 412"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 412\nBody: {\n  \"code\": \"precondition_failed\",\n  \"message\": \"Message for 412\"\n}",
+        "statusCode": 412,
+        "body": {
+          "code": "precondition_failed",
+          "message": "Message for 412"
+        }
+      }
+    },
+    {
+      "name": "unsupported_media_type_415",
+      "input": {
+        "statusCode": 415,
+        "body": {
+          "code": "unsupported_media_type",
+          "message": "Message for 415"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 415\nBody: {\n  \"code\": \"unsupported_media_type\",\n  \"message\": \"Message for 415\"\n}",
+        "statusCode": 415,
+        "body": {
+          "code": "unsupported_media_type",
+          "message": "Message for 415"
+        }
+      }
+    },
+    {
+      "name": "expectation_failed_417",
+      "input": {
+        "statusCode": 417,
+        "body": {
+          "code": "expectation_failed",
+          "message": "Message for 417"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 417\nBody: {\n  \"code\": \"expectation_failed\",\n  \"message\": \"Message for 417\"\n}",
+        "statusCode": 417,
+        "body": {
+          "code": "expectation_failed",
+          "message": "Message for 417"
+        }
+      }
+    },
+    {
+      "name": "unprocessable_entity_422",
+      "input": {
+        "statusCode": 422,
+        "body": {
+          "code": "unprocessable_entity",
+          "message": "Message for 422"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 422\nBody: {\n  \"code\": \"unprocessable_entity\",\n  \"message\": \"Message for 422\"\n}",
+        "statusCode": 422,
+        "body": {
+          "code": "unprocessable_entity",
+          "message": "Message for 422"
+        }
+      }
+    },
+    {
+      "name": "failed_dependency_424",
+      "input": {
+        "statusCode": 424,
+        "body": {
+          "code": "failed_dependency",
+          "message": "Message for 424"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 424\nBody: {\n  \"code\": \"failed_dependency\",\n  \"message\": \"Message for 424\"\n}",
+        "statusCode": 424,
+        "body": {
+          "code": "failed_dependency",
+          "message": "Message for 424"
+        }
+      }
+    },
+    {
+      "name": "too_early_425",
+      "input": {
+        "statusCode": 425,
+        "body": {
+          "code": "too_early",
+          "message": "Message for 425"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 425\nBody: {\n  \"code\": \"too_early\",\n  \"message\": \"Message for 425\"\n}",
+        "statusCode": 425,
+        "body": {
+          "code": "too_early",
+          "message": "Message for 425"
+        }
+      }
+    },
+    {
+      "name": "too_many_requests_429",
+      "input": {
+        "statusCode": 429,
+        "body": {
+          "code": "too_many_requests",
+          "message": "Message for 429"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 429\nBody: {\n  \"code\": \"too_many_requests\",\n  \"message\": \"Message for 429\"\n}",
+        "statusCode": 429,
+        "body": {
+          "code": "too_many_requests",
+          "message": "Message for 429"
+        }
+      }
+    },
+    {
+      "name": "internal_server_500",
+      "input": {
+        "statusCode": 500,
+        "body": {
+          "code": "internal_server",
+          "message": "Message for 500"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 500\nBody: {\n  \"code\": \"internal_server\",\n  \"message\": \"Message for 500\"\n}",
+        "statusCode": 500,
+        "body": {
+          "code": "internal_server",
+          "message": "Message for 500"
+        }
+      }
+    },
+    {
+      "name": "bad_gateway_502_json",
+      "input": {
+        "statusCode": 502,
+        "body": {
+          "code": "bad_gateway",
+          "message": "Upstream down"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 502\nBody: {\n  \"code\": \"bad_gateway\",\n  \"message\": \"Upstream down\"\n}",
+        "statusCode": 502,
+        "body": {
+          "code": "bad_gateway",
+          "message": "Upstream down"
+        }
+      }
+    },
+    {
+      "name": "teapot_418_unmapped",
+      "input": {
+        "statusCode": 418,
+        "body": {
+          "code": "teapot",
+          "message": "short and stout"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 418\nBody: {\n  \"code\": \"teapot\",\n  \"message\": \"short and stout\"\n}",
+        "statusCode": 418,
+        "body": {
+          "code": "teapot",
+          "message": "short and stout"
+        }
+      }
+    },
+    {
+      "name": "html_body_502",
+      "input": {
+        "statusCode": 502,
+        "body": "<html><body>Bad Gateway</body></html>",
+        "headers": {
+          "content-type": "text/html"
+        }
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 502\nBody: \"<html><body>Bad Gateway</body></html>\"",
+        "statusCode": 502,
+        "body": "<html><body>Bad Gateway</body></html>"
+      }
+    },
+    {
+      "name": "empty_body_500",
+      "input": {
+        "statusCode": 500,
+        "body": "",
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 500\nBody: \"\"",
+        "statusCode": 500,
+        "body": ""
+      }
+    },
+    {
+      "name": "empty_body_404_json_content_type",
+      "input": {
+        "statusCode": 404,
+        "body": "",
+        "headers": {
+          "content-type": "application/json"
+        }
+      },
+      "expected": {
+        "threw": true,
+        "className": "NotFoundError",
+        "message": "NotFoundError\nStatus code: 404",
+        "statusCode": 404,
+        "body": null
+      }
+    },
+    {
+      "name": "message_only_400",
+      "input": {
+        "statusCode": 400,
+        "body": {
+          "message": "Only a message"
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BadRequestError",
+        "message": "BadRequestError\nStatus code: 400\nBody: {\n  \"message\": \"Only a message\"\n}",
+        "statusCode": 400,
+        "body": {
+          "message": "Only a message"
+        }
+      }
+    },
+    {
+      "name": "json_array_body_400",
+      "input": {
+        "statusCode": 400,
+        "body": [
+          "not",
+          "an",
+          "object"
+        ],
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BadRequestError",
+        "message": "BadRequestError\nStatus code: 400\nBody: [\n  \"not\",\n  \"an\",\n  \"object\"\n]",
+        "statusCode": 400,
+        "body": [
+          "not",
+          "an",
+          "object"
+        ]
+      }
+    },
+    {
+      "name": "contact_error_model_425",
+      "input": {
+        "statusCode": 425,
+        "body": {
+          "code": "too_early",
+          "message": "Retry later",
+          "metadata": {
+            "retryAfter": 30
+          }
+        },
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 425\nBody: {\n  \"code\": \"too_early\",\n  \"message\": \"Retry later\",\n  \"metadata\": {\n    \"retryAfter\": 30\n  }\n}",
+        "statusCode": 425,
+        "body": {
+          "code": "too_early",
+          "message": "Retry later",
+          "metadata": {
+            "retryAfter": 30
+          }
+        }
+      }
+    },
+    {
+      "name": "json_with_charset_400",
+      "input": {
+        "statusCode": 400,
+        "body": "{\"code\":\"bad_request\",\"message\":\"charset\"}",
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        }
+      },
+      "expected": {
+        "threw": true,
+        "className": "BadRequestError",
+        "message": "BadRequestError\nStatus code: 400\nBody: {\n  \"code\": \"bad_request\",\n  \"message\": \"charset\"\n}",
+        "statusCode": 400,
+        "body": {
+          "code": "bad_request",
+          "message": "charset"
+        }
+      }
+    },
+    {
+      "name": "plain_text_no_content_type_400",
+      "input": {
+        "statusCode": 400,
+        "body": "plain text",
+        "headers": {}
+      },
+      "expected": {
+        "threw": true,
+        "className": "BadRequestError",
+        "message": "BadRequestError\nStatus code: 400\nBody: \"plain text\"",
+        "statusCode": 400,
+        "body": "plain text"
+      }
+    }
+  ]
+}

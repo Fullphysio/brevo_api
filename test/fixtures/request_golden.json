@@ -1,0 +1,296 @@
+{
+  "capturedFrom": {
+    "package": "@getbrevo/brevo",
+    "version": "6.0.3"
+  },
+  "seam": "the `fetch` client option with maxRetries: 0; apiKey \"capture-api-key\"",
+  "cases": [
+    {
+      "name": "contacts_list_repeated_arrays",
+      "input": {
+        "method": "GET",
+        "path": "/contacts",
+        "pathParams": null,
+        "query": {
+          "limit": 10,
+          "offset": 0,
+          "modifiedSince": "2024-01-01T00:00:00.000Z",
+          "sort": "desc",
+          "ids": [
+            1,
+            2,
+            3
+          ],
+          "listIds": [
+            4,
+            5
+          ],
+          "filter": "equals(FIRSTNAME,\"Jo hn\")"
+        },
+        "body": null
+      },
+      "error": null,
+      "request": {
+        "url": "https://api.brevo.com/v3/contacts?limit=10&offset=0&modifiedSince=2024-01-01T00%3A00%3A00.000Z&sort=desc&ids=1&ids=2&ids=3&listIds=4&listIds=5&filter=equals(FIRSTNAME%2C%22Jo%20hn%22)",
+        "method": "GET",
+        "contentType": null,
+        "accept": "*/*",
+        "apiKey": "capture-api-key",
+        "body": null
+      }
+    },
+    {
+      "name": "query_reserved_characters",
+      "input": {
+        "method": "GET",
+        "path": "/contacts",
+        "pathParams": null,
+        "query": {
+          "limit": 1,
+          "filter": "a b&c=d!*'()[x]100%é/ü+~"
+        },
+        "body": null
+      },
+      "error": null,
+      "request": {
+        "url": "https://api.brevo.com/v3/contacts?limit=1&filter=a%20b%26c%3Dd!*'()%5Bx%5D100%25%C3%A9%2F%C3%BC%2B~",
+        "method": "GET",
+        "contentType": null,
+        "accept": "*/*",
+        "apiKey": "capture-api-key",
+        "body": null
+      }
+    },
+    {
+      "name": "campaigns_boolean_query",
+      "input": {
+        "method": "GET",
+        "path": "/emailCampaigns",
+        "pathParams": null,
+        "query": {
+          "limit": 2,
+          "offset": 0,
+          "sort": "asc",
+          "excludeHtmlContent": true,
+          "excludePdfAttachment": false
+        },
+        "body": null
+      },
+      "error": null,
+      "request": {
+        "url": "https://api.brevo.com/v3/emailCampaigns?limit=2&offset=0&sort=asc&excludeHtmlContent=true&excludePdfAttachment=false",
+        "method": "GET",
+        "contentType": null,
+        "accept": "*/*",
+        "apiKey": "capture-api-key",
+        "body": null
+      }
+    },
+    {
+      "name": "path_segment_reserved_characters",
+      "input": {
+        "method": "GET",
+        "path": "/contacts/{identifier}",
+        "pathParams": {
+          "identifier": "jo hn+x@ex.com/ü?#%"
+        },
+        "query": {
+          "identifierType": "email_id"
+        },
+        "body": null
+      },
+      "error": null,
+      "request": {
+        "url": "https://api.brevo.com/v3/contacts/jo%20hn%2Bx%40ex.com%2F%C3%BC%3F%23%25?identifierType=email_id",
+        "method": "GET",
+        "contentType": null,
+        "accept": "*/*",
+        "apiKey": "capture-api-key",
+        "body": null
+      }
+    },
+    {
+      "name": "path_segment_integer",
+      "input": {
+        "method": "GET",
+        "path": "/contacts/lists/{listId}/contacts",
+        "pathParams": {
+          "listId": 12
+        },
+        "query": {
+          "limit": 5
+        },
+        "body": null
+      },
+      "error": null,
+      "request": {
+        "url": "https://api.brevo.com/v3/contacts/lists/12/contacts?limit=5",
+        "method": "GET",
+        "contentType": null,
+        "accept": "*/*",
+        "apiKey": "capture-api-key",
+        "body": null
+      }
+    },
+    {
+      "name": "send_transac_email_json_body",
+      "input": {
+        "method": "POST",
+        "path": "/smtp/email",
+        "pathParams": null,
+        "query": null,
+        "body": {
+          "to": [
+            {
+              "email": "john@example.com",
+              "name": "John"
+            }
+          ],
+          "templateId": 5,
+          "params": {
+            "a": 1,
+            "b": null,
+            "nested": {
+              "list": [
+                1,
+                "two",
+                false
+              ]
+            }
+          },
+          "headers": {
+            "X-Mailin-custom": "x"
+          },
+          "tags": [
+            "t"
+          ]
+        }
+      },
+      "error": null,
+      "request": {
+        "url": "https://api.brevo.com/v3/smtp/email",
+        "method": "POST",
+        "contentType": "application/json",
+        "accept": "*/*",
+        "apiKey": "capture-api-key",
+        "body": {
+          "kind": "text",
+          "text": "{\"to\":[{\"email\":\"john@example.com\",\"name\":\"John\"}],\"templateId\":5,\"params\":{\"a\":1,\"b\":null,\"nested\":{\"list\":[1,\"two\",false]}},\"headers\":{\"X-Mailin-custom\":\"x\"},\"tags\":[\"t\"]}"
+        }
+      }
+    },
+    {
+      "name": "delete_without_body",
+      "input": {
+        "method": "DELETE",
+        "path": "/contacts/{identifier}",
+        "pathParams": {
+          "identifier": "42"
+        },
+        "query": null,
+        "body": null
+      },
+      "error": null,
+      "request": {
+        "url": "https://api.brevo.com/v3/contacts/42",
+        "method": "DELETE",
+        "contentType": null,
+        "accept": "*/*",
+        "apiKey": "capture-api-key",
+        "body": null
+      }
+    },
+    {
+      "name": "crm_files_multipart",
+      "input": {
+        "method": "POST",
+        "path": "/crm/files",
+        "pathParams": null,
+        "query": null,
+        "body": {
+          "file": {
+            "filename": "notes.txt",
+            "contentType": "text/plain",
+            "text": "hello"
+          },
+          "dealId": "d1",
+          "companyId": "c1",
+          "contactId": 7
+        }
+      },
+      "error": null,
+      "request": {
+        "url": "https://api.brevo.com/v3/crm/files",
+        "method": "POST",
+        "contentType": null,
+        "accept": "*/*",
+        "apiKey": "capture-api-key",
+        "body": {
+          "kind": "form-data",
+          "parts": [
+            {
+              "name": "companyId",
+              "text": "c1"
+            },
+            {
+              "name": "contactId",
+              "text": "7"
+            },
+            {
+              "name": "dealId",
+              "text": "d1"
+            },
+            {
+              "name": "file",
+              "filename": "notes.txt",
+              "contentType": "text/plain",
+              "text": "hello"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "companies_import_multipart",
+      "input": {
+        "method": "POST",
+        "path": "/companies/import",
+        "pathParams": null,
+        "query": null,
+        "body": {
+          "file": {
+            "filename": "companies.csv",
+            "contentType": "text/csv",
+            "text": "name,email\nAcme,a@b.c"
+          },
+          "mapping": {
+            "name": "name"
+          }
+        }
+      },
+      "error": null,
+      "request": {
+        "url": "https://api.brevo.com/v3/companies/import",
+        "method": "POST",
+        "contentType": null,
+        "accept": "*/*",
+        "apiKey": "capture-api-key",
+        "body": {
+          "kind": "form-data",
+          "parts": [
+            {
+              "name": "file",
+              "filename": "companies.csv",
+              "contentType": "text/csv",
+              "text": "name,email\nAcme,a@b.c"
+            },
+            {
+              "name": "mapping",
+              "text": "{\"name\":\"name\"}"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+name: brevo_api
+description: >-
+  Pure Dart client for the Brevo API: transactional email and SMS, contacts,
+  campaigns, CRM and every other v3 resource, with typed models and retries.
+  Runs on Dart servers, CLIs and Flutter apps.
+version: 0.1.0
+repository: https://github.com/Fullphysio/brevo_api
+issue_tracker: https://github.com/Fullphysio/brevo_api/issues
+
+topics:
+  - brevo
+  - email
+  - api
+  - client
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  http: ^1.6.0
+  http_parser: ^4.0.2
+  meta: ^1.16.0
+
+dev_dependencies:
+  lints: ">=5.1.1 <7.0.0"
+  test: ^1.25.0
+  yaml: ^3.1.3

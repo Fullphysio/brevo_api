@@ -1,0 +1,341 @@
+{
+  "capturedFrom": {
+    "package": "@getbrevo/brevo",
+    "version": "6.0.3"
+  },
+  "seam": "contacts.getContactInfo through the `fetch` client option; maxRetries: 2 unless stated",
+  "cases": [
+    {
+      "name": "500_then_success",
+      "responses": [
+        {
+          "status": 500,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 2,
+      "elapsedMs": 1005,
+      "expected": {
+        "threw": false,
+        "resultEmail": "john@example.com"
+      }
+    },
+    {
+      "name": "500_exhausts_two_retries",
+      "responses": [
+        {
+          "status": 500,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 500,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 500,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 3,
+      "elapsedMs": 2007,
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 500\nBody: {\n  \"code\": \"c\",\n  \"message\": \"m\"\n}"
+      }
+    },
+    {
+      "name": "408_retried",
+      "responses": [
+        {
+          "status": 408,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 2,
+      "elapsedMs": 1003,
+      "expected": {
+        "threw": false,
+        "resultEmail": "john@example.com"
+      }
+    },
+    {
+      "name": "429_retried",
+      "responses": [
+        {
+          "status": 429,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 2,
+      "elapsedMs": 1004,
+      "expected": {
+        "threw": false,
+        "resultEmail": "john@example.com"
+      }
+    },
+    {
+      "name": "503_retried",
+      "responses": [
+        {
+          "status": 503,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 2,
+      "elapsedMs": 1003,
+      "expected": {
+        "threw": false,
+        "resultEmail": "john@example.com"
+      }
+    },
+    {
+      "name": "409_not_retried",
+      "responses": [
+        {
+          "status": 409,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 1,
+      "elapsedMs": 1,
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 409\nBody: {\n  \"code\": \"c\",\n  \"message\": \"m\"\n}"
+      }
+    },
+    {
+      "name": "400_not_retried",
+      "responses": [
+        {
+          "status": 400,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 1,
+      "elapsedMs": 0,
+      "expected": {
+        "threw": true,
+        "className": "BadRequestError",
+        "message": "BadRequestError\nStatus code: 400\nBody: {\n  \"code\": \"c\",\n  \"message\": \"m\"\n}"
+      }
+    },
+    {
+      "name": "404_not_retried",
+      "responses": [
+        {
+          "status": 404,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 1,
+      "elapsedMs": 0,
+      "expected": {
+        "threw": true,
+        "className": "NotFoundError",
+        "message": "NotFoundError\nStatus code: 404\nBody: {\n  \"code\": \"c\",\n  \"message\": \"m\"\n}"
+      }
+    },
+    {
+      "name": "connection_error_not_retried",
+      "responses": [
+        {
+          "status": null,
+          "headers": {},
+          "throws": true,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 1,
+      "elapsedMs": 1,
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "fetch failed"
+      }
+    },
+    {
+      "name": "retry_after_http_date_in_past",
+      "responses": [
+        {
+          "status": 503,
+          "headers": {
+            "retry-after": "Wed, 21 Oct 2015 07:28:00 GMT"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 2,
+      "elapsedMs": 1004,
+      "expected": {
+        "threw": false,
+        "resultEmail": "john@example.com"
+      }
+    },
+    {
+      "name": "rate_limit_reset_in_past",
+      "responses": [
+        {
+          "status": 429,
+          "headers": {
+            "x-ratelimit-reset": "1000000000"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 2,
+      "elapsedMs": 947,
+      "expected": {
+        "threw": false,
+        "resultEmail": "john@example.com"
+      }
+    },
+    {
+      "name": "max_retries_zero",
+      "responses": [
+        {
+          "status": 500,
+          "headers": {
+            "retry-after": "1"
+          },
+          "throws": false,
+          "hangs": false
+        },
+        {
+          "status": 200,
+          "headers": {},
+          "throws": false,
+          "hangs": false
+        }
+      ],
+      "attempts": 1,
+      "elapsedMs": 1,
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "Status code: 500\nBody: {\n  \"code\": \"c\",\n  \"message\": \"m\"\n}"
+      }
+    },
+    {
+      "name": "timeout",
+      "responses": [
+        {
+          "status": null,
+          "headers": {},
+          "throws": false,
+          "hangs": true
+        }
+      ],
+      "attempts": 1,
+      "elapsedMs": 202,
+      "expected": {
+        "threw": true,
+        "className": "BrevoError",
+        "message": "\"timeout\""
+      }
+    }
+  ]
+}

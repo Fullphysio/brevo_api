@@ -1,0 +1,21 @@
+This package is a Dart port of the behaviour of the official Node.js client
+for Brevo, `@getbrevo/brevo` (https://github.com/getbrevo/brevo-node),
+version 6.0.3. Request construction, retry policy, error formatting, query and
+path encoding and body serialisation follow that implementation, verified by
+fixtures captured from it (`test/fixtures/*.json`, produced by
+`tool/capture_fixtures/*.js`). No source code of `@getbrevo/brevo` is
+reproduced here; that repository ships without a licence file.
+
+Typed models and resource methods are generated from the Brevo OpenAPI
+specification published at https://api.brevo.com/v3/swagger_definition_v3.yml,
+vendored under `tool/spec/` with its SHA-256 and fetch date recorded in
+`tool/spec/SPEC_SHA256` and `tool/spec/SPEC_FETCHED_AT`. Resource and method
+names follow the public API surface of `@getbrevo/brevo` so that Brevo's own
+documentation applies to this package. The specification declares the MIT
+licence (`info.license`, https://opensource.org/licenses/MIT).
+
+The mock-server test tier replays `wiremock/wiremock-mappings.json` from the
+official Python client, `brevo-python` (https://github.com/getbrevo/brevo-python),
+vendored under `tool/mock/` with its SHA-256 recorded alongside. Those
+fixtures are used only to test this package and are not part of what it
+ships.
