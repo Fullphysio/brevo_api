@@ -1,11 +1,17 @@
 # brevo_api
 
+[![pub package](https://img.shields.io/pub/v/brevo_api.svg)](https://pub.dev/packages/brevo_api)
 [![CI](https://github.com/Fullphysio/brevo_api/actions/workflows/ci.yml/badge.svg)](https://github.com/Fullphysio/brevo_api/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Fullphysio/brevo_api/badge.svg?branch=main)](https://coveralls.io/github/Fullphysio/brevo_api?branch=main)
 
 A pure Dart client for the [Brevo](https://www.brevo.com) API (formerly
 Sendinblue). Runs on Dart servers, CLIs and Flutter apps — there is no Flutter
 dependency, and no code generation step for you.
+
+Used in production at [Fullphysio](https://www.fullphysio.com), where it runs inside our Dart Cloud Functions. Bug reports are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+> [!WARNING]
+> The API key grants full account access. Keep it on a server, a Cloud Function or a CLI — never ship it inside a Flutter app.
 
 ```dart
 final brevo = BrevoClient(apiKey: apiKey);
